@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>DevMaster — Apprends React &amp; Flutter en jouant</title>
 <meta name="description" content="DevMaster : application d'apprentissage interactive pour maîtriser React.js et Flutter grâce à des mini-jeux pédagogiques. Fonctionne hors ligne.">
-<meta name="theme-color" content="#0A0D14">
-<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <style>
 :root{
-  --bg:#0A0D14; --bg2:#0E1420; --surface:#121824; --surface2:#182131;
-  --border:rgba(255,255,255,.07); --border-active:rgba(255,255,255,.15);
-  --text:#F1F5F9; --text2:#94A3B8; --text3:#64748B;
-  --react:#00D8FF; --react2:#67E8F9; --flutter:#02569B; --flutter2:#38BDF8;
-  --success:#10B981; --error:#F43F5E; --xp:#F59E0B;
+  --bg:#F3F6FC; --bg2:#E9EEF8; --surface:#FFFFFF; --surface2:#F1F5FB;
+  --border:#DBE3F1; --border-active:#B9C6DC;
+  --text:#0B1220; --text2:#46566E; --text3:#6B7C93;
+  --react:#2563EB; --react2:#3B82F6; --flutter:#0EA5E9; --flutter2:#38BDF8;
+  --success:#059669; --error:#E11D48; --xp:#D97706;
   --r:14px; --r-sm:10px; --nav-h:62px; --top-h:56px; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
 }
 *{box-sizing:border-box}
@@ -47,11 +47,11 @@ code,.mono{font-family:var(--mono);font-size:.86em}
 .topbar{
   position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;
   padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));
-  background:rgba(10,13,20,.88);backdrop-filter:blur(10px);
+  background:rgba(255,255,255,.88);backdrop-filter:blur(10px);
   border-bottom:1px solid var(--border);
 }
 .brand{display:flex;align-items:center;gap:8px;font-weight:650;font-size:15px;letter-spacing:-.01em}
-.logo-mark{width:26px;height:26px;border-radius:8px;background:linear-gradient(150deg,#123040,#0E1420);border:1px solid rgba(0,216,255,.35);display:grid;place-items:center;color:var(--react);font-family:var(--mono);font-size:12px;font-weight:700}
+.logo-mark{width:26px;height:26px;border-radius:8px;background:linear-gradient(150deg,#E4EDFF,#FFFFFF);border:1px solid rgba(37,99,235,.35);display:grid;place-items:center;color:var(--react);font-family:var(--mono);font-size:12px;font-weight:700}
 .topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .net-dot{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text3);border:1px solid var(--border);border-radius:999px;padding:3px 8px}
 .net-dot svg{width:13px;height:13px}
@@ -61,7 +61,7 @@ code,.mono{font-family:var(--mono);font-size:.86em}
 /* ---------- bottom nav ---------- */
 .bottom-nav{
   position:fixed;left:0;right:0;bottom:0;z-index:30;
-  background:rgba(14,20,32,.92);backdrop-filter:blur(12px);
+  background:rgba(255,255,255,.93);backdrop-filter:blur(12px);
   border-top:1px solid var(--border);
   display:flex;justify-content:center;
   padding-bottom:env(safe-area-inset-bottom);
@@ -73,7 +73,7 @@ code,.mono{font-family:var(--mono);font-size:.86em}
   color:var(--text3);font-size:11px;font-weight:550;padding:6px 2px;position:relative;
 }
 .nav-item svg{width:21px;height:21px}
-.nav-item.active{color:var(--text)}
+.nav-item.active{color:var(--react)}
 .nav-item.active::before{content:"";position:absolute;top:0;left:22%;right:22%;height:2px;border-radius:2px;background:var(--react)}
 /* ---------- generic ---------- */
 .card{
@@ -101,23 +101,23 @@ code,.mono{font-family:var(--mono);font-size:.86em}
   font-weight:600;font-size:14px;transition:background .15s ease,border-color .15s ease,transform .1s ease;
 }
 .btn svg{width:17px;height:17px}
-.btn:hover{background:#1E293B}
+.btn:hover{background:#E3EAF6}
 .btn:active{transform:scale(.98)}
 .btn:focus-visible{outline:2px solid var(--react);outline-offset:2px}
 .btn[disabled]{opacity:.45;pointer-events:none}
 .btn-primary{
-  background:linear-gradient(180deg,#3EE3FF 0%,#00BEE2 100%);border-color:#00C6E9;color:#03212B;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.4), 0 8px 20px -12px rgba(0,216,255,.65);
+  background:linear-gradient(180deg,#3B82F6 0%,#2563EB 100%);border-color:#2563EB;color:#FFFFFF;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25), 0 8px 20px -12px rgba(37,99,235,.55);
 }
-.btn-primary:hover{background:linear-gradient(180deg,#5EE9FF 0%,#0EC8EA 100%);border-color:#22DDFA}
+.btn-primary:hover{background:linear-gradient(180deg,#4F8EF7 0%,#2F6FE8 100%);border-color:#2F6FE8}
 .btn-flutter{
-  background:linear-gradient(180deg,#6BD1F9 0%,#2BA5E7 100%);border-color:#38BDF8;color:#052641;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 8px 20px -12px rgba(56,189,248,.6);
+  background:linear-gradient(180deg,#38BDF8 0%,#0284C7 100%);border-color:#0EA5E9;color:#FFFFFF;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3), 0 8px 20px -12px rgba(14,165,233,.5);
 }
-.btn-flutter:hover{background:linear-gradient(180deg,#7FD8FB 0%,#38B2EE 100%);border-color:#5ECDF7}
+.btn-flutter:hover{background:linear-gradient(180deg,#4EC3F9 0%,#0696D9 100%);border-color:#38BDF8}
 .btn-ghost{background:transparent;border-color:var(--border)}
-.btn-danger{background:transparent;border-color:rgba(244,63,94,.45);color:#FDA4AF}
-.btn-danger:hover{background:rgba(244,63,94,.12)}
+.btn-danger{background:transparent;border-color:rgba(225,29,72,.45);color:#E11D48}
+.btn-danger:hover{background:rgba(225,29,72,.1)}
 .btn-block{width:100%}
 .btn-sm{min-height:36px;padding:0 12px;font-size:13px}
 .btn-icon{min-width:44px;padding:0 10px}
@@ -128,7 +128,7 @@ code,.mono{font-family:var(--mono);font-size:.86em}
 .chip.flutter{color:var(--flutter2);border-color:rgba(56,189,248,.3)}
 .chip.xp{color:var(--xp);border-color:rgba(245,158,11,.35)}
 .chip.ok{color:var(--success);border-color:rgba(16,185,129,.35)}
-.chip.ko{color:#FDA4AF;border-color:rgba(244,63,94,.35)}
+.chip.ko{color:#E11D48;border-color:rgba(225,29,72,.35)}
 .badge-ico{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:5px;font-size:11px;font-weight:700}
 /* progress */
 .progress{height:7px;border-radius:99px;background:var(--surface2);overflow:hidden;border:1px solid var(--border)}
@@ -170,7 +170,7 @@ textarea.input{min-height:110px;font-family:var(--mono);font-size:12.5px;resize:
 .game-head{
   position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;
   padding:8px 10px;padding-top:calc(8px + env(safe-area-inset-top));
-  background:rgba(10,13,20,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
 }
 .game-head .title{font-size:13.5px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .head-btn{min-width:44px;min-height:44px;display:grid;place-items:center;background:none;border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;color:var(--text2)}
@@ -184,9 +184,9 @@ pre.code{
   background:#0B111C;border:1px solid var(--border);border-radius:var(--r-sm);
   padding:12px;overflow-x:auto;margin:0;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:#D7E3F4;
 }
-.code .k{color:#C084FC}.code .s{color:#86EFAC}.code .c{color:var(--text3)}.code .t{color:var(--react2)}
+.code .k{color:#C084FC}.code .s{color:#86EFAC}.code .c{color:#8FA3BD}.code .t{color:#60A5FA}
 /* ordering puzzle */
-.order-list{display:flex;flex-direction:column;gap:8px;min-height:70px;border:1px dashed var(--border-active);border-radius:var(--r-sm);padding:9px;background:rgba(255,255,255,.02)}
+.order-list{display:flex;flex-direction:column;gap:8px;min-height:70px;border:1px dashed var(--border-active);border-radius:var(--r-sm);padding:9px;background:rgba(37,99,235,.04)}
 .order-item{
   display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border-active);
   border-radius:var(--r-sm);padding:9px 10px;font-family:var(--mono);font-size:12.5px;line-height:1.45;
@@ -196,7 +196,7 @@ pre.code{
 .mini-btn{min-width:34px;min-height:34px;display:grid;place-items:center;border-radius:8px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;color:var(--text2);padding:0}
 .mini-btn:hover{color:var(--text);border-color:var(--border-active)}
 .mini-btn svg{width:15px;height:15px}
-.mini-btn.danger:hover{color:#FDA4AF;border-color:rgba(244,63,94,.4)}
+.mini-btn.danger:hover{color:#E11D48;border-color:rgba(225,29,72,.4)}
 /* memory */
 .mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .mem-card{aspect-ratio:.78;perspective:800px;background:none;border:0;padding:0;cursor:pointer}
@@ -218,7 +218,7 @@ pre.code{
 .feedback .fb-title{font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:4px;font-size:13px}
 .feedback .fb-title svg{width:15px;height:15px}
 .feedback.ok .fb-title{color:var(--success)}
-.feedback.ko .fb-title{color:#FDA4AF}
+.feedback.ko .fb-title{color:#E11D48}
 /* choice buttons */
 .choices{display:flex;flex-direction:column;gap:9px}
 .choice{
@@ -232,7 +232,7 @@ pre.code{
 .choice.good{border-color:rgba(16,185,129,.55);background:rgba(16,185,129,.1)}
 .choice.bad{border-color:rgba(244,63,94,.5);background:rgba(244,63,94,.08)}
 .choice.good .key{color:var(--success);border-color:rgba(16,185,129,.5)}
-.choice.bad .key{color:#FDA4AF;border-color:rgba(244,63,94,.5)}
+.choice.bad .key{color:#E11D48;border-color:rgba(225,29,72,.5)}
 /* two big buttons (vrai/faux, stateful/stateless) */
 .duo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .duo .btn{min-height:62px;font-size:15px;flex-direction:column;gap:4px}
@@ -246,7 +246,7 @@ pre.code{
 }
 .target:active{transform:scale(.97)}
 .target.good{border-color:rgba(16,185,129,.6);background:rgba(16,185,129,.12);color:var(--success)}
-.target.bad{border-color:rgba(244,63,94,.55);background:rgba(244,63,94,.1);color:#FDA4AF}
+.target.bad{border-color:rgba(225,29,72,.55);background:rgba(225,29,72,.08);color:#E11D48}
 /* flow / tree */
 .tree{display:flex;flex-direction:column;gap:4px}
 .tree-node{
@@ -255,7 +255,7 @@ pre.code{
   transition:border-color .15s ease,background .15s ease;
 }
 .tree-node:hover{border-color:var(--border-active)}
-.tree-node.selected{border-color:var(--react);background:rgba(0,216,255,.09)}
+.tree-node.selected{border-color:var(--react);background:rgba(37,99,235,.08)}
 .tree-node.visited{border-color:rgba(16,185,129,.5);background:rgba(16,185,129,.08)}
 .tree-node .val{margin-left:auto;font-size:11px;color:var(--xp);font-weight:600}
 /* classification */
@@ -266,7 +266,7 @@ pre.code{
   background:var(--surface2);border:1px solid var(--border-active);border-radius:9px;padding:7px 9px;
   font-size:11.5px;font-family:var(--mono);cursor:pointer;color:inherit;text-align:left;line-height:1.35;
 }
-.class-item.sel{border-color:var(--react);background:rgba(0,216,255,.1)}
+.class-item.sel{border-color:var(--react);background:rgba(37,99,235,.09)}
 .class-item.good{border-color:rgba(16,185,129,.5);background:rgba(16,185,129,.1)}
 .class-item.bad{border-color:rgba(244,63,94,.5);background:rgba(244,63,94,.08)}
 .pool{display:flex;flex-wrap:wrap;gap:7px}
@@ -295,11 +295,11 @@ pre.code{
 .toast{
   background:var(--surface2);border:1px solid var(--border-active);border-radius:var(--r-sm);
   padding:10px 13px;font-size:13px;display:flex;align-items:center;gap:9px;
-  animation:slidein .22s ease;box-shadow:0 8px 24px rgba(0,0,0,.45);
+  animation:slidein .22s ease;box-shadow:0 8px 24px rgba(11,18,32,.16);
 }
 .toast svg{width:17px;height:17px;flex:none}
 .toast.success{border-color:rgba(16,185,129,.45)}.toast.success svg{color:var(--success)}
-.toast.error{border-color:rgba(244,63,94,.5)}.toast.error svg{color:#FDA4AF}
+.toast.error{border-color:rgba(225,29,72,.5)}.toast.error svg{color:#E11D48}
 .toast.xp{border-color:rgba(245,158,11,.5)}.toast.xp svg{color:var(--xp)}
 /* modal */
 .modal-backdrop{position:fixed;inset:0;z-index:70;background:rgba(6,9,14,.72);backdrop-filter:blur(4px);display:grid;place-items:end center;padding:0}
@@ -316,11 +316,11 @@ pre.code{
 /* level up */
 .levelup{animation:pop .4s cubic-bezier(.2,.9,.3,1.3)}
 .levelup svg{width:34px;height:34px}
-.levelup .lvl-title{font-size:22px;font-weight:750;background:linear-gradient(90deg,var(--xp),#FCD34D);-webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0}
+.levelup .lvl-title{font-size:22px;font-weight:750;background:linear-gradient(90deg,#B45309,#F59E0B);-webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0}
 /* game-specific */
 .dpad{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(3,54px);gap:6px;justify-content:center;margin-top:6px}
 .dpad button{border-radius:12px;border:1px solid var(--border-active);background:var(--surface2);color:var(--text2);display:grid;place-items:center;cursor:pointer}
-.dpad button:active{background:rgba(0,216,255,.14);color:var(--text)}
+.dpad button:active{background:rgba(37,99,235,.12);color:var(--text)}
 .dpad button svg{width:22px;height:22px}
 canvas.game{width:100%;max-width:520px;margin:0 auto;display:block;border-radius:var(--r-sm);border:1px solid var(--border);background:#0B111C;touch-action:none}
 .tap-zones{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -589,8 +589,8 @@ function levelInfo(xp) {
 
 /* ------------------------------ Domains -------------------------------- */
 const UNIVERSES = {
-  react: { id: "react", name: "React.js", accent: "react", desc: "Comprends les composants, les Hooks, le State et le flux des données.", color: "#00D8FF" },
-  flutter: { id: "flutter", name: "Flutter", accent: "flutter", desc: "Maîtrise les Widgets, la gestion d'état, la navigation et les modèles de données.", color: "#38BDF8" },
+  react: { id: "react", name: "React.js", accent: "react", desc: "Comprends les composants, les Hooks, le State et le flux des données.", color: "#2563EB" },
+  flutter: { id: "flutter", name: "Flutter", accent: "flutter", desc: "Maîtrise les Widgets, la gestion d'état, la navigation et les modèles de données.", color: "#0EA5E9" },
   amusement: { id: "amusement", name: "Pause Dev", accent: "xp", desc: "Quatre mini-jeux d'arcade sans prérequis, pour souffler entre deux sessions.", color: "#F59E0B" }
 };
 const DOMAINS = {
@@ -1492,7 +1492,7 @@ function storageSize() {
 }
 function showImport() {
   const ta = el("textarea", { class: "input", placeholder: "Colle ici le contenu JSON de ta sauvegarde…", "aria-label": "Sauvegarde JSON" });
-  const err = el("p", { class: "meta", style: "color:#FDA4AF;display:none", text: "" });
+  const err = el("p", { class: "meta", style: "color:#E11D48;display:none", text: "" });
   openModal({
     title: "Restaurer ma progression",
     subtitle: "Les données actuelles seront remplacées après vérification du fichier. Aucun code n'est exécuté.",
