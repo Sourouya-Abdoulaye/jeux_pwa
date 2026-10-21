@@ -355,6 +355,72 @@ canvas.game{width:100%;max-width:520px;margin:0 auto;display:block;border-radius
   *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
 }
 body.reduced *,body.reduced *::before,body.reduced *::after{animation-duration:.001s !important;transition-duration:.001s !important}
+
+/* ---------- look jeu pro : cartes vivantes, couleurs par univers, profondeur ---------- */
+.card{border-radius:18px;box-shadow:0 1px 2px rgba(11,18,32,.05),0 10px 24px -18px rgba(11,18,32,.35)}
+.card.tap{transition:transform .12s ease,box-shadow .18s ease,border-color .18s ease}
+.card.tap:active{transform:scale(.98)}
+.lrow{box-shadow:0 1px 2px rgba(11,18,32,.04);transition:transform .12s ease,border-color .15s ease,box-shadow .15s ease}
+.lrow:active{transform:scale(.985);box-shadow:0 4px 12px -6px rgba(11,18,32,.3)}
+/* univers : palette propre par univers */
+.u-react{--ua:#2563EB;--ub:#60A5FA;--utint:#EFF6FF;--uborder:#BFDBFE}
+.u-flutter{--ua:#0284C7;--ub:#38BDF8;--utint:#F0F9FF;--uborder:#BAE6FD}
+.u-arcade{--ua:#D97706;--ub:#FBBF24;--utint:#FFFBEB;--uborder:#FDE68A}
+.u-react .ico-box,.u-flutter .ico-box,.u-arcade .ico-box{width:40px;height:40px;flex:none;border-radius:12px;border:1px solid var(--uborder);display:grid;place-items:center;color:var(--ua);background:var(--utint)}
+.u-react .ico-box svg,.u-flutter .ico-box svg,.u-arcade .ico-box svg{width:20px;height:20px}
+.uni-card{position:relative;overflow:hidden;text-align:left}
+.uni-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;border-radius:18px 18px 0 0;background:linear-gradient(90deg,var(--ua),var(--ub))}
+.uni-card .card-title{margin-top:4px}
+.uni-hero{position:relative;overflow:hidden;background:linear-gradient(140deg,#FFFFFF 35%,var(--utint));border-color:var(--uborder)}
+.uni-hero::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--ua),var(--ub))}
+.uni-hero .ico-box{background:linear-gradient(150deg,var(--ua),var(--ub));border:0;color:#fff;box-shadow:0 6px 16px -8px var(--ua)}
+.game-card .ico-box{width:36px;height:36px;border-radius:11px}
+.game-card .ico-box svg{width:18px;height:18px}
+/* carte niveau : or */
+.lvl-card{background:linear-gradient(150deg,#FFFFFF 55%,#FFF8E7);border-color:#FDE68A}
+.lvl-card .chip.xp{box-shadow:0 6px 16px -8px rgba(217,119,6,.7)}
+/* carte recommandée : teinte du jeu */
+.rec-card{border-color:var(--uborder);background:linear-gradient(150deg,#FFFFFF 40%,var(--utint))}
+/* statistiques : chiffres bleus */
+.stat{background:linear-gradient(180deg,#FFFFFF,#F7FAFF);border-color:#E3EAF6;box-shadow:0 1px 2px rgba(11,18,32,.04)}
+.stat-value{color:#1D4ED8}
+/* navigation : pastille active façon console */
+.nav-ico{display:grid;place-items:center;width:58px;height:28px;border-radius:99px;transition:background .18s ease}
+.nav-item.active .nav-ico{background:rgba(37,99,235,.13)}
+.nav-item.active::before{display:none}
+/* titres de section : puce dégradée */
+.section-title{display:flex;align-items:center;gap:7px}
+.section-title::before{content:"";width:8px;height:8px;border-radius:3px;flex:none;background:linear-gradient(135deg,var(--react),var(--flutter2))}
+/* boutons 3D (effet enfoncé) */
+.btn{box-shadow:0 2px 0 rgba(11,18,32,.1)}
+.btn:active{transform:translateY(1px) scale(.99);box-shadow:none}
+.btn-primary{box-shadow:0 3px 0 #1D4ED8,0 14px 26px -16px rgba(37,99,235,.9)}
+.btn-flutter{box-shadow:0 3px 0 #0369A1,0 14px 26px -16px rgba(2,132,199,.9)}
+.btn-arcade{background:linear-gradient(180deg,#FBBF24 0%,#D97706 100%);border-color:#D97706;color:#FFFFFF;box-shadow:0 3px 0 #B45309,0 14px 26px -16px rgba(217,119,6,.9)}
+.btn-arcade:hover{background:linear-gradient(180deg,#FCC648 0%,#E0870B 100%);border-color:#F59E0B}
+/* chips teintées par univers */
+.chip.react{color:#1D4ED8;border-color:#BFDBFE;background:#EFF6FF}
+.chip.flutter{color:#0369A1;border-color:#BAE6FD;background:#F0F9FF}
+.chip.amusement{color:#B45309;border-color:#FDE68A;background:#FFFBEB}
+/* bannière d'introduction de jeu */
+.gi-banner{display:flex;align-items:center;gap:12px;border-radius:16px;padding:13px 14px;color:#fff;background:linear-gradient(135deg,#2563EB,#60A5FA);box-shadow:0 14px 30px -18px rgba(37,99,235,1)}
+.gi-banner.u-flutter{background:linear-gradient(135deg,#0284C7,#38BDF8);box-shadow:0 14px 30px -18px rgba(2,132,199,1)}
+.gi-banner.u-arcade{background:linear-gradient(135deg,#D97706,#FBBF24);box-shadow:0 14px 30px -18px rgba(217,119,6,1)}
+.gi-ico{width:44px;height:44px;flex:none;border-radius:13px;background:rgba(255,255,255,.22);display:grid;place-items:center}
+.gi-ico svg{width:23px;height:23px;color:#fff}
+.gi-title{font-weight:750;font-size:15px;letter-spacing:-.01em}
+.gi-sub{font-size:12px;opacity:.88}
+/* écran de résultat : halo vert (victoire) / ambre (défaite) */
+.result.win{border-color:rgba(16,185,129,.5);box-shadow:0 0 0 1px rgba(16,185,129,.18),0 36px 70px -30px rgba(16,185,129,.75)}
+.result.lose{border-color:rgba(217,119,6,.5);box-shadow:0 0 0 1px rgba(217,119,6,.18),0 36px 70px -30px rgba(217,119,6,.7)}
+.result.win .r-score{color:var(--success)}
+.result.lose .r-score{color:var(--xp)}
+/* D-pad arcade : boutons matériel */
+.dpad button{background:linear-gradient(180deg,#FFFFFF,#EDF2FB);box-shadow:0 2px 0 var(--border-active)}
+.dpad button:active{transform:translateY(1px);box-shadow:none;background:rgba(37,99,235,.12)}
+/* badges : carte or */
+.badge-card{background:linear-gradient(180deg,#FFFFFF,#FFFBEB);border-color:#FDE68A}
+.badge-card.locked{background:var(--bg2);border-color:var(--border)}
 </style>
 </head>
 <body>
@@ -950,7 +1016,7 @@ function renderBottomNav(activeKey) {
       class: "nav-item" + (item.key === activeKey ? " active" : ""),
       "aria-current": item.key === activeKey ? "page" : null,
       onclick: () => Nav.go(item.route)
-    }, iconEl(item.icon), el("span", { text: item.label })));
+    }, el("span", { class: "nav-ico", html: icon(item.icon) }), el("span", { text: item.label })));
   });
   nav.appendChild(inner);
 }
@@ -1041,7 +1107,7 @@ Screens.home = function () {
     /* carte progression */
     (function () {
       const acc = overallAccuracy();
-      return el("div", { class: "card" }, [
+      return el("div", { class: "card lvl-card" }, [
         el("div", { class: "row", style: "margin-bottom:10px" }, [
           el("span", { class: "chip xp", html: icon("award") + "<span>Niveau " + li.index + "</span>" }),
           el("span", { class: "grow" }),
@@ -1062,7 +1128,7 @@ Screens.home = function () {
       const lastGame = st.lastGame && GAMES[st.lastGame] ? st.lastGame : "jsx-puzzle";
       const g = GAMES[lastGame];
       const first = (st.stats.finished[lastGame] || 0) === 0;
-      return el("div", { class: "card", style: "border-color:var(--border-active)" }, [
+      return el("div", { class: "card rec-card u-" + (g.universe === "amusement" ? "arcade" : g.universe) }, [
         el("div", { class: "row" }, [
           el("div", { class: "grow" }, [
             el("div", { class: "card-title", text: st.lastGame ? "Reprendre ma progression" : "Commence par le début" }),
@@ -1071,7 +1137,7 @@ Screens.home = function () {
           el("span", { class: "chip " + g.universe, text: UNIVERSES[g.universe].name })
         ]),
         el("button", {
-          class: "btn btn-primary btn-block", style: "margin-top:12px",
+          class: "btn " + (g.universe === "flutter" ? "btn-flutter" : g.universe === "amusement" ? "btn-arcade" : "btn-primary") + " btn-block", style: "margin-top:12px",
           onclick: () => Nav.go("#/g/" + lastGame)
         }, iconEl(first ? "play" : "rotate"), el("span", { text: first ? "Démarrer" : "Continuer" }))
       ]);
@@ -1081,10 +1147,13 @@ Screens.home = function () {
     ["react", "flutter"].map(uid => {
       const u = UNIVERSES[uid];
       const p = Progress.universeProgress(uid);
-      return el("button", { class: "card tap", onclick: () => Nav.go("#/u/" + uid) }, [
+      return el("button", { class: "card tap uni-card u-" + uid, onclick: () => Nav.go("#/u/" + uid) }, [
         el("div", { class: "row" }, [
           el("div", { class: "grow" }, [
-            el("div", { class: "card-title" }, el("span", { text: "Univers " + u.name })),
+            el("div", { class: "card-title" }, [
+              el("span", { class: "ico-box", html: icon(uid === "react" ? "code" : "layers") }),
+              el("span", { text: "Univers " + u.name })
+            ]),
             el("p", { class: "card-sub", text: u.desc })
           ]),
           iconEl("chevron")
@@ -1097,10 +1166,13 @@ Screens.home = function () {
       ]);
     }),
     /* amusement */
-    el("button", { class: "card tap", onclick: () => Nav.go("#/u/amusement") }, [
+    el("button", { class: "card tap uni-card u-arcade", onclick: () => Nav.go("#/u/amusement") }, [
       el("div", { class: "row" }, [
         el("div", { class: "grow" }, [
-          el("div", { class: "card-title" }, el("span", { text: "Pause Dev" })),
+          el("div", { class: "card-title" }, [
+            el("span", { class: "ico-box", html: icon("gamepad") }),
+            el("span", { text: "Pause Dev" })
+          ]),
           el("p", { class: "card-sub", text: "4 mini-jeux arcade : serpent, casse-briques, labyrinthe, course." })
         ]),
         iconEl("chevron")
@@ -1153,7 +1225,11 @@ Screens.explorer = function () {
     const domains = Object.values(DOMAINS).filter(d => d.universe === uid);
     const section = el("div", { class: "stack", style: "gap:9px" }, [
       el("div", { class: "section-title", text: uid === "amusement" ? u.name : "Univers " + u.name }),
-      el("div", { class: "card" }, [
+      el("div", { class: "card uni-hero u-" + uid }, [
+        el("div", { class: "row", style: "margin-bottom:8px" }, [
+          el("span", { class: "ico-box", html: icon(uid === "react" ? "code" : uid === "flutter" ? "layers" : "gamepad") }),
+          el("span", { style: "font-weight:700", text: uid === "amusement" ? u.name : "Univers " + u.name })
+        ]),
         el("p", { class: "card-sub", style: "margin-bottom:9px", text: u.desc }),
         el("div", { class: "row", style: "margin-bottom:7px" }, [
           el("span", { class: "meta grow", text: p.total + " jeux · " + p.done + " terminés" }),
@@ -1164,7 +1240,7 @@ Screens.explorer = function () {
     ]);
     domains.forEach(d => {
       const dp = Progress.domainProgress(d.id);
-      section.appendChild(el("button", { class: "lrow", onclick: () => Nav.go("#/d/" + d.id) }, [
+      section.appendChild(el("button", { class: "lrow u-" + uid, onclick: () => Nav.go("#/d/" + d.id) }, [
         el("span", { class: "ico-box", html: icon(uid === "amusement" ? "gamepad" : uid === "react" ? "code" : "layers") }),
         el("span", { class: "grow" }, [
           el("span", { class: "lrow-title", style: "display:block", text: d.title }),
@@ -1215,13 +1291,16 @@ Screens.universe = function (uid) {
   });
   view.appendChild(wrap);
 };
+function iconForKind(kind) {
+  return kind === "arcade" ? "gamepad" : kind === "quiz" || kind === "balance" || kind === "decision" ? "list" : kind === "target" ? "target" : kind === "memory" ? "star" : kind === "flow" || kind === "api" ? "network" : "code";
+}
 function gameRow(gid) {
   const g = GAMES[gid];
   const st = App.state;
   const rec = st.records[gid];
   const plays = (st.stats.perGame[gid] || {}).plays || 0;
-  return el("button", { class: "lrow", onclick: () => Nav.go("#/g/" + gid) }, [
-    el("span", { class: "ico-box", html: icon(g.kind === "arcade" ? "gamepad" : g.kind === "quiz" || g.kind === "balance" || g.kind === "decision" ? "list" : g.kind === "target" ? "target" : g.kind === "memory" ? "star" : g.kind === "flow" || g.kind === "api" ? "network" : "code") }),
+  return el("button", { class: "lrow u-" + (g.universe === "amusement" ? "arcade" : g.universe), onclick: () => Nav.go("#/g/" + gid) }, [
+    el("span", { class: "ico-box", html: icon(iconForKind(g.kind)) }),
     el("span", { class: "grow" }, [
       el("span", { class: "lrow-title", style: "display:block", text: g.title }),
       el("span", { class: "lrow-sub", style: "display:block", text: (plays ? plays + " parties" : "Jamais joué") + (rec ? " · record " + rec.score : "") })
@@ -1251,10 +1330,13 @@ Screens.domain = function (domainId) {
     el("div", { class: "stack", style: "gap:9px" }, gamesOfDomain(domainId).map(gid => {
       const g = GAMES[gid];
       const rec = App.state.records[gid];
-      return el("div", { class: "card" }, [
+      return el("div", { class: "card game-card u-" + (g.universe === "amusement" ? "arcade" : g.universe) }, [
         el("div", { class: "row", style: "margin-bottom:6px" }, [
           el("div", { class: "grow" }, [
-            el("div", { class: "card-title", text: g.title }),
+            el("div", { class: "card-title" }, [
+              el("span", { class: "ico-box", html: icon(iconForKind(g.kind)) }),
+              el("span", { text: g.title })
+            ]),
             el("p", { class: "card-sub", text: g.rules })
           ])
         ]),
@@ -1642,7 +1724,7 @@ const Engine = {
     const g = GAMES[Engine.gameId];
     const acc = session_accuracy();
     const box = el("div", { class: "overlay" });
-    const card = el("div", { class: "result", role: "dialog", "aria-modal": "true", "aria-label": "Résultat de la partie" });
+    const card = el("div", { class: "result " + (result.win ? "win" : "lose"), role: "dialog", "aria-modal": "true", "aria-label": "Résultat de la partie" });
     card.appendChild(el("div", { class: "r-icon " + (result.win ? "win" : "lose"), html: icon(result.win ? "trophy" : "info") }));
     card.appendChild(el("h2", { text: result.title || (result.win ? "Partie réussie" : "Partie terminée") }));
     card.appendChild(el("div", { class: "r-score", text: String(typeof result.score === "number" ? Math.max(0, Math.round(result.score)) : 0) }));
@@ -1832,10 +1914,20 @@ function nextButton(label, onClick) {
   return el("button", { class: "btn btn-primary btn-block", onclick: onClick }, el("span", { text: label || "Continuer" }), iconEl("chevron"));
 }
 function gameIntro(def, extraLines) {
-  return el("div", { class: "card" }, [
-    el("div", { class: "card-title", html: icon("info") + "<span>Règles</span>" }),
-    el("p", { class: "card-sub", style: "margin-top:5px", text: def.rules })
-  ].concat(extraLines || []));
+  const uv = def.universe === "flutter" ? "flutter" : def.universe === "amusement" ? "arcade" : "react";
+  return el("div", { class: "stack", style: "gap:10px" }, [
+    el("div", { class: "gi-banner u-" + uv }, [
+      el("span", { class: "gi-ico", html: icon(iconForKind(def.kind || "code")) }),
+      el("div", { class: "grow" }, [
+        el("div", { class: "gi-title", text: def.title }),
+        el("div", { class: "gi-sub", text: "Difficulté : " + ["Facile", "Intermédiaire", "Avancé"][(def.difficulty || 1) - 1] })
+      ])
+    ]),
+    el("div", { class: "card" }, [
+      el("div", { class: "card-title", html: icon("info") + "<span>Règles</span>" }),
+      el("p", { class: "card-sub", style: "margin-top:5px", text: def.rules })
+    ].concat(extraLines || []))
+  ]);
 }
 
 /* =========================================================================
