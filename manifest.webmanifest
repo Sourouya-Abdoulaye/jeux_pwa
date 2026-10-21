@@ -1,0 +1,53 @@
+{
+  "name": "DevMaster — Apprends React & Flutter en jouant",
+  "short_name": "DevMaster",
+  "description": "Application d'apprentissage interactive : maîtrise React.js et Flutter grâce à des mini-jeux pédagogiques. Fonctionne hors ligne.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "devmaster-pwa",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#0A0D14",
+  "theme_color": "#0A0D14",
+  "categories": ["education", "games"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Reprendre React.js",
+      "short_name": "React",
+      "url": "./index.html#/u/react"
+    },
+    {
+      "name": "Reprendre Flutter",
+      "short_name": "Flutter",
+      "url": "./index.html#/u/flutter"
+    },
+    {
+      "name": "Pause Dev",
+      "short_name": "Arcade",
+      "url": "./index.html#/u/amusement"
+    }
+  ]
+}
