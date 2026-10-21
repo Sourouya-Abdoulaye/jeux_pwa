@@ -17,9 +17,12 @@
   --text:#F1F5F9; --text2:#94A3B8; --text3:#64748B;
   --react:#00D8FF; --react2:#67E8F9; --flutter:#02569B; --flutter2:#38BDF8;
   --success:#10B981; --error:#F43F5E; --xp:#F59E0B;
-  --r:14px; --r-sm:10px; --nav-h:62px; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --r:14px; --r-sm:10px; --nav-h:62px; --top-h:56px; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
 }
 *{box-sizing:border-box}
+/* taille par défaut des icônes : tout SVG sans largeur explicite reste compact
+   (les règles par composant, écrites ensuite, continuent de prédominer) */
+svg:not([width]){width:18px;height:18px;flex:none}
 html,body{margin:0;padding:0}
 body{
   background:var(--bg); color:var(--text);
@@ -51,6 +54,7 @@ code,.mono{font-family:var(--mono);font-size:.86em}
 .logo-mark{width:26px;height:26px;border-radius:8px;background:linear-gradient(150deg,#123040,#0E1420);border:1px solid rgba(0,216,255,.35);display:grid;place-items:center;color:var(--react);font-family:var(--mono);font-size:12px;font-weight:700}
 .topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .net-dot{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text3);border:1px solid var(--border);border-radius:999px;padding:3px 8px}
+.net-dot svg{width:13px;height:13px}
 .net-dot.off{color:var(--xp);border-color:rgba(245,158,11,.35)}
 .avatar-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border-active);background:var(--surface2);display:grid;place-items:center;cursor:pointer;padding:0}
 .avatar{width:24px;height:24px;display:block}
@@ -80,6 +84,7 @@ code,.mono{font-family:var(--mono);font-size:.86em}
 .card.tap:hover{border-color:var(--border-active)}
 .card.tap:active{transform:scale(.99)}
 .card-title{font-size:14.5px;font-weight:650;display:flex;align-items:center;gap:8px}
+.card-title svg{width:16px;height:16px;color:var(--text2)}
 .card-sub{font-size:12.5px;color:var(--text2);margin-top:3px}
 .meta{font-size:11.5px;color:var(--text3)}
 .stack{display:flex;flex-direction:column;gap:12px}
@@ -100,10 +105,16 @@ code,.mono{font-family:var(--mono);font-size:.86em}
 .btn:active{transform:scale(.98)}
 .btn:focus-visible{outline:2px solid var(--react);outline-offset:2px}
 .btn[disabled]{opacity:.45;pointer-events:none}
-.btn-primary{background:var(--react);border-color:var(--react);color:#04212B}
-.btn-primary:hover{background:var(--react2)}
-.btn-flutter{background:var(--flutter2);border-color:var(--flutter2);color:#06263D}
-.btn-flutter:hover{background:#5ECDF7}
+.btn-primary{
+  background:linear-gradient(180deg,#3EE3FF 0%,#00BEE2 100%);border-color:#00C6E9;color:#03212B;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4), 0 8px 20px -12px rgba(0,216,255,.65);
+}
+.btn-primary:hover{background:linear-gradient(180deg,#5EE9FF 0%,#0EC8EA 100%);border-color:#22DDFA}
+.btn-flutter{
+  background:linear-gradient(180deg,#6BD1F9 0%,#2BA5E7 100%);border-color:#38BDF8;color:#052641;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 8px 20px -12px rgba(56,189,248,.6);
+}
+.btn-flutter:hover{background:linear-gradient(180deg,#7FD8FB 0%,#38B2EE 100%);border-color:#5ECDF7}
 .btn-ghost{background:transparent;border-color:var(--border)}
 .btn-danger{background:transparent;border-color:rgba(244,63,94,.45);color:#FDA4AF}
 .btn-danger:hover{background:rgba(244,63,94,.12)}
@@ -151,6 +162,7 @@ textarea.input{min-height:110px;font-family:var(--mono);font-size:12.5px;resize:
 .lrow:hover{border-color:var(--border-active)}
 .lrow .ico-box{width:38px;height:38px;flex:none;border-radius:var(--r-sm);background:var(--bg2);border:1px solid var(--border);display:grid;place-items:center;color:var(--text2)}
 .lrow .ico-box svg{width:19px;height:19px}
+.lrow>svg{color:var(--text3);flex:none}
 .lrow-title{font-size:14px;font-weight:650}
 .lrow-sub{font-size:11.5px;color:var(--text3);margin-top:1px}
 /* ---------- game shell ---------- */
@@ -174,7 +186,7 @@ pre.code{
 }
 .code .k{color:#C084FC}.code .s{color:#86EFAC}.code .c{color:var(--text3)}.code .t{color:var(--react2)}
 /* ordering puzzle */
-.order-list{display:flex;flex-direction:column;gap:8px}
+.order-list{display:flex;flex-direction:column;gap:8px;min-height:70px;border:1px dashed var(--border-active);border-radius:var(--r-sm);padding:9px;background:rgba(255,255,255,.02)}
 .order-item{
   display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border-active);
   border-radius:var(--r-sm);padding:9px 10px;font-family:var(--mono);font-size:12.5px;line-height:1.45;
@@ -204,6 +216,7 @@ pre.code{
 .feedback.ko{border-color:rgba(244,63,94,.4);background:rgba(244,63,94,.07)}
 .feedback.info{background:var(--bg2);color:var(--text2)}
 .feedback .fb-title{font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:4px;font-size:13px}
+.feedback .fb-title svg{width:15px;height:15px}
 .feedback.ok .fb-title{color:var(--success)}
 .feedback.ko .fb-title{color:#FDA4AF}
 /* choice buttons */
@@ -260,6 +273,7 @@ pre.code{
 /* decision (swipe) */
 .dec-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;touch-action:pan-y}
 .swipe-hint{display:flex;justify-content:center;gap:8px;color:var(--text3);font-size:11px;align-items:center}
+.swipe-hint svg{width:14px;height:14px}
 /* result overlay */
 .overlay{position:fixed;inset:0;z-index:60;background:rgba(6,9,14,.78);backdrop-filter:blur(6px);display:grid;place-items:center;padding:18px}
 .result{
@@ -277,7 +291,7 @@ pre.code{
 .r-row span:first-child{color:var(--text2)}
 .r-row b{font-family:var(--mono)}
 /* toasts */
-#toasts{position:fixed;top:calc(10px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:80;display:flex;flex-direction:column;gap:8px;width:min(92vw,420px);pointer-events:none}
+#toasts{position:fixed;top:calc(var(--top-h) + env(safe-area-inset-top) + 8px);left:50%;transform:translateX(-50%);z-index:80;display:flex;flex-direction:column;gap:8px;width:min(92vw,420px);pointer-events:none}
 .toast{
   background:var(--surface2);border:1px solid var(--border-active);border-radius:var(--r-sm);
   padding:10px 13px;font-size:13px;display:flex;align-items:center;gap:9px;
@@ -301,6 +315,7 @@ pre.code{
 .modal-actions .btn{flex:1}
 /* level up */
 .levelup{animation:pop .4s cubic-bezier(.2,.9,.3,1.3)}
+.levelup svg{width:34px;height:34px}
 .levelup .lvl-title{font-size:22px;font-weight:750;background:linear-gradient(90deg,var(--xp),#FCD34D);-webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0}
 /* game-specific */
 .dpad{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(3,54px);gap:6px;justify-content:center;margin-top:6px}
@@ -328,6 +343,7 @@ canvas.game{width:100%;max-width:520px;margin:0 auto;display:block;border-radius
 .days{display:flex;gap:6px}
 .day{flex:1;text-align:center;font-size:10px;color:var(--text3)}
 .day .d-dot{height:26px;border-radius:8px;background:var(--bg2);border:1px solid var(--border);display:grid;place-items:center;margin-bottom:3px;color:var(--text3)}
+.day .d-dot svg{width:14px;height:14px}
 .day.on .d-dot{background:rgba(245,158,11,.14);border-color:rgba(245,158,11,.45);color:var(--xp)}
 .day.today .d-dot{outline:1px solid var(--border-active)}
 @keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
@@ -973,6 +989,7 @@ function refreshNetChip() {
 }
 function navRoot(route) {
   if (route.startsWith("#/u/") || route.startsWith("#/d/")) return "explorer";
+  if (route.startsWith("#/explorer")) return "explorer";
   if (route.startsWith("#/g/")) return "";
   if (route.startsWith("#/progression")) return "progression";
   if (route.startsWith("#/profil")) return "profil";
@@ -1241,12 +1258,13 @@ Screens.domain = function (domainId) {
             el("p", { class: "card-sub", text: g.rules })
           ])
         ]),
-        el("div", { class: "row wrap", style: "margin:8px 0 10px" }, [
+        el("div", { class: "row wrap", style: "margin-top:10px" }, [
           el("span", { class: "chip", html: icon("target") + "<span>" + ["Facile", "Intermédiaire", "Avancé"][g.difficulty - 1] + "</span>" }),
-          rec ? el("span", { class: "chip xp", html: icon("trophy") + "<span>Record " + rec.score + "</span>" }) : el("span", { class: "chip", html: icon("trophy") + "<span>Aucun record</span>" })
-        ]),
-        el("button", { class: "btn " + (g.universe === "flutter" ? "btn-flutter" : g.universe === "amusement" ? "" : "btn-primary") + " btn-block", onclick: () => Nav.go("#/g/" + gid) },
-          iconEl("play"), el("span", { text: "Jouer" }))
+          rec ? el("span", { class: "chip xp", html: icon("trophy") + "<span>Record " + rec.score + "</span>" }) : null,
+          el("span", { class: "grow" }),
+          el("button", { class: "btn " + (g.universe === "flutter" ? "btn-flutter" : g.universe === "amusement" ? "" : "btn-primary"), style: "min-width:118px", onclick: () => Nav.go("#/g/" + gid) },
+            iconEl("play"), el("span", { text: "Jouer" }))
+        ])
       ]);
     }))
   ]);
@@ -4474,8 +4492,8 @@ function registerServiceWorker() {
 function bindInstallPrompt() {
   window.addEventListener("beforeinstallprompt", e => {
     e.preventDefault();
+    /* on conserve l'invite pour le bouton du Profil, sans message répété */
     App.deferredInstall = e;
-    toast("Installation disponible depuis le Profil.", "info");
   });
   window.addEventListener("appinstalled", () => {
     App.deferredInstall = null;
