@@ -3,7 +3,7 @@
    rafraîchissement en arrière-plan. La progression utilisateur n'est JAMAIS
    stockée ici : elle appartient au localStorage de l'application. */
 
-const CACHE_VERSION = "devmaster-v1";
+const CACHE_VERSION = "devmaster-v3";
 const PRECACHE = [
   "./",
   "./index.html",

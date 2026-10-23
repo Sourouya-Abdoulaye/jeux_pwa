@@ -1,7 +1,7 @@
 {
   "name": "DevMaster — Apprends React & Flutter en jouant",
   "short_name": "DevMaster",
-  "description": "Application d'apprentissage interactive : maîtrise React.js et Flutter grâce à des mini-jeux pédagogiques. Fonctionne hors ligne.",
+  "description": "Application d'apprentissage interactive : maîtrise React.js et Flutter grâce à des mini-jeux pédagogiques, avec un parcours complet MaterialApp, Scaffold et widgets. Fonctionne hors ligne, sur mobile et sur le web.",
   "lang": "fr",
   "dir": "ltr",
   "start_url": "./index.html",
@@ -9,7 +9,7 @@
   "id": "devmaster-pwa",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],
-  "orientation": "portrait",
+  "orientation": "any",
   "background_color": "#F3F6FC",
   "theme_color": "#FFFFFF",
   "categories": ["education", "games"],
@@ -43,6 +43,16 @@
       "name": "Reprendre Flutter",
       "short_name": "Flutter",
       "url": "./index.html#/u/flutter"
+    },
+    {
+      "name": "Cours Flutter",
+      "short_name": "Cours",
+      "url": "./index.html#/cours"
+    },
+    {
+      "name": "Quiz MaterialApp",
+      "short_name": "Quiz",
+      "url": "./index.html#/g/material-quiz"
     },
     {
       "name": "Pause Dev",

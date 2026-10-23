@@ -14,7 +14,7 @@ const expose = `
   GAME_FACTORIES, checkOrder, importProgress, CHALLENGES, REWARDS, todayISO, normCode,
   JSX_PUZZLES, HOOKS_PAIRS, TF_QUESTIONS, PIPE_SCENARIOS, REACT_DECISIONS, MVC_ROUNDS, API_ROUNDS, API_MCQ,
   WIDGET_TREE_ROUNDS, BALANCE_SCENARIOS, TARGET_PROMPTS, FLOW_SCENARIOS_FLUTTER, FLUTTER_DECISIONS,
-  JSON_ROUNDS, JSON_MAPPING, FLUTTER_ARCH_ROUNDS
+  JSON_ROUNDS, JSON_MAPPING, FLUTTER_ARCH_ROUNDS, COURSE_SECTIONS, MATERIAL_QUIZ_QUESTIONS
 };`;
 
 function stubNode() {
@@ -205,11 +205,14 @@ test("Précision globale : 0 réponse → null (affiché « — »)", () => {
 });
 
 /* ---------- Intégrité du catalogue ---------- */
-test("Catalogue : 7 jeux React, 7 Flutter, 4 arcade, tous fabriqués", () => {
+test("Catalogue : 7 jeux React, 8 Flutter, 3 arcade, tous fabriqués", () => {
   const ids = Object.keys(T.GAMES);
+  assert.strictEqual(ids.length, 18, "18 jeux au total");
   assert.strictEqual(ids.filter(id => T.GAMES[id].universe === "react").length, 7);
-  assert.strictEqual(ids.filter(id => T.GAMES[id].universe === "flutter").length, 7);
-  assert.strictEqual(ids.filter(id => T.GAMES[id].universe === "amusement").length, 4);
+  assert.strictEqual(ids.filter(id => T.GAMES[id].universe === "flutter").length, 8);
+  assert.strictEqual(ids.filter(id => T.GAMES[id].universe === "amusement").length, 3);
+  assert.ok(!ids.includes("tap-race"), "le jeu Tap-Tap a été retiré");
+  assert.ok(ids.includes("material-quiz"), "le quiz du cours est présent");
   ids.forEach(id => {
     assert.ok(T.DOMAINS[T.GAMES[id].domain], id + " : domaine existant");
     assert.strictEqual(T.DOMAINS[T.GAMES[id].domain].universe, T.GAMES[id].universe, id + " : univers cohérent");
@@ -223,7 +226,7 @@ test("Contenu : ≥15 exercices par domaine", () => {
     "react-a": T.JSX_PUZZLES.length + T.HOOKS_PAIRS.length + T.TF_QUESTIONS.length,
     "react-b": T.PIPE_SCENARIOS.length + T.REACT_DECISIONS.length,
     "react-c": T.MVC_ROUNDS.length * T.MVC_ROUNDS[0].items.length + T.API_ROUNDS.length + T.API_MCQ.length,
-    "flutter-a": T.WIDGET_TREE_ROUNDS.length + T.BALANCE_SCENARIOS.length + T.TARGET_PROMPTS.length,
+    "flutter-a": T.WIDGET_TREE_ROUNDS.length + T.MATERIAL_QUIZ_QUESTIONS.length + T.BALANCE_SCENARIOS.length + T.TARGET_PROMPTS.length,
     "flutter-b": T.FLOW_SCENARIOS_FLUTTER.length + T.FLUTTER_DECISIONS.length,
     "flutter-c": T.JSON_ROUNDS.length + T.JSON_MAPPING.length + T.FLUTTER_ARCH_ROUNDS.length * T.FLUTTER_ARCH_ROUNDS[0].items.length
   };
@@ -263,6 +266,34 @@ test("Quiz : bonne réponse toujours présente dans les options", () => {
   T.REACT_DECISIONS.concat(T.FLUTTER_DECISIONS).forEach(s => {
     assert.ok(s.options.filter(o => o.verdict === "good").length >= 1, s.id + " : au moins une solution solide");
     assert.ok(s.options.filter(o => o.verdict === "bad").length >= 1, s.id + " : au moins une solution faible");
+  });
+});
+
+test("Cours Flutter : 11 fiches complètes issues du PDF", () => {
+  assert.strictEqual(T.COURSE_SECTIONS.length, 11);
+  const ids = new Set();
+  T.COURSE_SECTIONS.forEach(sec => {
+    assert.ok(!ids.has(sec.id), "id de fiche unique : " + sec.id);
+    ids.add(sec.id);
+    assert.ok(sec.title && sec.summary && sec.summary.length > 30, sec.id + " : résumé fourni");
+    assert.ok(Array.isArray(sec.points) && sec.points.length >= 3, sec.id + " : points clés");
+    assert.ok(sec.icon, sec.id + " : icône");
+  });
+  assert.ok(T.COURSE_SECTIONS.some(s => /WhatsApp/i.test(s.title)), "le TP WhatsApp est présent");
+  assert.ok(T.COURSE_SECTIONS.some(s => s.code && /MaterialApp\(/.test(s.code)), "un exemple MaterialApp est fourni");
+});
+
+test("Quiz du cours : 16 questions à choix multiples cohérentes", () => {
+  assert.strictEqual(T.MATERIAL_QUIZ_QUESTIONS.length, 16);
+  const ids = new Set();
+  T.MATERIAL_QUIZ_QUESTIONS.forEach(q => {
+    assert.ok(!ids.has(q.id), "id de question unique : " + q.id);
+    ids.add(q.id);
+    assert.ok(q.q && q.q.length > 15, q.id + " : énoncé fourni");
+    assert.ok(Array.isArray(q.options) && q.options.length >= 3, q.id + " : au moins 3 options");
+    assert.ok(q.options.some(o => o.id === q.correct), q.id + " : bonne réponse présente");
+    assert.ok(new Set(q.options.map(o => o.id)).size === q.options.length, q.id + " : options uniques");
+    assert.ok(q.e && q.e.length > 40, q.id + " : explication fournie");
   });
 });
 

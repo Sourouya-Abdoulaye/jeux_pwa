@@ -28,14 +28,14 @@ await page.waitForSelector("#view h1", { timeout: 5000 });
 const h1 = await page.$eval("#view h1", e => e.textContent);
 check("Accueil : titre de bienvenue", /progresser|Niveau max/i.test(h1), h1);
 const navCount = await page.$$eval("#bottomnav .nav-item", els => els.length);
-check("Navigation inférieure : 4 entrées", navCount === 4, String(navCount));
+check("Navigation inférieure : 5 entrées", navCount === 5, String(navCount));
 const stats = await page.$$eval("#view .stat-value", els => els.map(e => e.textContent));
 check("Nouveau joueur : 0 XP / 0 partie / aucune série", stats[0] === "0" && stats[1] === "—" && stats[2] === "0", JSON.stringify(stats));
 const xpText = await page.$eval("#view .card .meta", e => e.textContent);
 check("Carte progression : 0 XP affiché", xpText.includes("0 XP"), xpText);
 
 /* ---------------- Navigation jusqu'au premier jeu ---------------- */
-await page.click("#bottomnav .nav-item:nth-child(2)");
+await page.click('#bottomnav .nav-item[data-key="explorer"]');
 await sleep(150);
 check("Explorer : ouverture", (await page.$eval("#view h1", e => e.textContent)).includes("Explorer"));
 await page.click("#view .lrow"); /* premier domaine */
@@ -93,8 +93,8 @@ check("Persistance : XP affichée sur l'accueil", /XP/.test(xpHome), xpHome);
 
 /* ---------------- Tous les jeux s'ouvrent sans erreur ---------------- */
 const gameIds = ["jsx-puzzle", "hooks-memory", "tf-flash", "pipe-flow", "arch-decision", "mvc-sort", "api-flow",
-  "widget-tree", "balance-stateless", "target-ui", "flutter-data-flow", "flutter-decision", "json-parsing", "flutter-arch-sort",
-  "snake", "breakout", "maze", "tap-race"];
+  "material-quiz", "widget-tree", "balance-stateless", "target-ui", "flutter-data-flow", "flutter-decision", "json-parsing", "flutter-arch-sort",
+  "snake", "breakout", "maze"];
 for (const id of gameIds) {
   const before = consoleErrors.length;
   await page.goto(BASE + "#/g/" + id, { waitUntil: "networkidle0" });
@@ -106,6 +106,8 @@ for (const id of gameIds) {
 
 /* ---------------- Serpent : interactions tactiles ---------------- */
 await page.goto(BASE + "#/g/snake", { waitUntil: "networkidle0" });
+await sleep(300);
+await page.click(".game-body .duo .btn"); /* mode classique */
 await sleep(300);
 check("Serpent : canvas présent", !!(await page.$("canvas.game")));
 check("Serpent : D-pad présent", (await page.$$eval(".dpad button", els => els.length)) >= 4);
@@ -133,20 +135,27 @@ await page.click("#view .lrow"); /* Facile */
 await sleep(300);
 check("Labyrinthe : canvas généré", !!(await page.$("canvas.game")));
 
-/* ---------------- Course Tap-Tap ---------------- */
-await page.goto(BASE + "#/g/tap-race", { waitUntil: "networkidle0" });
-await sleep(200);
-await page.click(".game-body .btn-primary"); /* démarrer */
+/* ---------------- Quiz du cours : démarrage guidé ---------------- */
+await page.goto(BASE + "#/g/material-quiz", { waitUntil: "networkidle0" });
 await sleep(250);
-check("Course : 4 pistes affichées", (await page.$$eval(".race-lane", els => els.length)) === 4);
-for (let i = 0; i < 60; i++) {
-  await page.click(".tap-zones .tap-zone:nth-child(" + (i % 2 + 1) + ")");
-  if (i % 6 === 0) await sleep(40);
-}
-await sleep(400);
-const raceOverlay = !!(await page.$(".overlay"));
-const lanes = await page.$$eval(".race-fill", els => els.map(e => e.style.width));
-check("Course : progression enregistrée", raceOverlay || lanes.some(w => parseFloat(w) > 5), JSON.stringify(lanes));
+await page.click(".game-body .duo .btn"); /* mode guidé */
+await page.waitForSelector(".answer-grid .choice", { timeout: 3000 });
+const quizChoices = await page.$$eval(".answer-grid .choice", els => els.length);
+check("Quiz du cours : 4 choix proposés", quizChoices === 4, String(quizChoices));
+await page.click(".answer-grid .choice");
+await sleep(250);
+const quizFb = await page.$eval(".feedback", e => e.textContent).catch(() => "");
+check("Quiz du cours : explication affichée", quizFb.length > 40, quizFb.slice(0, 70));
+
+/* ---------------- Fiches du cours ---------------- */
+await page.goto(BASE + "#/cours", { waitUntil: "networkidle0" });
+await sleep(200);
+const lessons = await page.$$eval(".lesson", els => els.length);
+check("Cours : 11 fiches PDF affichées", lessons === 11, String(lessons));
+const firstOpen = await page.$$eval(".lesson[open]", els => els.length);
+check("Cours : première fiche ouverte", firstOpen === 1, String(firstOpen));
+const courseBtn = await page.$$eval(".course-hero .btn", els => els.filter(e => /Quiz/.test(e.textContent)).length);
+check("Cours : accès au quiz depuis l'en-tête", courseBtn === 1, String(courseBtn));
 
 /* ---------------- Progression : écran ---------------- */
 await page.goto(BASE + "#/progression", { waitUntil: "networkidle0" });

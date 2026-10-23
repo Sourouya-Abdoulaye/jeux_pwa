@@ -28,7 +28,7 @@ await sleep(500);
 const h1 = await page.$eval("#view h1", e => e.textContent).catch(() => null);
 check("Hors ligne : l'application se recharge depuis le cache", !!h1, h1 || "aucun rendu");
 const navOffline = await page.$$eval("#bottomnav .nav-item", els => els.length).catch(() => 0);
-check("Hors ligne : navigation disponible", navOffline === 4, String(navOffline));
+check("Hors ligne : navigation disponible", navOffline === 5, String(navOffline));
 
 /* --- 3. Hors ligne : jouer à un jeu pédagogique complet --- */
 await page.goto(BASE + "#/g/tf-flash", { waitUntil: "load" });
@@ -50,6 +50,8 @@ check("Hors ligne : progression sauvegardée localement", offlineSaved && offlin
 /* --- 4. Hors ligne : jeu Canvas --- */
 await page.goto(BASE + "#/g/snake", { waitUntil: "load" });
 await sleep(400);
+await page.click(".game-body .duo .btn"); /* mode classique */
+await sleep(300);
 check("Hors ligne : Serpent rendu (Canvas)", !!(await page.$("canvas.game")));
 
 /* --- 5. Retour en ligne --- */

@@ -2,9 +2,12 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>DevMaster — Apprends React &amp; Flutter en jouant</title>
-<meta name="description" content="DevMaster : application d'apprentissage interactive pour maîtriser React.js et Flutter grâce à des mini-jeux pédagogiques. Fonctionne hors ligne.">
+<meta name="description" content="DevMaster : application d'apprentissage interactive pour maîtriser React.js et Flutter grâce à des mini-jeux pédagogiques, avec un parcours complet MaterialApp, Scaffold et widgets. Fonctionne hors ligne, sur mobile comme sur le web.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light">
 <link rel="manifest" href="manifest.webmanifest">
@@ -33,6 +36,7 @@ body{
 #app{max-width:560px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;position:relative}
 #view{flex:1;padding:14px 14px calc(var(--nav-h) + 26px + env(safe-area-inset-bottom));outline:none}
 body.in-game #bottomnav{display:none}
+body.in-game .topbar{display:none}
 body.in-game #view{padding:0 0 12px}
 h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.01em}
 h1{font-size:23px;line-height:1.25}
@@ -323,16 +327,34 @@ pre.code{
 .dpad button:active{background:rgba(37,99,235,.12);color:var(--text)}
 .dpad button svg{width:22px;height:22px}
 canvas.game{width:100%;max-width:520px;margin:0 auto;display:block;border-radius:var(--r-sm);border:1px solid var(--border);background:#0B111C;touch-action:none}
-.tap-zones{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tap-zone{min-height:96px;border-radius:var(--r);border:1px solid var(--border-active);background:var(--surface2);cursor:pointer;font-weight:700;font-size:14px;color:var(--text2);display:grid;place-items:center;gap:4px;user-select:none;touch-action:manipulation}
-.tap-zone:active{background:rgba(245,158,11,.14);color:var(--text)}
-.race-track{display:flex;flex-direction:column;gap:9px}
-.race-lane{display:flex;align-items:center;gap:9px}
-.race-lane .name{width:74px;font-size:11.5px;color:var(--text2);font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.race-bar{flex:1;height:14px;border-radius:99px;background:var(--bg2);border:1px solid var(--border);overflow:hidden;position:relative}
-.race-fill{height:100%;background:var(--text3);border-radius:99px;transition:width .12s linear}
-.race-lane.you .race-fill{background:var(--xp)}
-.race-lane.you .name{color:var(--xp)}
+.quiz-progress{margin-top:2px}
+.quiz-progress .meta{display:flex;justify-content:space-between;margin-bottom:5px}
+.lesson{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:0 1px 2px rgba(11,18,32,.05),0 10px 24px -18px rgba(11,18,32,.35);overflow:hidden}
+.lesson>summary{cursor:pointer;padding:13px 14px;display:flex;align-items:center;gap:11px;list-style:none;font-weight:700;font-size:14px;user-select:none}
+.lesson>summary::-webkit-details-marker{display:none}
+.lesson>summary .ico-box{flex:none}
+.lesson>summary .chev{margin-left:auto;color:var(--text3);transition:transform .18s ease}
+.lesson[open]>summary .chev{transform:rotate(90deg)}
+.lesson-body{padding:0 14px 14px;border-top:1px solid var(--border);margin-top:0}
+.lesson-body p{font-size:13px;color:var(--text2);line-height:1.6}
+.lesson-body ul{margin:7px 0 0;padding-left:18px;font-size:13px;color:var(--text2);line-height:1.6}
+.lesson-body li{margin-bottom:4px}
+.lesson-body .k{color:var(--react);font-weight:650}
+.lesson-body pre.code{margin-top:10px;font-size:11.5px}
+.lesson-tip{margin-top:10px;border-left:3px solid var(--xp);background:rgba(245,158,11,.08);padding:8px 10px;border-radius:0 8px 8px 0;font-size:12px;color:var(--text2)}
+.course-hero{background:linear-gradient(135deg,#0C4A6E,#0284C7 55%,#38BDF8);color:#fff;border:0;box-shadow:0 18px 40px -22px rgba(2,132,199,.9)}
+.course-hero .card-sub{color:rgba(255,255,255,.86)}
+.course-hero .btn{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.35);color:#fff;box-shadow:none}
+.course-hero .btn-primary{background:#fff;border-color:#fff;color:#0369A1}
+.course-hero .btn-primary:hover{background:#F0F9FF;border-color:#F0F9FF}
+.pdf-card{border-color:#BAE6FD;background:linear-gradient(150deg,#FFFFFF 45%,#F0F9FF)}
+.pdf-card .card-title{color:#0369A1}
+/* quiz : options en grille sur grand écran */
+.answer-grid{display:grid;grid-template-columns:1fr;gap:9px}
+@media(min-width:760px){.answer-grid{grid-template-columns:1fr 1fr}.answer-grid .choice{min-height:64px}}
+/* plateau arcade : aide clavier */
+.key-hint{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:11px;color:var(--text3)}
+.key-hint kbd{font-family:var(--mono);font-size:10.5px;background:var(--surface2);border:1px solid var(--border-active);border-bottom-width:2px;border-radius:5px;padding:1px 5px;color:var(--text2)}
 /* badges */
 .badge-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .badge-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;display:flex;gap:9px;align-items:flex-start}
@@ -421,6 +443,151 @@ body.reduced *,body.reduced *::before,body.reduced *::after{animation-duration:.
 /* badges : carte or */
 .badge-card{background:linear-gradient(180deg,#FFFFFF,#FFFBEB);border-color:#FDE68A}
 .badge-card.locked{background:var(--bg2);border-color:var(--border)}
+/* =======================================================================
+   ACCESSIBILITÉ, MOBILE & WEB
+   ======================================================================= */
+button,.card.tap,.choice,.target,.tree-node,.class-item,.mem-card,.lesson>summary{touch-action:manipulation}
+button:focus-visible,a:focus-visible,summary:focus-visible,.input:focus-visible{outline:2px solid var(--react);outline-offset:2px}
+.overlay{overflow:auto;overscroll-behavior:contain}
+.result{max-height:92dvh;overflow-y:auto}
+.game-body{width:100%;max-width:900px;margin:0 auto}
+.game-head .title{min-width:0}
+.nav-brand{display:none}
+.home-layout,.explorer-layout,.progression-layout,.course-grid{display:flex;flex-direction:column;gap:14px}
+.home-main,.home-side,.prog-main,.prog-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.profile-wrap{max-width:820px;margin:0 auto;width:100%}
+.course-grid{gap:12px}
+.course-grid .lesson{break-inside:avoid}
+.course-strip{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;border-color:#BAE6FD;background:linear-gradient(120deg,#FFFFFF 50%,#EFF8FF)}
+.course-strip-ico{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;flex:none;background:linear-gradient(140deg,#0284C7,#38BDF8);color:#fff;box-shadow:0 8px 18px -8px rgba(2,132,199,.8)}
+.course-strip-ico svg{width:22px;height:22px}
+.course-strip-actions{flex:none}
+.tip-card{background:linear-gradient(150deg,#FFFFFF,#FFFBEB);border-color:#FDE68A}
+.lesson-body code.inline{font-family:var(--mono);font-size:11.5px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:1px 4px;color:#0C4A6E;white-space:nowrap}
+.lesson-body pre.code{white-space:pre;overflow:auto;max-height:280px}
+.games-grid{display:flex;flex-direction:column;gap:9px}
+.course-hero{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.course-hero .course-hico{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28)}
+.course-hero .course-hico svg{width:26px;height:26px}
+.course-hero .row.wrap .btn{flex:none}
+@media(max-width:600px){
+  .game-head{
+    display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;
+    grid-template-areas:"back title title pause" "extra score time time";
+    gap:6px 8px;align-items:center;padding-bottom:8px;
+  }
+  .game-head>button[aria-label="Quitter le jeu"]{grid-area:back}
+  .game-head .title{grid-area:title;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .game-head .pill.extra{grid-area:extra;justify-self:start}
+  .game-head .pill.score{grid-area:score;justify-self:end}
+  .game-head .pill.time{grid-area:time;justify-self:end}
+  .game-head>button[aria-label="Pause"]{grid-area:pause}
+}
+@media(max-width:420px){
+  .nav-item{font-size:10.5px}
+  .game-head{gap:6px}
+  .game-head .pill{padding:4px 7px;font-size:11px}
+  .game-head .title{font-size:12.5px}
+  .result{padding:16px}
+  .mem-face.back{font-size:9.5px}
+}
+@media(max-width:360px){
+  .nav-item{font-size:9.5px;gap:1px}
+  .nav-item svg{width:19px;height:19px}
+  .dpad{grid-template-columns:repeat(3,56px);grid-template-rows:repeat(3,48px)}
+}
+@media(min-width:900px){
+  body{background:
+    radial-gradient(1100px 520px at 10% -10%,rgba(37,99,235,.10),transparent 62%),
+    radial-gradient(900px 480px at 100% 0%,rgba(14,165,233,.10),transparent 60%),
+    var(--bg)}
+  #app{
+    max-width:1240px;display:grid;grid-template-columns:228px minmax(0,1fr);
+    grid-template-rows:auto 1fr;grid-template-areas:"nav topbar" "nav view";
+    min-height:100dvh;background:rgba(255,255,255,.34);
+    box-shadow:0 0 0 1px rgba(219,227,241,.7),0 30px 80px -40px rgba(11,18,32,.28);
+  }
+  .topbar{grid-area:topbar}
+  #view{grid-area:view;padding:26px 30px 48px;max-width:1040px;width:100%;margin:0 auto}
+  .bottom-nav{
+    grid-area:nav;position:sticky;top:0;align-self:start;height:100dvh;
+    flex-direction:column;justify-content:flex-start;align-items:stretch;
+    border-top:0;border-right:1px solid var(--border);
+    background:rgba(255,255,255,.78);backdrop-filter:blur(14px);
+    padding:18px 12px;padding-top:calc(18px + env(safe-area-inset-top));
+  }
+  .nav-inner{flex-direction:column;max-width:none;gap:5px;width:100%}
+  .nav-brand{
+    display:flex;align-items:center;gap:9px;padding:12px 12px 22px;
+    font-weight:750;font-size:16px;letter-spacing:-.02em;
+  }
+  .nav-brand .logo-mark{width:30px;height:30px;font-size:13px}
+  .nav-item{
+    flex:none;flex-direction:row;justify-content:flex-start;min-height:48px;
+    gap:12px;padding:0 14px;border-radius:12px;font-size:14px;font-weight:600;
+  }
+  .nav-item svg{width:20px;height:20px}
+  .nav-item .nav-ico{width:24px;height:24px;background:none;border-radius:0}
+  .nav-item.active{background:rgba(37,99,235,.09)}
+  .nav-item.active .nav-ico{background:none}
+  .nav-item:hover:not(.active){background:rgba(11,18,32,.04);color:var(--text2)}
+  body.in-game #app{display:block;max-width:1240px;min-height:100dvh}
+  body.in-game .topbar{display:none}
+  body.in-game #view{padding:0 0 28px;max-width:none}
+  .game-shell{max-width:980px;margin:0 auto;min-height:100dvh}
+  .game-head{top:0}
+  .game-body{padding:24px 26px 36px;max-width:880px}
+  .home-layout{display:grid;grid-template-columns:minmax(0,1.42fr) minmax(310px,.82fr);grid-template-areas:"head head" "main side";gap:18px;align-items:start}
+  .home-head{grid-area:head}
+  .home-main{grid-area:main}
+  .home-side{grid-area:side;position:sticky;top:82px}
+  .explorer-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  .explorer-layout .span-2{grid-column:1/-1}
+  .progression-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:18px;align-items:start}
+  .prog-main{grid-column:1}
+  .prog-side{grid-column:2}
+  .course-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+  .course-grid .span-2,.course-grid .lesson[open]{grid-column:1/-1}
+  .topbar .brand{display:none}
+  .games-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch}
+  .games-grid .game-card{display:flex;flex-direction:column}
+  .games-grid .game-card>.row.wrap{margin-top:auto}
+  .mem-grid{grid-template-columns:repeat(5,1fr)}
+  .class-grid{grid-template-columns:repeat(3,1fr)}
+  .target-grid{grid-template-columns:repeat(2,1fr)}
+  .duo .btn{min-height:70px}
+  .dpad{grid-template-columns:repeat(3,68px);grid-template-rows:repeat(3,58px)}
+  .dpad button{min-height:58px}
+  .badge-grid{grid-template-columns:repeat(4,1fr)}
+  .stat-grid{grid-template-columns:repeat(3,1fr)}
+  .game-body canvas.game{max-width:600px}
+  .quiz-progress{max-width:720px}
+  .answer-grid{grid-template-columns:1fr 1fr}
+  #toasts{left:calc(50% + 114px)}
+}
+@media(min-width:900px) and (max-width:1140px){
+  .home-layout{grid-template-columns:1fr;grid-template-areas:"head" "main" "side"}
+  .home-side{position:static}
+  .explorer-layout{grid-template-columns:1fr}
+  .explorer-layout .span-2{grid-column:auto}
+  .games-grid{grid-template-columns:1fr}
+  .course-strip-actions{width:100%;justify-content:flex-start}
+  .course-strip-actions .btn{flex:1;justify-content:center}
+  .progression-layout{grid-template-columns:1fr}
+  .prog-main,.prog-side{grid-column:auto}
+}
+@media(min-width:1200px){
+  #view{padding:30px 40px 56px}
+  .home-layout{gap:22px}
+  .game-body{padding:28px 30px 40px}
+}
+@media(max-height:520px) and (orientation:landscape){
+  .topbar{padding-top:6px;padding-bottom:6px}
+  .game-head{padding-top:4px;padding-bottom:4px}
+  .game-body{padding-top:8px;gap:8px}
+  .game-shell{min-height:auto}
+  canvas.game{max-height:62dvh;width:auto;max-width:100%}
+}
 </style>
 </head>
 <body>
@@ -466,6 +633,11 @@ function appendChild(parent, kid) {
   parent.appendChild(typeof kid === "string" || typeof kid === "number" ? document.createTextNode(String(kid)) : kid);
 }
 function clearNode(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+/* Transforme les `segments` en code inline, sans injecter de HTML utilisateur. */
+function courseText(text) {
+  const safe = String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return safe.replace(/`([^`]+)`/g, '<code class="inline">$1</code>');
+}
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; }
@@ -536,7 +708,15 @@ const ICON_PATHS = {
   network: '<circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4M12 11.5H5.5v5M12 11.5h6.5v5"/>',
   hand: '<path d="M8 12V5.5a1.5 1.5 0 0 1 3 0V11m0-1V4.5a1.5 1.5 0 0 1 3 0V11m0-.5V6a1.5 1.5 0 0 1 3 0v7c0 4-2.5 7-6.5 7S5 17 4 14l-1.5-3a1.6 1.6 0 0 1 2.7-1.7L8 12"/>',
   save: '<path d="M5 3h11l3 3v15H5zM8 3v6h7V3M8 21v-6h8v6"/>',
-  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  palette: '<path d="M12 3a9 9 0 1 0 0 18h1.5a1.8 1.8 0 0 0 1.3-3l-.4-.5a1.7 1.7 0 0 1 1.2-2.8H18a3 3 0 0 0 3-3A9 9 0 0 0 12 3z"/><circle cx="7.5" cy="10" r="1"/><circle cx="10" cy="6.8" r="1"/><circle cx="14.5" cy="7.2" r="1"/><circle cx="7.8" cy="14.5" r="1"/>',
+  type: '<path d="M4 6h16M9 6v14M15 6v14M6 20h6M12 20h6"/>',
+  route: '<circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M7.5 6H14a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h7.5"/>',
+  message: '<path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/>',
+  grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  send: '<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>',
+  lightbulb: '<path d="M9 18h6M10 22h4M8.5 14.5a6 6 0 1 1 7 0c-.8.7-1.2 1.5-1.5 2.5h-4c-.3-1-.7-1.8-1.5-2.5z"/>'
 };
 function icon(name, cls) {
   const p = ICON_PATHS[name] || ICON_PATHS.info;
@@ -623,7 +803,7 @@ function progressFill(pct, variant) {
 }
 
 /* ---------------------------- Configuration ---------------------------- */
-const APP_VERSION = "1.0.0";
+const APP_VERSION = "1.2.0";
 const STORAGE_KEY = "devmaster.progress.v1";
 const SAVE_VERSION = 1;
 
@@ -656,17 +836,17 @@ function levelInfo(xp) {
 /* ------------------------------ Domains -------------------------------- */
 const UNIVERSES = {
   react: { id: "react", name: "React.js", accent: "react", desc: "Comprends les composants, les Hooks, le State et le flux des données.", color: "#2563EB" },
-  flutter: { id: "flutter", name: "Flutter", accent: "flutter", desc: "Maîtrise les Widgets, la gestion d'état, la navigation et les modèles de données.", color: "#0EA5E9" },
-  amusement: { id: "amusement", name: "Pause Dev", accent: "xp", desc: "Quatre mini-jeux d'arcade sans prérequis, pour souffler entre deux sessions.", color: "#F59E0B" }
+  flutter: { id: "flutter", name: "Flutter", accent: "flutter", desc: "Du cours MaterialApp / Scaffold aux Widgets, listes, états et modèles de données.", color: "#0EA5E9" },
+  amusement: { id: "amusement", name: "Pause Dev", accent: "xp", desc: "Trois mini-jeux d'arcade sans prérequis, pour souffler entre deux sessions.", color: "#F59E0B" }
 };
 const DOMAINS = {
   "react-a": { id: "react-a", universe: "react", title: "Composants et Hooks", desc: "Structure d'un composant, JSX, props, Hooks essentiels." },
   "react-b": { id: "react-b", universe: "react", title: "State et flux de données", desc: "Descente des props, remontée d'état, callbacks, Context, décisions d'architecture." },
   "react-c": { id: "react-c", universe: "react", title: "Architecture et APIs REST", desc: "Organisation du code, cycle d'une requête HTTP, méthodes, erreurs, JSON." },
-  "flutter-a": { id: "flutter-a", universe: "flutter", title: "Arbre de Widgets et UI", desc: "Hiérarchie des Widgets, layout, StatelessWidget et StatefulWidget." },
-  "flutter-b": { id: "flutter-b", universe: "flutter", title: "State Management et Navigation", desc: "Provider, Riverpod, Bloc, Repository et passage d'informations entre écrans." },
-  "flutter-c": { id: "flutter-c", universe: "flutter", title: "Modèles et Réseau en Dart", desc: "Parsing JSON, fromJson, types Dart, séparation des responsabilités." },
-  "amusement-a": { id: "amusement-a", universe: "amusement", title: "Mini-jeux arcade", desc: "Serpent, casse-briques, labyrinthe et course à frappes." }
+  "flutter-a": { id: "flutter-a", universe: "flutter", title: "MaterialApp, Scaffold & Widgets", desc: "Le cours pas à pas : widget racine, zones du Scaffold, AppBar, layout, navigation de base." },
+  "flutter-b": { id: "flutter-b", universe: "flutter", title: "State, Listes & Navigation", desc: "StatefulWidget, listes Material, Drawer, BottomNavigationBar et gestion d'état." },
+  "flutter-c": { id: "flutter-c", universe: "flutter", title: "Modèles, JSON & Architecture", desc: "Parsing JSON, fromJson, types Dart, couches repository et séparation des responsabilités." },
+  "amusement-a": { id: "amusement-a", universe: "amusement", title: "Mini-jeux arcade", desc: "Serpent, casse-briques et labyrinthe : des classiques jouables au doigt ou au clavier." }
 };
 const GAMES = {
   "jsx-puzzle": { id: "jsx-puzzle", title: "Puzzle Code : assemblage JSX", universe: "react", domain: "react-a", kind: "puzzle", difficulty: 1, rules: "Replace les blocs de code dans le bon ordre pour reconstituer le composant, puis valide." },
@@ -676,17 +856,17 @@ const GAMES = {
   "arch-decision": { id: "arch-decision", title: "Swipe Decision", universe: "react", domain: "react-b", kind: "decision", difficulty: 2, rules: "Analyse le scénario puis choisis l'approche d'architecture la plus adaptée. Balayage facultatif, boutons toujours disponibles." },
   "mvc-sort": { id: "mvc-sort", title: "Tri & rangement : organisation", universe: "react", domain: "react-c", kind: "sort", difficulty: 2, rules: "Classe chaque responsabilité dans la bonne zone. React n'impose pas de MVC : il s'agit de conventions d'organisation." },
   "api-flow": { id: "api-flow", title: "Circuit API : fetch / axios", universe: "react", domain: "react-c", kind: "api", difficulty: 3, rules: "Remets les étapes d'une requête HTTP dans l'ordre, puis réponds aux scénarios GET, POST, PUT, PATCH, DELETE et erreurs." },
-  "widget-tree": { id: "widget-tree", title: "Puzzle arbre de Widgets", universe: "flutter", domain: "flutter-a", kind: "tree", difficulty: 2, rules: "Complète l'arbre Flutter en respectant la hiérarchie : chaque Widget a un rôle précis." },
+  "material-quiz": { id: "material-quiz", title: "Quiz MaterialApp & Scaffold", universe: "flutter", domain: "flutter-a", kind: "quiz", difficulty: 1, rules: "16 questions issues du cours : widget racine, Scaffold, AppBar, thème, navigation, listes et propriétés essentielles. Mode guidé ou défi chronométré." },
+  "widget-tree": { id: "widget-tree", title: "Puzzle arbre de Widgets", universe: "flutter", domain: "flutter-a", kind: "tree", difficulty: 2, rules: "Complète l'arbre Flutter en respectant la hiérarchie : MaterialApp, Scaffold, AppBar, listes et chaque Widget ont un rôle précis." },
   "balance-stateless": { id: "balance-stateless", title: "La balance : Stateful vs Stateless", universe: "flutter", domain: "flutter-a", kind: "balance", difficulty: 1, rules: "Pour chaque scénario, choisis l'approche Flutter la plus cohérente." },
   "target-ui": { id: "target-ui", title: "Tir sur cible UI", universe: "flutter", domain: "flutter-a", kind: "target", difficulty: 2, rules: "Une consigne apparaît : touche la cible (Widget ou propriété) qui lui correspond. Chronomètre et difficulté progressive." },
   "flutter-data-flow": { id: "flutter-data-flow", title: "Circuit de données Flutter", universe: "flutter", domain: "flutter-b", kind: "flow", difficulty: 2, rules: "Relie les couches de l'application dans l'ordre du flux décrit par le scénario." },
   "flutter-decision": { id: "flutter-decision", title: "Swipe Decision mobile", universe: "flutter", domain: "flutter-b", kind: "decision", difficulty: 2, rules: "Décide de l'organisation mobile la plus judicieuse pour chaque scénario." },
   "json-parsing": { id: "json-parsing", title: "Puzzle JSON parsing", universe: "flutter", domain: "flutter-c", kind: "json", difficulty: 3, rules: "Ordonne les étapes de conversion JSON → objet Dart, puis associe les clés aux propriétés." },
   "flutter-arch-sort": { id: "flutter-arch-sort", title: "Tri & rangement : architecture Flutter", universe: "flutter", domain: "flutter-c", kind: "sort", difficulty: 2, rules: "Sépare UI, état, logique métier, services, repository et modèles selon le scénario." },
-  "snake": { id: "snake", title: "Serpent de code", universe: "amusement", domain: "amusement-a", kind: "arcade", difficulty: 1, rules: "Dirige le serpent, mange les données et évite les collisions. Contrôles tactiles : D-pad ou balayage." },
-  "breakout": { id: "breakout", title: "Casse-briques", universe: "amusement", domain: "amusement-a", kind: "arcade", difficulty: 2, rules: "Déplace la raquette au doigt pour détruire toutes les briques. Trois vies, plusieurs niveaux." },
-  "maze": { id: "maze", title: "Labyrinthe du code", universe: "amusement", domain: "amusement-a", kind: "arcade", difficulty: 2, rules: "Génère un labyrinthe et rejoins la sortie. Balayage ou D-pad. Tous les labyrinthes sont résolubles." },
-  "tap-race": { id: "tap-race", title: "Course Tap-Tap", universe: "amusement", domain: "amusement-a", kind: "arcade", difficulty: 1, rules: "Frappe alternativement les deux zones pour courir plus vite que les trois concurrents." }
+  "snake": { id: "snake", title: "Serpent de code", universe: "amusement", domain: "amusement-a", kind: "arcade", difficulty: 1, rules: "Dirige le serpent, mange les données et évite les collisions. Contrôles tactiles (D-pad ou balayage), souris et clavier." },
+  "breakout": { id: "breakout", title: "Casse-briques", universe: "amusement", domain: "amusement-a", kind: "arcade", difficulty: 2, rules: "Déplace la raquette au doigt, à la souris ou aux flèches. Trois vies, trois niveaux, une balle à lancer." },
+  "maze": { id: "maze", title: "Labyrinthe du code", universe: "amusement", domain: "amusement-a", kind: "arcade", difficulty: 2, rules: "Génère un labyrinthe et rejoins la sortie. Balayage, D-pad ou clavier. Tous les labyrinthes sont résolubles." }
 };
 const GAME_IDS = Object.keys(GAMES);
 function gamesOfDomain(domainId) { return GAME_IDS.filter(id => GAMES[id].domain === domainId); }
@@ -1002,6 +1182,7 @@ const Badges = {
 const NAV_ITEMS = [
   { key: "home", label: "Accueil", icon: "home", route: "#/home" },
   { key: "explorer", label: "Explorer", icon: "compass", route: "#/explorer" },
+  { key: "cours", label: "Cours", icon: "book", route: "#/cours" },
   { key: "progression", label: "Progression", icon: "chart", route: "#/progression" },
   { key: "profil", label: "Profil", icon: "user", route: "#/profil" }
 ];
@@ -1011,10 +1192,15 @@ function renderBottomNav(activeKey) {
   const nav = $("#bottomnav");
   clearNode(nav);
   const inner = el("div", { class: "nav-inner" });
+  inner.appendChild(el("div", { class: "nav-brand" }, [
+    el("span", { class: "logo-mark", text: "<>" }),
+    el("span", { text: "DevMaster" })
+  ]));
   NAV_ITEMS.forEach(item => {
     inner.appendChild(el("button", {
       class: "nav-item" + (item.key === activeKey ? " active" : ""),
       "aria-current": item.key === activeKey ? "page" : null,
+      dataset: { key: item.key },
       onclick: () => Nav.go(item.route)
     }, el("span", { class: "nav-ico", html: icon(item.icon) }), el("span", { text: item.label })));
   });
@@ -1057,6 +1243,7 @@ function navRoot(route) {
   if (route.startsWith("#/u/") || route.startsWith("#/d/")) return "explorer";
   if (route.startsWith("#/explorer")) return "explorer";
   if (route.startsWith("#/g/")) return "";
+  if (route.startsWith("#/cours")) return "cours";
   if (route.startsWith("#/progression")) return "progression";
   if (route.startsWith("#/profil")) return "profil";
   return "home";
@@ -1077,6 +1264,7 @@ Nav.render = function () {
   if (root === "g" && parts[1] && GAMES[parts[1]]) { Engine.open(parts[1]); return; }
   renderBottomNav(navRoot(hash));
   if (root === "explorer") Screens.explorer();
+  else if (root === "cours") Screens.cours();
   else if (root === "u" && UNIVERSES[parts[1]]) Screens.universe(parts[1]);
   else if (root === "d" && DOMAINS[parts[1]]) Screens.domain(parts[1]);
   else if (root === "progression") Screens.progression();
@@ -1099,108 +1287,143 @@ Screens.home = function () {
   const li = levelInfo(st.xp);
   const pseudo = st.profile.pseudonym ? ", " + st.profile.pseudonym : "";
 
-  view.appendChild(el("div", { class: "stack" }, [
-    el("div", { class: "stack", style: "gap:4px" }, [
-      el("h1", { text: li.isMax ? "Niveau max atteint" + pseudo + "." : "Continue à progresser" + pseudo + "." }),
-      el("p", { class: "card-sub", text: "Quelques minutes de pratique peuvent faire la différence." })
-    ]),
-    /* carte progression */
-    (function () {
-      const acc = overallAccuracy();
-      return el("div", { class: "card lvl-card" }, [
-        el("div", { class: "row", style: "margin-bottom:10px" }, [
-          el("span", { class: "chip xp", html: icon("award") + "<span>Niveau " + li.index + "</span>" }),
-          el("span", { class: "grow" }),
-          el("span", { class: "meta", text: li.isMax ? "Palier maximal" : li.needed + " XP avant " + li.nextTitle })
+  const head = el("div", { class: "stack home-head", style: "gap:4px" }, [
+    el("h1", { text: li.isMax ? "Niveau max atteint" + pseudo + "." : "Continue à progresser" + pseudo + "." }),
+    el("p", { class: "card-sub", text: "Quelques minutes de pratique peuvent faire la différence." }),
+    el("div", { class: "card course-strip" }, [
+      el("span", { class: "course-strip-ico", html: icon("book") }),
+      el("div", { class: "grow" }, [
+        el("div", { class: "row wrap", style: "margin-bottom:3px" }, [
+          el("span", { class: "card-title", style: "margin:0", text: "Parcours Flutter : du cours au jeu" }),
+          el("span", { class: "chip flutter", text: "PDF · cours" })
         ]),
-        el("h2", { text: li.title }),
-        el("p", { class: "meta", style: "margin:3px 0 9px", text: st.xp + " XP" + (li.isMax ? "" : " · " + Math.round(li.pct) + " % avant le prochain niveau") }),
-        progressFill(li.pct, "xp"),
-        el("div", { class: "stat-grid", style: "margin-top:12px" }, [
-          el("div", { class: "stat" }, el("div", { class: "stat-value", text: String(Progress.totalFinished()) }), el("div", { class: "stat-label", text: "Parties terminées" })),
-          el("div", { class: "stat" }, el("div", { class: "stat-value", text: acc === null ? "—" : Math.round(acc) + "%" }), el("div", { class: "stat-label", text: "Précision" })),
-          el("div", { class: "stat" }, el("div", { class: "stat-value", text: String(Progress.streak()) }), el("div", { class: "stat-label", text: "Série (jours)" }))
-        ])
-      ]);
-    })(),
-    /* reprendre */
-    (function () {
-      const lastGame = st.lastGame && GAMES[st.lastGame] ? st.lastGame : "jsx-puzzle";
-      const g = GAMES[lastGame];
-      const first = (st.stats.finished[lastGame] || 0) === 0;
-      return el("div", { class: "card rec-card u-" + (g.universe === "amusement" ? "arcade" : g.universe) }, [
-        el("div", { class: "row" }, [
-          el("div", { class: "grow" }, [
-            el("div", { class: "card-title", text: st.lastGame ? "Reprendre ma progression" : "Commence par le début" }),
-            el("p", { class: "card-sub", text: (st.lastGame ? "Tu t'es arrêté sur : " : "Jeu recommandé : ") + g.title })
-          ]),
-          el("span", { class: "chip " + g.universe, text: UNIVERSES[g.universe].name })
+        el("p", { class: "card-sub", text: "MaterialApp, Scaffold, AppBar, listes, Drawer et TP WhatsApp : 11 fiches + un quiz de 16 questions." })
+      ]),
+      el("div", { class: "row wrap course-strip-actions" }, [
+        el("button", { class: "btn", onclick: () => Nav.go("#/cours") }, iconEl("book"), el("span", { text: "Fiches" })),
+        el("button", { class: "btn btn-flutter", onclick: () => Nav.go("#/g/material-quiz") }, iconEl("play"), el("span", { text: "Quiz du cours" }))
+      ])
+    ])
+  ]);
+
+  const main = el("div", { class: "home-main" });
+  const side = el("div", { class: "home-side" });
+
+  /* carte progression */
+  main.appendChild((function () {
+    const acc = overallAccuracy();
+    return el("div", { class: "card lvl-card" }, [
+      el("div", { class: "row", style: "margin-bottom:10px" }, [
+        el("span", { class: "chip xp", html: icon("award") + "<span>Niveau " + li.index + "</span>" }),
+        el("span", { class: "grow" }),
+        el("span", { class: "meta", text: li.isMax ? "Palier maximal" : li.needed + " XP avant " + li.nextTitle })
+      ]),
+      el("h2", { text: li.title }),
+      el("p", { class: "meta", style: "margin:3px 0 9px", text: st.xp + " XP" + (li.isMax ? "" : " · " + Math.round(li.pct) + " % avant le prochain niveau") }),
+      progressFill(li.pct, "xp"),
+      el("div", { class: "stat-grid", style: "margin-top:12px" }, [
+        el("div", { class: "stat" }, el("div", { class: "stat-value", text: String(Progress.totalFinished()) }), el("div", { class: "stat-label", title: "Parties terminées", text: "Parties" })),
+        el("div", { class: "stat" }, el("div", { class: "stat-value", text: acc === null ? "—" : Math.round(acc) + "%" }), el("div", { class: "stat-label", text: "Précision" })),
+        el("div", { class: "stat" }, el("div", { class: "stat-value", text: String(Progress.streak()) }), el("div", { class: "stat-label", title: "Série de jours", text: "Série" }))
+      ])
+    ]);
+  })());
+
+  /* reprendre */
+  main.appendChild((function () {
+    const lastGame = st.lastGame && GAMES[st.lastGame] ? st.lastGame : "jsx-puzzle";
+    const g = GAMES[lastGame];
+    const first = (st.stats.finished[lastGame] || 0) === 0;
+    return el("div", { class: "card rec-card u-" + (g.universe === "amusement" ? "arcade" : g.universe) }, [
+      el("div", { class: "row" }, [
+        el("div", { class: "grow" }, [
+          el("div", { class: "card-title", text: st.lastGame ? "Reprendre ma progression" : "Commence par le début" }),
+          el("p", { class: "card-sub", text: (st.lastGame ? "Tu t'es arrêté sur : " : "Jeu recommandé : ") + g.title })
         ]),
-        el("button", {
-          class: "btn " + (g.universe === "flutter" ? "btn-flutter" : g.universe === "amusement" ? "btn-arcade" : "btn-primary") + " btn-block", style: "margin-top:12px",
-          onclick: () => Nav.go("#/g/" + lastGame)
-        }, iconEl(first ? "play" : "rotate"), el("span", { text: first ? "Démarrer" : "Continuer" }))
-      ]);
-    })(),
-    /* univers */
-    el("div", { class: "section-title", text: "Univers d'apprentissage" }),
-    ["react", "flutter"].map(uid => {
-      const u = UNIVERSES[uid];
-      const p = Progress.universeProgress(uid);
-      return el("button", { class: "card tap uni-card u-" + uid, onclick: () => Nav.go("#/u/" + uid) }, [
-        el("div", { class: "row" }, [
-          el("div", { class: "grow" }, [
-            el("div", { class: "card-title" }, [
-              el("span", { class: "ico-box", html: icon(uid === "react" ? "code" : "layers") }),
-              el("span", { text: "Univers " + u.name })
-            ]),
-            el("p", { class: "card-sub", text: u.desc })
-          ]),
-          iconEl("chevron")
-        ]),
-        el("div", { class: "row", style: "margin:11px 0 7px" }, [
-          el("span", { class: "meta grow", text: p.done + "/" + p.total + " jeux terminés" }),
-          el("span", { class: "meta", text: Math.round(p.pct) + "%" })
-        ]),
-        progressFill(p.pct, u.accent)
-      ]);
-    }),
-    /* amusement */
-    el("button", { class: "card tap uni-card u-arcade", onclick: () => Nav.go("#/u/amusement") }, [
+        el("span", { class: "chip " + g.universe, text: UNIVERSES[g.universe].name })
+      ]),
+      el("button", {
+        class: "btn " + (g.universe === "flutter" ? "btn-flutter" : g.universe === "amusement" ? "btn-arcade" : "btn-primary") + " btn-block", style: "margin-top:12px",
+        onclick: () => Nav.go("#/g/" + lastGame)
+      }, iconEl(first ? "play" : "rotate"), el("span", { text: first ? "Démarrer" : "Continuer" }))
+    ]);
+  })());
+
+  /* univers */
+  main.appendChild(el("div", { class: "section-title", text: "Univers d'apprentissage" }));
+  ["react", "flutter"].forEach(uid => {
+    const u = UNIVERSES[uid];
+    const p = Progress.universeProgress(uid);
+    main.appendChild(el("button", { class: "card tap uni-card u-" + uid, onclick: () => Nav.go("#/u/" + uid) }, [
       el("div", { class: "row" }, [
         el("div", { class: "grow" }, [
           el("div", { class: "card-title" }, [
-            el("span", { class: "ico-box", html: icon("gamepad") }),
-            el("span", { text: "Pause Dev" })
+            el("span", { class: "ico-box", html: icon(uid === "react" ? "code" : "layers") }),
+            el("span", { text: "Univers " + u.name })
           ]),
-          el("p", { class: "card-sub", text: "4 mini-jeux arcade : serpent, casse-briques, labyrinthe, course." })
+          el("p", { class: "card-sub", text: u.desc })
         ]),
         iconEl("chevron")
-      ])
-    ]),
-    /* défis */
-    (function () {
-      Tracker.ensureDay();
-      const card = el("div", { class: "card" }, [
-        el("div", { class: "row", style: "margin-bottom:10px" }, [
-          el("h2", { class: "grow", text: "Défis du jour" }),
-          el("span", { class: "chip", html: icon("target") + "<span>" + todayISO() + "</span>" })
-        ])
-      ]);
-      CHALLENGES.forEach(c => {
-        const done = Tracker.progressOf(c.id);
-        const pct = (done / c.target) * 100;
-        card.appendChild(el("div", { style: "margin-bottom:10px" }, [
-          el("div", { class: "row", style: "margin-bottom:4px" }, [
-            el("span", { class: "grow", style: "font-size:12.5px;font-weight:600", text: c.title }),
-            el("span", { class: "meta", text: Math.min(done, c.target) + "/" + c.target + " · +" + c.reward + " XP" })
-          ]),
-          progressFill(pct, pct >= 100 ? "ok" : "")
-        ]));
-      });
-      return card;
-    })()
+      ]),
+      el("div", { class: "row", style: "margin:11px 0 7px" }, [
+        el("span", { class: "meta grow", text: p.done + "/" + p.total + " jeux terminés" }),
+        el("span", { class: "meta", text: Math.round(p.pct) + "%" })
+      ]),
+      progressFill(p.pct, u.accent)
+    ]));
+  });
+
+  /* amusement */
+  main.appendChild(el("button", { class: "card tap uni-card u-arcade", onclick: () => Nav.go("#/u/amusement") }, [
+    el("div", { class: "row" }, [
+      el("div", { class: "grow" }, [
+        el("div", { class: "card-title" }, [
+          el("span", { class: "ico-box", html: icon("gamepad") }),
+          el("span", { text: "Pause Dev" })
+        ]),
+        el("p", { class: "card-sub", text: "3 mini-jeux arcade : serpent, casse-briques et labyrinthe — tactile, souris ou clavier." })
+      ]),
+      iconEl("chevron")
+    ])
   ]));
+
+  /* défis */
+  side.appendChild((function () {
+    Tracker.ensureDay();
+    const card = el("div", { class: "card" }, [
+      el("div", { class: "row", style: "margin-bottom:10px" }, [
+        el("h2", { class: "grow", text: "Défis du jour" }),
+        el("span", { class: "chip", html: icon("target") + "<span>" + todayISO() + "</span>" })
+      ])
+    ]);
+    CHALLENGES.forEach(c => {
+      const done = Tracker.progressOf(c.id);
+      const pct = (done / c.target) * 100;
+      card.appendChild(el("div", { style: "margin-bottom:10px" }, [
+        el("div", { class: "row", style: "margin-bottom:4px" }, [
+          el("span", { class: "grow", style: "font-size:12.5px;font-weight:600", text: c.title }),
+          el("span", { class: "meta", text: Math.min(done, c.target) + "/" + c.target + " · +" + c.reward + " XP" })
+        ]),
+        progressFill(pct, pct >= 100 ? "ok" : "")
+      ]));
+    });
+    return card;
+  })());
+
+  /* fiche du jour */
+  (function () {
+    const pick = COURSE_SECTIONS[Math.floor(Math.random() * COURSE_SECTIONS.length)];
+    side.appendChild(el("div", { class: "card tip-card" }, [
+      el("div", { class: "row", style: "margin-bottom:6px" }, [
+        el("span", { class: "ico-box", html: icon("lightbulb") }),
+        el("span", { class: "grow card-title", style: "margin:0;font-size:14px", text: pick.title })
+      ]),
+      el("p", { class: "card-sub", text: pick.summary }),
+      el("button", { class: "btn btn-block", style: "margin-top:10px", onclick: () => Nav.go("#/cours") }, iconEl("book"), el("span", { text: "Ouvrir la fiche" }))
+    ]));
+  })();
+
+  view.appendChild(el("div", { class: "home-layout" }, [head, main, side]));
 };
 function overallAccuracy() {
   const r = App.state.stats.answers.react, f = App.state.stats.answers.flutter;
@@ -1213,19 +1436,18 @@ function overallAccuracy() {
 Screens.explorer = function () {
   renderTopbar({});
   const view = $("#view");
-  const wrap = el("div", { class: "stack" }, [
-    el("div", { class: "stack", style: "gap:4px" }, [
-      el("h1", { text: "Explorer" }),
-      el("p", { class: "card-sub", text: "Choisis un univers, un domaine, puis un jeu." })
-    ])
-  ]);
+  view.appendChild(el("div", { class: "stack", style: "gap:4px;margin-bottom:14px" }, [
+    el("h1", { text: "Explorer" }),
+    el("p", { class: "card-sub", text: "Choisis un univers, un domaine, puis un jeu. Le parcours Flutter suit le support de cours." })
+  ]));
+  const grid = el("div", { class: "explorer-layout" });
   ["react", "flutter", "amusement"].forEach(uid => {
     const u = UNIVERSES[uid];
     const p = Progress.universeProgress(uid);
     const domains = Object.values(DOMAINS).filter(d => d.universe === uid);
-    const section = el("div", { class: "stack", style: "gap:9px" }, [
+    const section = el("div", { class: "stack" + (uid === "amusement" ? " span-2" : ""), style: "gap:9px" }, [
       el("div", { class: "section-title", text: uid === "amusement" ? u.name : "Univers " + u.name }),
-      el("div", { class: "card uni-hero u-" + uid }, [
+      el("div", { class: "card uni-hero u-" + (uid === "amusement" ? "arcade" : uid) }, [
         el("div", { class: "row", style: "margin-bottom:8px" }, [
           el("span", { class: "ico-box", html: icon(uid === "react" ? "code" : uid === "flutter" ? "layers" : "gamepad") }),
           el("span", { style: "font-weight:700", text: uid === "amusement" ? u.name : "Univers " + u.name })
@@ -1238,9 +1460,19 @@ Screens.explorer = function () {
         progressFill(p.pct, u.accent === "flutter" ? "flutter" : u.accent === "xp" ? "xp" : "")
       ])
     ]);
+    if (uid === "flutter") {
+      section.appendChild(el("button", { class: "lrow u-flutter", style: "border-color:#BAE6FD", onclick: () => Nav.go("#/cours") }, [
+        el("span", { class: "ico-box", html: icon("book") }),
+        el("span", { class: "grow" }, [
+          el("span", { class: "lrow-title", style: "display:block", text: "Fiches du cours Flutter" }),
+          el("span", { class: "lrow-sub", style: "display:block", text: "11 fiches · MaterialApp, Scaffold, listes, Drawer, TP WhatsApp" })
+        ]),
+        iconEl("chevron")
+      ]));
+    }
     domains.forEach(d => {
       const dp = Progress.domainProgress(d.id);
-      section.appendChild(el("button", { class: "lrow u-" + uid, onclick: () => Nav.go("#/d/" + d.id) }, [
+      section.appendChild(el("button", { class: "lrow u-" + (uid === "amusement" ? "arcade" : uid), onclick: () => Nav.go("#/d/" + d.id) }, [
         el("span", { class: "ico-box", html: icon(uid === "amusement" ? "gamepad" : uid === "react" ? "code" : "layers") }),
         el("span", { class: "grow" }, [
           el("span", { class: "lrow-title", style: "display:block", text: d.title }),
@@ -1249,9 +1481,9 @@ Screens.explorer = function () {
         iconEl("chevron")
       ]));
     });
-    wrap.appendChild(section);
+    grid.appendChild(section);
   });
-  view.appendChild(wrap);
+  view.appendChild(grid);
 };
 
 /* ------------------------------- Univers -------------------------------- */
@@ -1327,7 +1559,15 @@ Screens.domain = function (domainId) {
       ]),
       progressFill(dp.pct, d.universe === "flutter" ? "flutter" : d.universe === "amusement" ? "xp" : "")
     ]),
-    el("div", { class: "stack", style: "gap:9px" }, gamesOfDomain(domainId).map(gid => {
+    domainId === "flutter-a" ? el("button", { class: "lrow u-flutter", style: "border-color:#BAE6FD", onclick: () => Nav.go("#/cours") }, [
+      el("span", { class: "ico-box", html: icon("book") }),
+      el("span", { class: "grow" }, [
+        el("span", { class: "lrow-title", style: "display:block", text: "Fiches du cours : MaterialApp, Scaffold & Widgets" }),
+        el("span", { class: "lrow-sub", style: "display:block", text: "11 fiches de révision issues du support PDF" })
+      ]),
+      iconEl("chevron")
+    ]) : null,
+    el("div", { class: "games-grid" }, gamesOfDomain(domainId).map(gid => {
       const g = GAMES[gid];
       const rec = App.state.records[gid];
       return el("div", { class: "card game-card u-" + (g.universe === "amusement" ? "arcade" : g.universe) }, [
@@ -1353,6 +1593,51 @@ Screens.domain = function (domainId) {
   view.appendChild(wrap);
 };
 
+/* -------------------------------- Cours --------------------------------- */
+Screens.cours = function () {
+  renderTopbar({});
+  const view = $("#view");
+  const head = el("div", { class: "stack", style: "gap:4px" }, [
+    el("h1", { text: "Cours Flutter" }),
+    el("p", { class: "card-sub", text: "Fiches de révision issues du support PDF : MaterialApp, Scaffold, widgets, listes et TP WhatsApp." })
+  ]);
+  const hero = el("div", { class: "card course-hero" }, [
+    el("span", { class: "course-hico", html: icon("book") }),
+    el("div", { class: "grow" }, [
+      el("div", { class: "row wrap", style: "margin-bottom:4px" }, [
+        el("span", { class: "card-title", style: "margin:0;color:#fff;font-size:16px", text: "Du cours au jeu" }),
+        el("span", { class: "chip", style: "background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3);color:#fff", text: "11 fiches" })
+      ]),
+      el("p", { class: "card-sub", style: "color:rgba(255,255,255,.88)", text: "Lis une fiche, puis vérifie avec le quiz de 16 questions. Chaque notion est aussi réinvestie dans les jeux Flutter." })
+    ]),
+    el("div", { class: "row wrap" }, [
+      el("button", { class: "btn btn-primary", onclick: () => Nav.go("#/g/material-quiz") }, iconEl("play"), el("span", { text: "Quiz du cours" })),
+      el("button", { class: "btn", onclick: () => Nav.go("#/d/flutter-a") }, iconEl("layers"), el("span", { text: "Jeux Flutter" }))
+    ])
+  ]);
+  const grid = el("div", { class: "course-grid" });
+  COURSE_SECTIONS.forEach((sec, i) => {
+    const details = el("details", { class: "lesson", open: i === 0 });
+    details.appendChild(el("summary", {}, [
+      el("span", { class: "ico-box", html: icon(sec.icon) }),
+      el("span", { class: "grow", text: sec.title }),
+      el("span", { class: "chev", html: icon("chevron") })
+    ]));
+    const body = el("div", { class: "lesson-body" });
+    body.appendChild(el("p", { text: sec.summary }));
+    const ul = el("ul", {});
+    sec.points.forEach(pt => ul.appendChild(el("li", { html: courseText(pt) })));
+    body.appendChild(ul);
+    if (sec.code) body.appendChild(el("pre", { class: "code" }, el("code", { text: sec.code })));
+    if (sec.tip) body.appendChild(el("div", { class: "lesson-tip" }, el("span", { html: "<strong>À retenir :</strong> " + courseText(sec.tip) })));
+    details.appendChild(body);
+    grid.appendChild(details);
+  });
+  view.appendChild(head);
+  view.appendChild(hero);
+  view.appendChild(grid);
+};
+
 /* ------------------------------ Progression ----------------------------- */
 Screens.progression = function () {
   renderTopbar({});
@@ -1362,7 +1647,7 @@ Screens.progression = function () {
   const accR = Progress.computeAccuracy("react");
   const accF = Progress.computeAccuracy("flutter");
   const started = Object.keys(st.stats.started).reduce((n, k) => n + st.stats.started[k], 0);
-  const wrap = el("div", { class: "stack" }, [
+  const wrap = el("div", { class: "stack progression-wrap" }, [
     el("div", { class: "stack", style: "gap:4px" }, [
       el("h1", { text: "Progression" }),
       el("p", { class: "card-sub", text: "Toutes les données proviennent de tes parties locales." })
@@ -1480,7 +1765,7 @@ Screens.profil = function () {
   renderTopbar({});
   const view = $("#view");
   const st = App.state;
-  const wrap = el("div", { class: "stack" }, [
+  const wrap = el("div", { class: "stack profile-wrap" }, [
     el("div", { class: "stack", style: "gap:4px" }, [
       el("h1", { text: "Profil" }),
       el("p", { class: "card-sub", text: "Profil local, sans compte ni serveur." })
@@ -1619,7 +1904,7 @@ function showInstallHelp() {
    MOTEUR COMMUN DES JEUX
    ========================================================================= */
 const GAME_FACTORIES = {};   /* gameId -> (session) => controls */
-const REALTIME_GAMES = { snake: true, breakout: true, maze: true, "tap-race": true, "tf-flash": true, "target-ui": true };
+const REALTIME_GAMES = { snake: true, breakout: true, maze: true, "tf-flash": true, "target-ui": true, "material-quiz": true };
 
 const Engine = {
   session: null, controls: null, gameId: null, running: false,
@@ -1637,15 +1922,15 @@ const Engine = {
     const view = $("#view");
     const shell = el("div", { class: "game-shell" });
     const head = el("header", { class: "game-head" });
-    const scorePill = el("span", { class: "pill", style: "display:none" });
+    const scorePill = el("span", { class: "pill score", style: "display:none" });
     scorePill.innerHTML = icon("star");
     const scoreVal = el("b", { text: "0" });
     scorePill.appendChild(scoreVal);
-    const timePill = el("span", { class: "pill", style: "display:none" });
+    const timePill = el("span", { class: "pill time", style: "display:none" });
     timePill.innerHTML = icon("clock");
     const timeVal = el("span", { text: "00:00" });
     timePill.appendChild(timeVal);
-    const extraPill = el("span", { class: "pill", style: "display:none" });
+    const extraPill = el("span", { class: "pill extra", style: "display:none" });
 
     const backBtn = el("button", { class: "head-btn", "aria-label": "Quitter le jeu", onclick: () => Engine.requestExit() }, iconEl("back"));
     head.appendChild(backBtn);
@@ -1660,6 +1945,7 @@ const Engine = {
     shell.appendChild(head);
     shell.appendChild(body);
     view.appendChild(shell);
+    window.scrollTo(0, 0);
 
     const cleanups = [];
     const session = {
@@ -1688,6 +1974,26 @@ const Engine = {
         vibrate(correct ? 12 : [8, 40, 8]);
       },
       onCleanup(fn) { cleanups.push(fn); },
+      onKey(fn) {
+        const handler = e => {
+          const tag = e.target && e.target.tagName;
+          if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || e.ctrlKey || e.metaKey || e.altKey) return;
+          fn(e);
+        };
+        document.addEventListener("keydown", handler);
+        cleanups.push(() => document.removeEventListener("keydown", handler));
+      },
+      onResize(fn) {
+        let raf = null;
+        const handler = () => { if (raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { raf = null; fn(); }); };
+        window.addEventListener("resize", handler);
+        window.addEventListener("orientationchange", handler);
+        cleanups.push(() => {
+          if (raf) cancelAnimationFrame(raf);
+          window.removeEventListener("resize", handler);
+          window.removeEventListener("orientationchange", handler);
+        });
+      },
       finish(result) { Engine.finish(result); }
     };
     Engine.session = session;
@@ -1827,7 +2133,7 @@ function showLevelUp(li, xpGained) {
    WIDGETS COMMUNS AUX JEUX PÉDAGOGIQUES
    ========================================================================= */
 function createFeedback() {
-  const box = el("div", { class: "stack", style: "gap:0" });
+  const box = el("div", { class: "stack", style: "gap:0", role: "status", "aria-live": "polite" });
   box.show = function (type, title, text) {
     clearNode(box);
     box.appendChild(el("div", { class: "feedback " + type }, [
@@ -1842,18 +2148,20 @@ function createFeedback() {
 /* Liste ordonnable : pool -> réponse, avec boutons monter/descendre/retirer. */
 function createOrderList(items, opts) {
   const o = opts || {};
+  const total = items.length;
   const state = { pool: shuffle(items.map((it, i) => ({ id: it.id || "i" + i, text: it.text }))), order: [] };
   const root = el("div", { class: "stack", style: "gap:10px" });
   const poolBox = el("div", { class: "pool", role: "list", "aria-label": "Blocs disponibles" });
   const orderBox = el("div", { class: "order-list", role: "list", "aria-label": "Ta réponse" });
   root.appendChild(poolBox);
   root.appendChild(orderBox);
+  function notify() { if (o.onChange) o.onChange(); }
   function render() {
     clearNode(poolBox); clearNode(orderBox);
     state.pool.forEach(b => {
       poolBox.appendChild(el("button", {
         class: "order-item", style: "width:auto;cursor:pointer", role: "listitem",
-        onclick: () => { state.order.push(b); state.pool = state.pool.filter(x => x !== b); render(); if (o.onChange) o.onChange(); }
+        onclick: () => { state.order.push(b); state.pool = state.pool.filter(x => x !== b); render(); notify(); }
       }, el("span", { class: "txt", text: b.text })));
     });
     if (!state.order.length) orderBox.appendChild(el("p", { class: "meta", text: "Touche les blocs ci-dessus pour les placer ici, puis ajuste l'ordre." }));
@@ -1861,15 +2169,16 @@ function createOrderList(items, opts) {
       orderBox.appendChild(el("div", { class: "order-item", role: "listitem" }, [
         el("span", { class: "meta mono", style: "width:18px", text: String(idx + 1) }),
         el("span", { class: "txt", text: b.text }),
-        el("button", { class: "mini-btn", "aria-label": "Monter", disabled: idx === 0, onclick: () => { const t = state.order[idx - 1]; state.order[idx - 1] = b; state.order[idx] = t; render(); } }, iconEl("arrowUp")),
-        el("button", { class: "mini-btn", "aria-label": "Descendre", disabled: idx === state.order.length - 1, onclick: () => { const t = state.order[idx + 1]; state.order[idx + 1] = b; state.order[idx] = t; render(); } }, iconEl("arrowDown")),
-        el("button", { class: "mini-btn danger", "aria-label": "Retirer", onclick: () => { state.order.splice(idx, 1); state.pool.push(b); render(); if (o.onChange) o.onChange(); } }, iconEl("x"))
+        el("button", { class: "mini-btn", "aria-label": "Monter", disabled: idx === 0, onclick: () => { const t = state.order[idx - 1]; state.order[idx - 1] = b; state.order[idx] = t; render(); notify(); } }, iconEl("arrowUp")),
+        el("button", { class: "mini-btn", "aria-label": "Descendre", disabled: idx === state.order.length - 1, onclick: () => { const t = state.order[idx + 1]; state.order[idx + 1] = b; state.order[idx] = t; render(); notify(); } }, iconEl("arrowDown")),
+        el("button", { class: "mini-btn danger", "aria-label": "Retirer", onclick: () => { state.order.splice(idx, 1); state.pool.push(b); render(); notify(); } }, iconEl("x"))
       ]));
     });
   }
   render();
   return {
-    root, isComplete: () => state.order.length === state.pool.length + state.order.length && state.order.length === items.length,
+    root,
+    isComplete: () => state.order.length === total && state.pool.length === 0,
     getOrder: () => state.order.map(b => b.id),
     reset: (newItems) => {
       const list = newItems || items;
@@ -1909,6 +2218,30 @@ function buildChoices(container, items, onPick, opts) {
       });
     }
   };
+}
+/* Raccourcis clavier communs : 1-6 pour choisir, Entrée pour continuer. */
+function bindChoiceKeys(session, container) {
+  session.onKey(e => {
+    if (!/^[1-9]$/.test(e.key)) return;
+    const btn = $$(".choice", container)[Number(e.key) - 1];
+    if (btn && !btn.disabled) { e.preventDefault(); btn.click(); }
+  });
+}
+function bindEnterNext(session) {
+  session.onKey(e => {
+    if (e.key !== "Enter") return;
+    const btn = $(".game-body .btn-primary");
+    if (btn && !btn.disabled) { e.preventDefault(); btn.click(); }
+  });
+}
+function stepProgress(current, total, variant) {
+  return el("div", { class: "quiz-progress" }, [
+    el("div", { class: "meta" }, [
+      el("span", { text: "Progression" }),
+      el("span", { text: current + "/" + total })
+    ]),
+    progressFill((current / Math.max(1, total)) * 100, variant || "")
+  ]);
 }
 function nextButton(label, onClick) {
   return el("button", { class: "btn btn-primary btn-block", onclick: onClick }, el("span", { text: label || "Continuer" }), iconEl("chevron"));
@@ -2334,6 +2667,7 @@ GAME_FACTORIES["jsx-puzzle"] = function (session) {
   const feedback = createFeedback();
   session.body.appendChild(wrap);
   session.setScore(0);
+  bindEnterNext(session);
 
   function load(i) {
     idx = i; firstTry = true; answered = false;
@@ -2492,10 +2826,18 @@ GAME_FACTORIES["hooks-memory"] = function (session) {
 /* --- A3 : Vrai / Faux éclair --- */
 GAME_FACTORIES["tf-flash"] = function (session) {
   let mode = null, qs = [], idx = 0, correct = 0, countdown = 60, cdId = null, advanceTimer = null, pendingAdvance = false, answered = false, over = false;
+  let currentV = null, currentF = null;
   const wrap = el("div", { class: "stack" });
   const actionBox = el("div");
   const feedback = createFeedback();
   session.body.appendChild(wrap);
+  bindEnterNext(session);
+  session.onKey(e => {
+    if (!mode || over || answered) return;
+    const k = e.key.toLowerCase();
+    if (k === "v" || e.key === "ArrowLeft") { e.preventDefault(); if (currentV) currentV.click(); }
+    else if (k === "f" || e.key === "ArrowRight") { e.preventDefault(); if (currentF) currentF.click(); }
+  });
 
   function stopAllTimers() {
     if (cdId) { clearInterval(cdId); cdId = null; }
@@ -2511,7 +2853,7 @@ GAME_FACTORIES["tf-flash"] = function (session) {
     wrap.appendChild(el("p", { class: "meta", text: "15 affirmations. Dans le mode éclair, la rapidité compte mais chaque explication reste affichée." }));
   }
   function begin(m) {
-    mode = m; qs = shuffle(TF_QUESTIONS); idx = 0; correct = 0; over = false;
+    mode = m; qs = shuffle(TF_QUESTIONS); idx = 0; correct = 0; over = false; countdown = 60; pendingAdvance = false;
     clearNode(wrap);
     wrap.appendChild(feedback);
     wrap.appendChild(actionBox);
@@ -2531,6 +2873,7 @@ GAME_FACTORIES["tf-flash"] = function (session) {
     if (over) return;
     const q = qs[idx];
     clearNode(wrap);
+    wrap.appendChild(stepProgress(idx, qs.length, "react"));
     wrap.appendChild(el("div", { class: "row" }, [
       el("span", { class: "chip", html: icon("list") + "<span>Question " + (idx + 1) + "/" + qs.length + "</span>" }),
       el("span", { class: "grow" }),
@@ -2541,6 +2884,7 @@ GAME_FACTORIES["tf-flash"] = function (session) {
     const duo = el("div", { class: "duo" });
     const btnV = el("button", { class: "btn" }, iconEl("check"), el("span", { text: "Vrai" }));
     const btnF = el("button", { class: "btn" }, iconEl("x"), el("span", { text: "Faux" }));
+    currentV = btnV; currentF = btnF;
     duo.appendChild(btnV); duo.appendChild(btnF);
     wrap.appendChild(duo);
     feedback.clear();
@@ -2568,6 +2912,11 @@ GAME_FACTORIES["tf-flash"] = function (session) {
     }
     btnV.addEventListener("click", () => answer(true));
     btnF.addEventListener("click", () => answer(false));
+    wrap.appendChild(el("div", { class: "key-hint" }, [
+      el("kbd", { text: "V" }), el("span", { text: "vrai" }),
+      el("kbd", { text: "F" }), el("span", { text: "faux" }),
+      el("kbd", { text: "Entrée" }), el("span", { text: "continuer" })
+    ]));
   }
   function next() {
     idx++;
@@ -2618,6 +2967,7 @@ GAME_FACTORIES["pipe-flow"] = function (session) {
   const actionBox = el("div");
   session.body.appendChild(wrap);
   session.setScore(0);
+  bindEnterNext(session);
 
   function clearAnim() { animTimers.forEach(t => clearTimeout(t)); animTimers = []; }
   session.onCleanup(clearAnim);
@@ -2719,6 +3069,8 @@ GAME_FACTORIES["arch-decision"] = function (session) {
   const choicesBox = el("div", { class: "choices" });
   session.body.appendChild(wrap);
   session.setScore(0);
+  bindChoiceKeys(session, choicesBox);
+  bindEnterNext(session);
 
   function load(i) {
     idx = i; answered = false;
@@ -2742,22 +3094,13 @@ GAME_FACTORIES["arch-decision"] = function (session) {
     const scCopy = sc;
     buildChoices(choicesBox, sc.options, (i2, item) => decide(scCopy, i2, item));
     /* balayage facultatif */
-    let sx = 0, sy = 0, tracking = false;
-    function onStart(e) { const t = e.changedTouches ? e.changedTouches[0] : e; sx = t.clientX; sy = t.clientY; tracking = true; }
-    function onEnd(e) {
-      if (!tracking || answered) return;
-      tracking = false;
-      const t = e.changedTouches ? e.changedTouches[0] : e;
-      const dx = t.clientX - sx, dy = t.clientY - sy;
-      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-        const btns = $$(".choice", choicesBox);
-        const target = dx < 0 ? btns[0] : btns[1];
-        if (target && !target.disabled) target.click();
-      }
-    }
-    card.addEventListener("touchstart", onStart, { passive: true });
-    card.addEventListener("touchend", onEnd, { passive: true });
-    session.onCleanup(() => { card.removeEventListener("touchstart", onStart); card.removeEventListener("touchend", onEnd); });
+    const detach = attachSwipe(card, dir => {
+      if (answered || (dir !== "left" && dir !== "right")) return;
+      const btns = $$(".choice", choicesBox);
+      const target = dir === "left" ? btns[0] : btns[1];
+      if (target && !target.disabled) target.click();
+    });
+    session.onCleanup(detach);
   }
   function decide(sc, pickIndex, item) {
     if (answered) return;
@@ -2802,6 +3145,7 @@ GAME_FACTORIES["mvc-sort"] = function (session) {
   const actionBox = el("div");
   session.body.appendChild(wrap);
   session.setScore(0);
+  bindEnterNext(session);
 
   function load(i) {
     idx = i; selected = null; validated = false; firstTry = true; answered = false; lockedItems = {};
@@ -2854,6 +3198,10 @@ GAME_FACTORIES["mvc-sort"] = function (session) {
   }
   function validate(rd, grid) {
     const items = $$(".class-item", grid);
+    if (items.length !== rd.items.length) {
+      feedback.show("info", "Classement incomplet", "<p>Place les " + rd.items.length + " éléments dans les zones avant de valider.</p>");
+      return;
+    }
     let allCorrect = true;
     if (!answered) {
       allCorrect = items.every(b => {
@@ -2889,13 +3237,13 @@ GAME_FACTORIES["mvc-sort"] = function (session) {
         } else load(idx + 1);
       }));
     } else {
+      validated = false;
       items.forEach(b => {
         if (b.classList.contains("bad")) { b.classList.remove("bad"); wrap._pool.appendChild(b); }
         else lockedItems[b.dataset.id] = true;
       });
-      feedback.show("ko", wrongCount + " élément(s) à corriger", "<p>Les éléments justes sont verrouillés. Replace les autres dans la bonne zone, puis revérifie.</p>");
-      clearNode(actionBox);
-      actionBox.appendChild(el("button", { class: "btn btn-primary btn-block", onclick: () => { feedback.clear(); wrap._validateBtn.disabled = false; } }, iconEl("rotate"), el("span", { text: "Corriger" })));
+      if (wrap._validateBtn) wrap._validateBtn.disabled = true;
+      feedback.show("ko", wrongCount + " élément(s) à corriger", "<p>Les éléments justes sont verrouillés. Touche un élément de la liste puis la bonne zone, et revérifie.</p>");
     }
   }
   return { start: () => load(0), pause() { }, resume() { }, destroy() { } };
@@ -2912,6 +3260,8 @@ GAME_FACTORIES["api-flow"] = function (session) {
   const choicesBox = el("div", { class: "choices" });
   session.body.appendChild(wrap);
   session.setScore(0);
+  bindChoiceKeys(session, choicesBox);
+  bindEnterNext(session);
 
   function load(i) {
     idx = i; answered = false;
@@ -3080,6 +3430,86 @@ const WIDGET_TREE_ROUNDS = [
     variants: [["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8"]],
     tree: ["Stack", "  Image.network", "  Positioned", "    Badge"],
     explanation: "Stack superpose ses enfants ; Positioned place un enfant précis (right/top/left/bottom) dans la Stack. Sans Positioned, l'enfant prend toute la Stack. Attention : Image.network déclenche un appel réseau, ce qui suppose une gestion d'erreur de chargement."
+  },
+  {
+    id: "wt6", title: "MaterialApp configuré (cours)",
+    instruction: "Assemble une application complète : titre, thème, suppression du bandeau DEBUG et écran d'accueil.",
+    blocks: [
+      { id: "b1", text: "MaterialApp(" },
+      { id: "b2", text: "title: 'Ma Super App'," },
+      { id: "b3", text: "debugShowCheckedModeBanner: false," },
+      { id: "b4", text: "theme: ThemeData(primarySwatch: Colors.green)," },
+      { id: "b5", text: "home: Scaffold(" },
+      { id: "b6", text: "appBar: AppBar(title: Text('Accueil'))," },
+      { id: "b7", text: "body: Center(child: Text('Salut !'))," },
+      { id: "b8", text: ")," },
+      { id: "b9", text: ")" }
+    ],
+    variants: [["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9"]],
+    tree: ["MaterialApp", "  Scaffold", "    AppBar", "      Text('Accueil')", "    Center", "      Text('Salut !')"],
+    explanation: "MaterialApp est la racine : title, debugShowCheckedModeBanner et theme configurent toute l'app. home reçoit le premier écran, ici un Scaffold avec AppBar et body. Sans MaterialApp, Scaffold ne trouve pas d'ancêtre Material."
+  },
+  {
+    id: "wt7", title: "Drawer et menu latéral (cours)",
+    instruction: "Ajoute un menu latéral avec un en-tête et une entrée Accueil.",
+    blocks: [
+      { id: "b1", text: "Scaffold(" },
+      { id: "b2", text: "drawer: Drawer(" },
+      { id: "b3", text: "child: ListView(" },
+      { id: "b4", text: "padding: EdgeInsets.zero," },
+      { id: "b5", text: "children: [" },
+      { id: "b6", text: "DrawerHeader(child: Text('Profil'))," },
+      { id: "b7", text: "ListTile(leading: Icon(Icons.home), title: Text('Accueil'))," },
+      { id: "b8", text: "]," },
+      { id: "b9", text: ")," },
+      { id: "b10", text: ")," },
+      { id: "b11", text: "body: Center(child: Text('Contenu'))," },
+      { id: "b12", text: ")" }
+    ],
+    variants: [["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "b11", "b12"]],
+    tree: ["Scaffold", "  Drawer", "    ListView", "      DrawerHeader", "      ListTile", "  Center", "    Text('Contenu')"],
+    explanation: "Le paramètre drawer crée automatiquement l'icône ☰. La ListView du Drawer reçoit padding: EdgeInsets.zero pour que le DrawerHeader touche les bords. DrawerHeader et ListTile composent le menu ; body reste le contenu principal."
+  },
+  {
+    id: "wt8", title: "Conversation WhatsApp (cours)",
+    instruction: "Assemble une ligne de conversation : avatar, nom, dernier message et heure.",
+    blocks: [
+      { id: "b1", text: "Scaffold(" },
+      { id: "b2", text: "body: ListView(" },
+      { id: "b3", text: "children: [" },
+      { id: "b4", text: "ListTile(" },
+      { id: "b5", text: "leading: CircleAvatar(child: Text('A'))," },
+      { id: "b6", text: "title: Text('Aïcha')," },
+      { id: "b7", text: "subtitle: Text('Salut !')," },
+      { id: "b8", text: "trailing: Text('12:30')," },
+      { id: "b9", text: ")," },
+      { id: "b10", text: "]," },
+      { id: "b11", text: ")," },
+      { id: "b12", text: ")" }
+    ],
+    variants: [["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "b11", "b12"]],
+    tree: ["Scaffold", "  ListView", "    ListTile", "      CircleAvatar", "      Text('Aïcha')", "      Text('Salut !')", "      Text('12:30')"],
+    explanation: "ListTile structure une ligne Material : leading à gauche, title et subtitle empilés, trailing à droite. CircleAvatar affiche l'initiale dans un cercle coloré. ListView est le conteneur défilant, bien plus adapté qu'une Column pour une liste de conversations."
+  },
+  {
+    id: "wt9", title: "Barre d'onglets (cours)",
+    instruction: "Ajoute une BottomNavigationBar à deux onglets sous le contenu.",
+    blocks: [
+      { id: "b1", text: "Scaffold(" },
+      { id: "b2", text: "body: Center(child: Text('Onglet actif'))," },
+      { id: "b3", text: "bottomNavigationBar: BottomNavigationBar(" },
+      { id: "b4", text: "currentIndex: _index," },
+      { id: "b5", text: "onTap: (i) => setState(() => _index = i)," },
+      { id: "b6", text: "items: const [" },
+      { id: "b7", text: "BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil')," },
+      { id: "b8", text: "BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil')," },
+      { id: "b9", text: "]," },
+      { id: "b10", text: ")," },
+      { id: "b11", text: ")" }
+    ],
+    variants: [["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "b11"]],
+    tree: ["Scaffold", "  Center", "    Text('Onglet actif')", "  BottomNavigationBar", "    BottomNavigationBarItem", "    BottomNavigationBarItem"],
+    explanation: "BottomNavigationBar se place dans bottomNavigationBar. currentIndex indique l'onglet actif et onTap le met à jour avec setState : le body peut alors afficher la page correspondante. Le type fixed affiche tous les onglets, shifting met l'actif en avant."
   }
 ];
 
@@ -3158,6 +3588,30 @@ const BALANCE_SCENARIOS = [
     ],
     correct: "split",
     e: "À mesure que l'application grandit, on sépare : Widgets d'affichage, gestion d'état, repository et service. StatefulWidget ne doit pas devenir le lieu unique de l'état d'une application — c'est un outil local, pas une architecture."
+  },
+  {
+    id: "bs9", scenario: "Un écran de connexion garde l'email, le mot de passe et l'état « bouton activé » tant que l'utilisateur remplit le formulaire.",
+    options: [{ id: "stateful", label: "StatefulWidget avec setState" }, { id: "stateless", label: "StatelessWidget" }, { id: "global", label: "Provider global pour deux champs" }],
+    correct: "stateful",
+    e: "Les TextEditingController et l'état de validation vivent le temps de l'écran : StatefulWidget (ou un contrôleur local dédié) est le bon outil. Un Provider global exposerait le mot de passe à toute l'application."
+  },
+  {
+    id: "bs10", scenario: "Une BottomNavigationBar doit changer la page affichée quand on touche un onglet.",
+    options: [{ id: "stateful", label: "StatefulWidget avec _index et setState" }, { id: "stateless", label: "StatelessWidget" }, { id: "external", label: "Un MaterialApp par onglet" }],
+    correct: "stateful",
+    e: "L'index de l'onglet est un état local de l'écran : currentIndex: _index, onTap: (i) => setState(() => _index = i), body: _pages[_index]. Un MaterialApp par onglet multiplierait les racines et casserait la navigation."
+  },
+  {
+    id: "bs11", scenario: "Le thème clair/sombre doit être partagé par toute l'application et changer instantanément.",
+    options: [{ id: "external", label: "ValueNotifier/Provider + MaterialApp.themeMode" }, { id: "stateful", label: "StatefulWidget local dans chaque écran" }, { id: "stateless", label: "StatelessWidget avec une couleur fixe" }],
+    correct: "external",
+    e: "themeMode est lu par MaterialApp, à la racine : l'état du thème doit donc être au-dessus de MaterialApp (ValueNotifier, Provider, Riverpod…). Dupliquer un StatefulWidget par écran donnerait des thèmes incohérents."
+  },
+  {
+    id: "bs12", scenario: "Une ligne de conversation reçoit le nom, l'avatar, le dernier message et l'heure, puis les affiche.",
+    options: [{ id: "stateless", label: "StatelessWidget (ListTile)" }, { id: "stateful", label: "StatefulWidget avec setState" }, { id: "external", label: "Bloc dédié par ligne" }],
+    correct: "stateless",
+    e: "La ligne est un rendu déterministe de ses paramètres : StatelessWidget. ListTile fournit déjà le clic, le ripple et la structure leading/title/subtitle/trailing. L'état de la conversation vit plus haut, pas dans la ligne."
   }
 ];
 
@@ -3176,7 +3630,25 @@ const TARGET_PROMPTS = [
   { id: "tp11", q: "Afficher une chaîne de caractères", options: ["Text", "Label", "Paragraph", "StringWidget"], correct: "Text", e: "Text('…') affiche du texte ; les propriétés style, maxLines et overflow contrèlent la mise en forme." },
   { id: "tp12", q: "Éviter l'encoche et la barre de statut", options: ["SafeArea", "Padding", "MediaQuery", "Overlay"], correct: "SafeArea", e: "SafeArea injecte une marge adaptée aux zones système du téléphone (encoche, home indicator)." },
   { id: "tp13", q: "Bouton Material avec élévation", options: ["ElevatedButton", "FlatButton", "RawButton", "InkBox"], correct: "ElevatedButton", e: "ElevatedButton est le bouton Material « surélevé » ; TextButton est plat, OutlinedButton a un contour." },
-  { id: "tp14", q: "Afficher une image depuis le réseau", options: ["Image.network", "NetworkImage", "Img.web", "CachedAsset"], correct: "Image.network", e: "Image.network(url) déclenche un chargement réseau — pense à prévoir un placeholder et une gestion d'erreur." }
+  { id: "tp14", q: "Afficher une image depuis le réseau", options: ["Image.network", "NetworkImage", "Img.web", "CachedAsset"], correct: "Image.network", e: "Image.network(url) déclenche un chargement réseau — pense à prévoir un placeholder et une gestion d'erreur." },
+  { id: "tp15", q: "Configurer le thème et la navigation de toute l'application", options: ["MaterialApp", "Scaffold", "AppBar", "Drawer"], correct: "MaterialApp", e: "MaterialApp est la racine : thème, routes, locale et titre. Scaffold structure seulement un écran." },
+  { id: "tp16", q: "Supprimer le ruban rouge DEBUG", options: ["debugShowCheckedModeBanner: false", "banner: false", "debug: false", "showDebug: false"], correct: "debugShowCheckedModeBanner: false", e: "C'est le nom exact du paramètre de MaterialApp. À ajouter avant de présenter une app." },
+  { id: "tp17", q: "Définir l'écran affiché au démarrage", options: ["home", "theme", "title", "builder"], correct: "home", e: "home: reçoit le premier écran (souvent un Scaffold). On peut aussi utiliser initialRoute: avec routes:." },
+  { id: "tp18", q: "Déclarer une table de routes nommées", options: ["routes", "paths", "pages", "screens"], correct: "routes", e: "routes: { '/': (context) => PageAccueil(), '/deux': ... } associe un nom à un builder. Navigator.pushNamed(context, '/deux') ouvre la route." },
+  { id: "tp19", q: "Suivre le thème clair/sombre du système", options: ["themeMode: ThemeMode.system", "theme: ThemeMode.system", "darkTheme: true", "brightness: auto"], correct: "themeMode: ThemeMode.system", e: "MaterialApp combine theme (clair), darkTheme (sombre) et themeMode (light/dark/system)." },
+  { id: "tp20", q: "Ajouter des icônes d'action à droite de l'AppBar", options: ["actions", "trailing", "leading", "menu"], correct: "actions", e: "actions: [IconButton(...), IconButton(...)] aligne des actions à droite. leading occupe la place de gauche." },
+  { id: "tp21", q: "Afficher un menu qui glisse depuis la gauche", options: ["drawer", "endDrawer", "bottomSheet", "navigationRail"], correct: "drawer", e: "Le paramètre drawer de Scaffold affiche le menu latéral gauche et crée l'icône ☰. endDrawer ouvre depuis la droite." },
+  { id: "tp22", q: "Afficher le bouton rond flottant d'un Scaffold", options: ["floatingActionButton", "floatingButton", "actionButton", "fab"], correct: "floatingActionButton", e: "floatingActionButton reçoit un FloatingActionButton. floatingActionButtonLocation contrôle sa position." },
+  { id: "tp23", q: "Afficher une barre d'onglets en bas de l'écran", options: ["bottomNavigationBar", "bottomBar", "tabBar", "navigationBar"], correct: "bottomNavigationBar", e: "C'est un paramètre de Scaffold qui reçoit une BottomNavigationBar ou une NavigationBar Material 3." },
+  { id: "tp24", q: "Désigner la zone de contenu principal d'un Scaffold", options: ["body", "child", "content", "home"], correct: "body", e: "body reçoit le widget principal de l'écran, sous l'AppBar et au-dessus de la BottomNavigationBar." },
+  { id: "tp25", q: "Afficher le dernier message sous le nom dans un ListTile", options: ["subtitle", "title", "trailing", "leading"], correct: "subtitle", e: "title = nom, subtitle = texte secondaire, leading = avatar à gauche, trailing = heure ou icône à droite." },
+  { id: "tp26", q: "Afficher une initiale dans un rond coloré", options: ["CircleAvatar", "RoundBox", "AvatarTile", "ContainerCircle"], correct: "CircleAvatar", e: "CircleAvatar(backgroundColor:, child: Text('A')) est le widget Material prévu pour un avatar rond." },
+  { id: "tp27", q: "Répartir les enfants sur l'axe principal d'une Column", options: ["mainAxisAlignment", "crossAxisAlignment", "alignment", "axis"], correct: "mainAxisAlignment", e: "mainAxisAlignment répartit sur l'axe principal (vertical pour Column), crossAxisAlignment aligne sur l'axe transversal (horizontal)." },
+  { id: "tp28", q: "Ouvrir un écran par son nom", options: ["Navigator.pushNamed(context, '/deux')", "Navigator.open('/deux')", "MaterialApp.go('/deux')", "Scaffold.push('/deux')"], correct: "Navigator.pushNamed(context, '/deux')", e: "Il faut avoir déclaré '/deux' dans routes:. Pour un écran construit à la volée, on utilise Navigator.push + MaterialPageRoute." },
+  { id: "tp29", q: "Changer la couleur de fond globale et le thème sombre", options: ["theme + darkTheme + themeMode", "color + darkColor", "backgroundColor + brightness", "scaffoldColor + mode"], correct: "theme + darkTheme + themeMode", e: "ThemeData porte les couleurs et styles Material. MaterialApp choisit le thème actif via themeMode." },
+  { id: "tp30", q: "Créer l'en-tête coloré du menu latéral", options: ["DrawerHeader", "AppBar", "ListTileHeader", "DrawerTitle"], correct: "DrawerHeader", e: "DrawerHeader se place en premier dans la ListView du Drawer. Pense à padding: EdgeInsets.zero sur la ListView." },
+  { id: "tp31", q: "Écrire la couleur verte WhatsApp #075E54", options: ["Color(0xFF075E54)", "Color(#075E54)", "Colors.hex(075E54)", "Color(075E54)"], correct: "Color(0xFF075E54)", e: "Le format ARGB hexadécimal est 0xAARRGGBB : 0xFF signifie opaque à 100 %." },
+  { id: "tp32", q: "Construire une longue liste de conversations efficacement", options: ["ListView.builder", "Column dans un SingleChildScrollView", "Row", "Stack"], correct: "ListView.builder", e: "ListView.builder ne construit que les éléments visibles (itemBuilder). Pour de longues listes, c'est la solution performante." }
 ];
 
 /* --- B1. Circuit de données Flutter --- */
@@ -3222,6 +3694,27 @@ const FLOW_SCENARIOS_FLUTTER = [
     path: ["app", "prov", "svc", "repo"],
     values: { app: "configure Dio", prov: "expose l'instance", svc: "encapsule les appels", repo: "consomme le service" },
     explanation: "Injection de dépendances : l'instance est fournie en haut de l'arbre, les couches inférieures la reçoivent. Tester un repository devient simple — on fournit un fake service."
+  },
+  {
+    id: "ff7", token: "démarrage de l'app", goal: "Suis le démarrage d'une application Flutter, de main() jusqu'au premier écran.",
+    nodes: [{ id: "run", label: "main() → runApp()", level: 0 }, { id: "app", label: "MaterialApp (racine)", level: 1 }, { id: "home", label: "home: PageAccueil", level: 2 }, { id: "scaffold", label: "Scaffold", level: 3 }, { id: "screen", label: "AppBar + body affichés", level: 4 }],
+    path: ["run", "app", "home", "scaffold", "screen"],
+    values: { run: "point d'entrée", app: "configure thème/routes", home: "choisit l'écran", scaffold: "structure l'écran", screen: "premier rendu" },
+    explanation: "runApp reçoit un seul widget, presque toujours MaterialApp. MaterialApp installe le thème, la navigation et la localisation, puis affiche home. Le Scaffold de cet écran fournit AppBar et body. C'est le point de départ de tous les projets du cours."
+  },
+  {
+    id: "ff8", token: "navigation WhatsApp", goal: "Depuis la liste des discussions, ouvre la conversation de Aïcha.",
+    nodes: [{ id: "tap", label: "Tap sur le ListTile", level: 0 }, { id: "push", label: "Navigator.push", level: 1 }, { id: "route", label: "MaterialPageRoute", level: 2 }, { id: "page", label: "ChatPage(nom: 'Aïcha')", level: 3 }, { id: "ui", label: "AppBar retour + messages", level: 4 }],
+    path: ["tap", "push", "route", "page", "ui"],
+    values: { tap: "onTap du ListTile", push: "empile un écran", route: "construit la page", page: "reçoit le nom", ui: "flèche retour automatique" },
+    explanation: "Le ListTile déclenche onTap → Navigator.push → MaterialPageRoute construit ChatPage avec le nom du contact. L'AppBar de la nouvelle page affiche automatiquement la flèche retour. C'est exactement le TP WhatsApp du cours."
+  },
+  {
+    id: "ff9", token: "changement de thème", goal: "Un interrupteur bascule l'application en mode sombre.",
+    nodes: [{ id: "switch", label: "Switch (onChanged)", level: 0 }, { id: "state", label: "setState / ValueNotifier", level: 1 }, { id: "app", label: "MaterialApp.themeMode", level: 2 }, { id: "rebuild", label: "Reconstruction des Widgets", level: 3 }, { id: "theme", label: "ThemeData sombre appliqué", level: 4 }],
+    path: ["switch", "state", "app", "rebuild", "theme"],
+    values: { switch: "intention utilisateur", state: "nouvelle valeur", app: "themeMode relu", rebuild: "dépendants du thème", theme: "couleurs mises à jour" },
+    explanation: "Le thème est un état global lu par MaterialApp. Quand themeMode change, MaterialApp reconstruit ses descendants avec darkTheme. Les Widgets qui utilisent Theme.of(context) adoptent automatiquement les nouvelles couleurs."
   }
 ];
 
@@ -3326,6 +3819,46 @@ const FLUTTER_DECISIONS = [
     ],
     explanation: "Le repository choisit la source : cache local d'abord, réseau ensuite, avec resynchronisation. L'UI ne change pas : elle consomme un état. C'est exactement le rôle d'une couche repository bien placée.",
     feedback: { cache: "Mode hors ligne transparent et testable.", net: "Application inutilisable sans réseau.", memory: "Disparaît au redémarrage de l'app." }
+  },
+  {
+    id: "fd11", scenario: "Où placer le Scaffold d'un écran de l'application ?",
+    options: [
+      { id: "screen", label: "Un Scaffold par écran, sous le MaterialApp", verdict: "good" },
+      { id: "root", label: "Un seul Scaffold global autour de MaterialApp", verdict: "bad" },
+      { id: "widget", label: "Un Scaffold dans chaque petit widget de la page", verdict: "bad" }
+    ],
+    explanation: "MaterialApp est la racine ; chaque écran possède son propre Scaffold avec ses zones (appBar, body, FAB…). Un Scaffold global empêche chaque page d'avoir sa propre AppBar et complique la navigation.",
+    feedback: { screen: "Chaque écran maîtrise sa structure.", root: "MaterialApp doit rester au-dessus de Scaffold.", widget: "Trop de barres et de FAB imbriqués." }
+  },
+  {
+    id: "fd12", scenario: "Combien de MaterialApp déclarer dans l'application ?",
+    options: [
+      { id: "one", label: "Un seul, à la racine de l'application", verdict: "good" },
+      { id: "each", label: "Un par écran pour isoler les thèmes", verdict: "bad" },
+      { id: "tab", label: "Un par onglet de la BottomNavigationBar", verdict: "bad" }
+    ],
+    explanation: "MaterialApp fournit LE Navigator, LE thème et LA localisation de l'application. En créer plusieurs casse la navigation, duplique les thèmes et multiplie les racines. Pour un sous-arbre, on utilise Material ou Theme.",
+    feedback: { one: "Une navigation et un thème uniques.", each: "Navigateurs concurrents et incohérence visuelle.", tab: "Chaque onglet perd l'état des autres." }
+  },
+  {
+    id: "fd13", scenario: "Comment gérer l'onglet actif d'une BottomNavigationBar ?",
+    options: [
+      { id: "index", label: "currentIndex + onTap avec setState, body: _pages[_index]", verdict: "good" },
+      { id: "material", label: "Un MaterialApp différent par onglet", verdict: "bad" },
+      { id: "static", label: "currentIndex fixé à 0 et ignorer onTap", verdict: "bad" }
+    ],
+    explanation: "L'index actif est un état local : currentIndex: _index, onTap: (i) => setState(() => _index = i), body: _pages[_index]. C'est le schéma du cours et il fonctionne avec un seul MaterialApp.",
+    feedback: { index: "Simple, réactif et testable.", material: "Casse la navigation globale.", static: "L'onglet ne change jamais." }
+  },
+  {
+    id: "fd14", scenario: "Où configurer le titre de l'application et la table des routes ?",
+    options: [
+      { id: "app", label: "Dans MaterialApp (title, routes, initialRoute)", verdict: "good" },
+      { id: "scaffold", label: "Dans chaque Scaffold", verdict: "bad" },
+      { id: "appbar", label: "Dans le title de chaque AppBar", verdict: "ok" }
+    ],
+    explanation: "title, routes et initialRoute sont des paramètres de MaterialApp : ce sont des préoccupations globales. Le title d'une AppBar est le titre visuel de l'écran, pas le nom de l'application. Les deux peuvent coexister.",
+    feedback: { app: "Configuration globale au bon endroit.", scaffold: "Scaffold n'a pas de table de routes.", appbar: "Titre d'écran ≠ configuration de l'app." }
   }
 ];
 
@@ -3371,6 +3904,20 @@ const JSON_ROUNDS = [
     ],
     variants: [["s1", "s2", "s3", "s4", "s5"]],
     explanation: "En Dart, une clé absente lue dans une Map renvoie null (Map<String, dynamic>). L'opérateur ?? fournit une valeur par défaut, et le null safety (String?) force à traiter le cas. Une valeur absente et une valeur null explicite peuvent être distinguées avec map.containsKey('avatar')."
+  },
+  {
+    id: "jr4", type: "order", title: "Liste JSON → List<User>",
+    instruction: "Ordonne la conversion d'un tableau JSON en liste d'objets Dart.",
+    steps: [
+      { id: "s1", text: "Réponse : un tableau JSON [ {...}, {...} ]" },
+      { id: "s2", text: "jsonDecode(corps) → List<dynamic>" },
+      { id: "s3", text: "Parcours de chaque élément Map<String, dynamic>" },
+      { id: "s4", text: "User.fromJson(element) pour chaque entrée" },
+      { id: "s5", text: "List<User> typée et filtrée (nulls écartés)" },
+      { id: "s6", text: "Affichage avec ListView.builder" }
+    ],
+    variants: [["s1", "s2", "s3", "s4", "s5", "s6"]],
+    explanation: "Un tableau JSON devient une List<dynamic>. On applique User.fromJson à chaque Map, puis on obtient une List<User> grâce à .map(...).toList(). ListView.builder affiche ensuite chaque ligne avec ListTile : le duo du cours listes + JSON."
   }
 ];
 const JSON_MAPPING = [
@@ -3379,7 +3926,9 @@ const JSON_MAPPING = [
   { id: "jm3", json: '{ "score": 9.5 }', prop: "final double score;", question: "Le serveur envoie 9.5, tu attends un double :", options: ["(map['score'] as num).toDouble()", "map['score'] as int", "double.parse(map)"], correct: 0, e: "num englobe int et double en Dart : as num puis toDouble() absorbe un 9 entier comme un 9.5. Un as double direct échoue sur un entier." },
   { id: "jm4", json: '{ "active": true }', prop: "final bool isActive;", question: "Lecture du booléen :", options: ["map['active'] as bool? ?? false", "map['active'] == 1", "bool.parse(map['active'])"], correct: 0, e: "as bool? ?? false combine null-safety et valeur par défaut. Attention : certains backends envoient 0/1 au lieu de true/false — auquel cas il faut convertir." },
   { id: "jm5", json: '{ "tags": ["dart", "flutter"] }', prop: "final List<String> tags;", question: "Parsing de la liste :", options: ["List<String>.from(map['tags'] ?? [])", "map['tags'] as String", "List.parse(map['tags'])"], correct: 0, e: "jsonDecode produit List<dynamic> : List<String>.from convertit chaque élément en String. Sans ?? [], une clé absente ferait échouer le cast." },
-  { id: "jm6", json: '{ "profile": { "city": "Dakar" } }', prop: "final Profile profile;", question: "Objet imbriqué :", options: ["Profile.fromJson(map['profile'] as Map<String, dynamic>)", "Profile(map['profile'])", "map['profile'] as Profile"], correct: 0, e: "Un objet imbriqué est une Map : on la passe à fromJson de la classe Profile. On ne peut pas caster directement en typed object — la sérialisation doit rester explicite." }
+  { id: "jm6", json: '{ "profile": { "city": "Dakar" } }', prop: "final Profile profile;", question: "Objet imbriqué :", options: ["Profile.fromJson(map['profile'] as Map<String, dynamic>)", "Profile(map['profile'])", "map['profile'] as Profile"], correct: 0, e: "Un objet imbriqué est une Map : on la passe à fromJson de la classe Profile. On ne peut pas caster directement en typed object — la sérialisation doit rester explicite." },
+  { id: "jm7", json: '{ "users": [ { "id": 1 }, { "id": 2 } ] }', prop: "final List<User> users;", question: "Parser la liste imbriquée :", options: ["(map['users'] as List).map((e) => User.fromJson(e as Map<String, dynamic>)).toList()", "map['users'] as List<User>", "User.fromJson(map['users'])", "List<String>.from(map['users'])"], correct: 0, e: "jsonDecode donne List<dynamic> : il faut convertir chaque Map en User, puis toList(). Un cast direct List<User> échoue car les éléments sont des Map<String, dynamic>." },
+  { id: "jm8", json: '{ "bio": null }', prop: "final String? bio;", question: "Un champ volontairement nullable :", options: ["map['bio'] as String?", "map['bio'] as String", "map['bio'] ?? 0", "String.fromJson(map['bio'])"], correct: 0, e: "Le null safety de Dart impose String? pour accepter null. ?? '' fournit une chaîne vide, mais une bio absente et une bio vide ont parfois un sens différent." }
 ];
 
 /* --- C2. Tri & rangement : architecture Flutter --- */
@@ -3425,9 +3974,440 @@ const FLUTTER_ARCH_ROUNDS = [
   }
 ];
 
+/* --- Cours de référence : synthèse du support PDF --- */
+const COURSE_SECTIONS = [
+  {
+    id: "materialapp", title: "MaterialApp : le widget racine", icon: "phone", open: true,
+    summary: "Un seul MaterialApp par application. Il fournit le thème, la navigation, la langue et le titre.",
+    points: [
+      "`home:` affiche le premier écran ; `initialRoute:` + `routes:` permettent la navigation par nom.",
+      "`theme:` = thème clair, `darkTheme:` = thème sombre, `themeMode:` choisit light / dark / system.",
+      "`debugShowCheckedModeBanner: false` supprime le ruban rouge « DEBUG ».",
+      "`title:` est le nom affiché dans le multitâche, pas dans l'interface.",
+      "Un seul MaterialApp à la racine : pour un sous-arbre, utilise Material ou Theme.",
+      "Sans MaterialApp, Scaffold et les widgets Material ne trouvent pas leur ancêtre : erreur « No Material widget found »."
+    ],
+    code: "MaterialApp(\n  title: 'Ma Super App',\n  debugShowCheckedModeBanner: false,\n  theme: ThemeData(primarySwatch: Colors.green),\n  darkTheme: ThemeData(brightness: Brightness.dark),\n  themeMode: ThemeMode.system,\n  home: const PageAccueil(),\n)",
+    tip: "MaterialApp = le bâtiment et son règlement. Scaffold = une pièce de ce bâtiment."
+  },
+  {
+    id: "scaffold", title: "Scaffold : la structure d'un écran", icon: "layers",
+    summary: "Chaque écran possède son Scaffold. Tu remplis seulement les zones dont tu as besoin.",
+    points: [
+      "5 zones principales : `appBar`, `body`, `drawer`, `floatingActionButton`, `bottomNavigationBar`.",
+      "`endDrawer` ouvre un menu depuis la droite ; `bottomSheet` affiche une feuille en bas.",
+      "Fournir un `drawer` crée automatiquement l'icône ☰ dans l'AppBar.",
+      "`resizeToAvoidBottomInset: true` (par défaut) remonte le body quand le clavier apparaît.",
+      "Pour un contenu long ou un formulaire, enveloppe le body dans `SingleChildScrollView` ou une ListView.",
+      "Scaffold doit toujours être au-dessous d'un MaterialApp."
+    ],
+    code: "Scaffold(\n  appBar: AppBar(title: const Text('Mon écran')),\n  drawer: Drawer(child: ListView(children: const [\n    DrawerHeader(child: Text('Menu')),\n    ListTile(leading: Icon(Icons.home), title: Text('Accueil')),\n  ])),\n  body: const Center(child: Text('Bonjour !')),\n  floatingActionButton: FloatingActionButton(\n    onPressed: () {},\n    child: const Icon(Icons.add),\n  ),\n  bottomNavigationBar: BottomNavigationBar(items: const [\n    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),\n    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),\n  ]),\n)",
+    tip: "Confusion classique : MaterialApp = configuration globale ; Scaffold = structure d'un écran."
+  },
+  {
+    id: "appbar", title: "AppBar : titre et actions", icon: "menu",
+    summary: "La barre du haut : titre, flèche retour automatique et icônes d'action.",
+    points: [
+      "`title:` reçoit un widget, le plus souvent un `Text`.",
+      "`actions:` est une liste de widgets alignés à droite (icônes, boutons).",
+      "`leading:` remplace le widget de gauche ; sans lui, la flèche retour apparaît automatiquement après un Navigator.push.",
+      "`backgroundColor:`, `elevation: 0` et `centerTitle:` contrôlent l'apparence.",
+      "Utilise un `IconButton` avec `tooltip:` pour rendre une action accessible."
+    ],
+    code: "AppBar(\n  title: const Text('WhatsApp', style: TextStyle(fontWeight: FontWeight.bold)),\n  backgroundColor: const Color(0xFF075E54),\n  elevation: 0,\n  actions: const [\n    IconButton(onPressed: null, icon: Icon(Icons.search)),\n    IconButton(onPressed: null, icon: Icon(Icons.more_vert)),\n  ],\n)"
+  },
+  {
+    id: "container", title: "Container, couleurs et décoration", icon: "palette",
+    summary: "Container combine taille, espacement, alignement et décoration.",
+    points: [
+      "`padding:` espace intérieur ; `margin:` espace extérieur.",
+      "`color:` ne peut pas coexister avec `decoration:` : mets la couleur dans `BoxDecoration`.",
+      "`borderRadius: BorderRadius.circular(16)` arrondit les angles dans la décoration.",
+      "`boxShadow:` crée une ombre de carte Material ; `gradient: LinearGradient(...)` crée un dégradé.",
+      "`shape: BoxShape.circle` est incompatible avec `borderRadius`.",
+      "Une couleur s'écrit `Color(0xFF075E54)` : 0xFF est l'alpha à 100 %."
+    ],
+    code: "Container(\n  padding: const EdgeInsets.all(16),\n  decoration: BoxDecoration(\n    color: Colors.white,\n    borderRadius: BorderRadius.circular(16),\n    boxShadow: const [BoxShadow(blurRadius: 12, color: Colors.black12)],\n  ),\n  child: const Text('Une carte Material'),\n)"
+  },
+  {
+    id: "layout", title: "Row, Column, Expanded & Flexible", icon: "network",
+    summary: "Les layouts de base : empiler, aligner et partager l'espace disponible.",
+    points: [
+      "`Row` aligne horizontalement, `Column` verticalement.",
+      "`mainAxisAlignment` gère l'axe principal, `crossAxisAlignment` l'axe transversal.",
+      "`Expanded` prend tout l'espace restant ; `Flexible` laisse la place au contenu.",
+      "`Spacer()` pousse les éléments aux extrémités ; `SizedBox(width: 12)` crée un espace fixe.",
+      "Une Column ne défile pas : pour un contenu long, utilise ListView ou SingleChildScrollView.",
+      "Un enfant de Row/Column doit être contraint (Expanded, Flexible…) pour éviter les débordements de texte."
+    ],
+    code: "Row(\n  children: [\n    const CircleAvatar(radius: 24, child: Text('A')),\n    const SizedBox(width: 12),\n    Expanded(\n      child: Text('Aïcha', overflow: TextOverflow.ellipsis),\n    ),\n    const Icon(Icons.chevron_right),\n  ],\n)",
+    tip: "Le triangle jaune « overflow » vient presque toujours d'un texte dans une Row sans Expanded."
+  },
+  {
+    id: "spacing", title: "Padding, SizedBox, Align & Center", icon: "grid",
+    summary: "Les petits widgets utilitaires qui règlent les espacements et l'alignement.",
+    points: [
+      "`Padding(padding: EdgeInsets.all(16))` ajoute de l'espace autour de son enfant.",
+      "Variantes : `EdgeInsets.symmetric(horizontal:, vertical:)`, `.only(left:)`, `.fromLTRB(...)`.",
+      "`SizedBox(width: 12, height: 8)` réserve une taille fixe ou un espace vide.",
+      "`Center` centre dans l'espace disponible ; `Align(alignment: Alignment.bottomRight)` place précisément.",
+      "`SafeArea` évite l'encoche et la barre de statut.",
+      "Empiler des Padding est souvent moins lisible qu'un seul Padding avec les bonnes valeurs."
+    ],
+    code: "SafeArea(\n  child: Padding(\n    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),\n    child: Column(\n      children: const [\n        Text('Titre'),\n        SizedBox(height: 8),\n        Text('Sous-titre'),\n      ],\n    ),\n  ),\n)"
+  },
+  {
+    id: "text-buttons", title: "Text, styles et boutons", icon: "type",
+    summary: "Afficher du texte lisible et choisir le bon bouton selon l'action.",
+    points: [
+      "`TextStyle` : `fontSize`, `fontWeight`, `color`, `letterSpacing`.",
+      "`textAlign`, `maxLines` et `overflow: TextOverflow.ellipsis` contrôlent les longues chaînes.",
+      "`ElevatedButton` = action principale ; `TextButton` = action discrète ; `OutlinedButton` = action secondaire.",
+      "`IconButton` = action avec icône ; `FloatingActionButton` = action principale flottante.",
+      "`onPressed: null` désactive le bouton. Un bouton cliquable doit toujours avoir un `onPressed`.",
+      "`RichText` ou `Text.rich` permet de mélanger plusieurs styles dans un même paragraphe."
+    ],
+    code: "ElevatedButton(\n  onPressed: _commencer,\n  child: const Text('Commencer'),\n),\nTextButton(\n  onPressed: _annuler,\n  child: const Text('Annuler'),\n),\nconst Text(\n  'Un texte long',\n  maxLines: 1,\n  overflow: TextOverflow.ellipsis,\n)"
+  },
+  {
+    id: "listes", title: "ListView, ListTile & CircleAvatar", icon: "list",
+    summary: "Le trio des listes Material : une liste, une ligne et un avatar.",
+    points: [
+      "`ListView(children: [...])` pour une petite liste ; `ListView.builder(itemBuilder: ...)` pour une liste longue et paresseuse.",
+      "`ListTile` structure une ligne : `leading`, `title`, `subtitle`, `trailing`, `onTap`.",
+      "`CircleAvatar(radius:, backgroundColor:, child: Text('A'))` affiche une initiale ou une image.",
+      "`Divider(height: 1)` sépare les lignes.",
+      "`ListTile` gère déjà le clic, le ripple et l'accessibilité.",
+      "Attention aux ListView imbriquées : donne-leur une contrainte (Expanded, SizedBox) ou utilise `shrinkWrap`."
+    ],
+    code: "ListView(\n  children: [\n    ListTile(\n      leading: const CircleAvatar(\n        backgroundColor: Colors.teal,\n        child: Text('A', style: TextStyle(color: Colors.white)),\n      ),\n      title: const Text('Aïcha', style: TextStyle(fontWeight: FontWeight.bold)),\n      subtitle: const Text('Salut, ça va ?'),\n      trailing: const Text('12:30', style: TextStyle(fontSize: 12)),\n      onTap: () {},\n    ),\n    const Divider(height: 1),\n  ],\n)"
+  },
+  {
+    id: "drawer-nav", title: "Drawer & BottomNavigationBar", icon: "compass",
+    summary: "Deux navigations complémentaires : le menu latéral et les onglets du bas.",
+    points: [
+      "`Drawer` s'ouvre depuis la gauche ; `endDrawer` depuis la droite.",
+      "Mets `padding: EdgeInsets.zero` sur la ListView du Drawer pour que le DrawerHeader touche les bords.",
+      "`DrawerHeader` est l'en-tête coloré : avatar, nom, email.",
+      "`BottomNavigationBar` : `type: fixed` affiche tous les onglets, `shifting` met en avant l'actif.",
+      "`currentIndex` indique l'onglet actif et doit être mis à jour dans `onTap` avec `setState`.",
+      "Le `body` doit changer avec l'index : `body: _pages[_index]`."
+    ],
+    code: "int _index = 0;\n\nScaffold(\n  drawer: Drawer(\n    child: ListView(\n      padding: EdgeInsets.zero,\n      children: const [\n        DrawerHeader(child: Text('Mon Profil')),\n        ListTile(leading: Icon(Icons.home), title: Text('Accueil')),\n      ],\n    ),\n  ),\n  body: _pages[_index],\n  bottomNavigationBar: BottomNavigationBar(\n    type: BottomNavigationBarType.fixed,\n    currentIndex: _index,\n    onTap: (i) => setState(() => _index = i),\n    items: const [\n      BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),\n      BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),\n    ],\n  ),\n)"
+  },
+  {
+    id: "navigation", title: "Navigation et thème", icon: "route",
+    summary: "Passer d'un écran à l'autre et changer de thème sans redémarrer l'app.",
+    points: [
+      "`Navigator.push(context, MaterialPageRoute(builder: (_) => const PageDeux()))` empile un écran.",
+      "La flèche retour est ajoutée automatiquement par l'AppBar de la page empilée.",
+      "Avec `routes:` et `initialRoute:`, on navigue par nom : `Navigator.pushNamed(context, '/deux')`.",
+      "`theme` + `darkTheme` + `themeMode` changent l'apparence globale.",
+      "Pour un thème dynamique, un `StatefulWidget` avec `setState` ou un `ValueNotifier` suffit.",
+      "Ne crée pas un Navigator avant MaterialApp : c'est MaterialApp qui le fournit."
+    ],
+    code: "Navigator.push(\n  context,\n  MaterialPageRoute(builder: (_) => const PageDeux()),\n);\n\n// ou, avec une table de routes :\nMaterialApp(\n  initialRoute: '/',\n  routes: {\n    '/': (context) => const PageAccueil(),\n    '/deux': (context) => const PageDeux(),\n  },\n)\nNavigator.pushNamed(context, '/deux');"
+  },
+  {
+    id: "tp-whatsapp", title: "TP : clone WhatsApp", icon: "message",
+    summary: "Le projet fil rouge du support : liste des discussions, Drawer et écran de chat.",
+    points: [
+      "Écran 1 : AppBar verte (#075E54) sans ombre, titre « WhatsApp », actions recherche et menu.",
+      "Drawer avec DrawerHeader « Mon Profil » et au moins 3 ListTile.",
+      "Body : ListView d'au moins 5 conversations, chaque ligne en ListTile avec CircleAvatar coloré.",
+      "FAB vert clair (#25D366) avec Icons.message, qui affiche un SnackBar « Nouvelle discussion ».",
+      "BottomNavigationBar à 4 onglets : Discussions, Statuts, Appels, Communautés.",
+      "Écran 2 : conversation avec flèche retour automatique, bulles alignées à gauche/droite et champ d'envoi.",
+      "Bonus : sépare les données fictives dans une liste de modèles et construis les lignes avec ListView.builder."
+    ],
+    code: "ListTile(\n  leading: const CircleAvatar(\n    backgroundColor: Color(0xFF25D366),\n    child: Text('A', style: TextStyle(color: Colors.white)),\n  ),\n  title: const Text('Aïcha', style: TextStyle(fontWeight: FontWeight.bold)),\n  subtitle: const Text('Salut, ça va ?'),\n  trailing: const Text('12:30'),\n  onTap: () => Navigator.push(\n    context,\n    MaterialPageRoute(builder: (_) => const ChatPage(nom: 'Aïcha')),\n  ),\n)"
+  }
+];
+
+/* --- Quiz MaterialApp & Scaffold (contenu du PDF) --- */
+const MATERIAL_QUIZ_QUESTIONS = [
+  { id: "mq1", q: "À quoi sert MaterialApp ?", options: [
+    { id: "a", label: "À créer la structure d'un écran (barre, corps, bouton flottant)" },
+    { id: "b", label: "À fournir la configuration globale : thème, navigation, langue, titre" },
+    { id: "c", label: "À afficher une liste défilante" },
+    { id: "d", label: "À dessiner les images du réseau" }
+  ], correct: "b", e: "MaterialApp enveloppe toute l'application : il fournit le thème, la navigation, la localisation et le titre. Scaffold, lui, structure un écran." },
+  { id: "mq2", q: "Quel paramètre supprime le ruban rouge « DEBUG » ?", options: [
+    { id: "a", label: "debugMode: false" },
+    { id: "b", label: "showBanner: false" },
+    { id: "c", label: "debugShowCheckedModeBanner: false" },
+    { id: "d", label: "banner: false" }
+  ], correct: "c", e: "La propriété exacte est debugShowCheckedModeBanner: false. C'est la première option à ajouter pour une app prête à présenter." },
+  { id: "mq3", q: "Quel paramètre définit l'écran affiché au démarrage ?", options: [
+    { id: "a", label: "home" },
+    { id: "b", label: "theme" },
+    { id: "c", label: "title" },
+    { id: "d", label: "builder" }
+  ], correct: "a", e: "home: reçoit le widget du premier écran. On peut aussi utiliser initialRoute: avec une table de routes. Sans ni l'un ni l'autre, l'écran est noir." },
+  { id: "mq4", q: "Comment déclare-t-on une navigation par nom ?", options: [
+    { id: "a", label: "routes: { '/': (context) => PageAccueil(), '/deux': ... }" },
+    { id: "b", label: "pages: [PageAccueil, PageDeux]" },
+    { id: "c", label: "navigator: [PageAccueil, PageDeux]" },
+    { id: "d", label: "paths: { '/deux': ... }" }
+  ], correct: "a", e: "routes associe un nom à un builder. Avec initialRoute: '/', on définit le point de départ, puis Navigator.pushNamed(context, '/deux') ouvre l'écran nommé." },
+  { id: "mq5", q: "Combien de MaterialApp faut-il dans une application ?", options: [
+    { id: "a", label: "Un par écran" },
+    { id: "b", label: "Un seul, à la racine" },
+    { id: "c", label: "Un par onglet" },
+    { id: "d", label: "Aucun si on utilise Scaffold" }
+  ], correct: "b", e: "MaterialApp est unique et se place à la racine. Pour un sous-arbre précis, on utilise Material ou Theme, pas un second MaterialApp." },
+  { id: "mq6", q: "Que se passe-t-il si on utilise Scaffold sans MaterialApp ?", options: [
+    { id: "a", label: "Rien, Scaffold fonctionne seul" },
+    { id: "b", label: "Flutter affiche une erreur « No Material widget found »" },
+    { id: "c", label: "Le thème passe automatiquement en sombre" },
+    { id: "d", label: "Seul l'AppBar disparaît" }
+  ], correct: "b", e: "Scaffold dépend des ancêtres Material fournis par MaterialApp. Sans lui, les widgets Material ne trouvent pas leur contexte et Flutter lève une erreur." },
+  { id: "mq7", q: "Quel paramètre de Scaffold ajoute un menu qui glisse depuis la gauche ?", options: [
+    { id: "a", label: "endDrawer" },
+    { id: "b", label: "drawer" },
+    { id: "c", label: "bottomSheet" },
+    { id: "d", label: "navigationRail" }
+  ], correct: "b", e: "drawer ouvre le menu de gauche et crée automatiquement l'icône ☰. endDrawer ouvre un menu depuis la droite." },
+  { id: "mq8", q: "Quel paramètre affiche le bouton rond flottant ?", options: [
+    { id: "a", label: "floatingActionButton" },
+    { id: "b", label: "floatingButton" },
+    { id: "c", label: "actionButton" },
+    { id: "d", label: "persistentFooterButtons" }
+  ], correct: "a", e: "floatingActionButton reçoit un FloatingActionButton. Sa position se règle avec floatingActionButtonLocation." },
+  { id: "mq9", q: "Avec BottomNavigationBar, quel paramètre indique l'onglet actif ?", options: [
+    { id: "a", label: "selectedIndex" },
+    { id: "b", label: "activeTab" },
+    { id: "c", label: "currentIndex" },
+    { id: "d", label: "page" }
+  ], correct: "c", e: "currentIndex contient le numéro de l'onglet actif (0, 1, 2…). Dans onTap, on le met à jour avec setState pour reconstruire le body." },
+  { id: "mq10", q: "Quel trio gère le thème clair / sombre ?", options: [
+    { id: "a", label: "color, colors, palette" },
+    { id: "b", label: "light, dark, auto" },
+    { id: "c", label: "theme, darkTheme, themeMode" },
+    { id: "d", label: "style, darkStyle, mode" }
+  ], correct: "c", e: "theme définit le thème clair, darkTheme le thème sombre et themeMode choisit light, dark ou system. Un setState ou un ValueNotifier suffit pour basculer." },
+  { id: "mq11", q: "Pour une longue liste de conversations, quel widget choisir ?", options: [
+    { id: "a", label: "Column" },
+    { id: "b", label: "ListView" },
+    { id: "c", label: "Row" },
+    { id: "d", label: "Stack" }
+  ], correct: "b", e: "ListView construit ses enfants à la demande et permet le défilement. Column construit tout et déborde vite sur un contenu long." },
+  { id: "mq12", q: "Dans un ListTile, où placer le dernier message sous le nom ?", options: [
+    { id: "a", label: "leading" },
+    { id: "b", label: "subtitle" },
+    { id: "c", label: "trailing" },
+    { id: "d", label: "title" }
+  ], correct: "b", e: "title affiche le nom, subtitle le texte secondaire, leading l'avatar à gauche et trailing l'heure ou une icône à droite." },
+  { id: "mq13", q: "Quel widget affiche une initiale dans un rond coloré ?", options: [
+    { id: "a", label: "CircleAvatar" },
+    { id: "b", label: "RoundBox" },
+    { id: "c", label: "AvatarTile" },
+    { id: "d", label: "ContainerCircle" }
+  ], correct: "a", e: "CircleAvatar(backgroundColor:, child: Text('A')) affiche une initiale dans un cercle. On peut aussi y mettre une image avec backgroundImage." },
+  { id: "mq14", q: "Où définit-on un borderRadius sur un Container ?", options: [
+    { id: "a", label: "Directement : borderRadius: 12" },
+    { id: "b", label: "Dans BoxDecoration" },
+    { id: "c", label: "Dans TextStyle" },
+    { id: "d", label: "Dans padding" }
+  ], correct: "b", e: "Le Container n'a pas de borderRadius direct : on utilise decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)). Attention, color et decoration ne peuvent pas coexister." },
+  { id: "mq15", q: "Row et Column : quelle affirmation est correcte ?", options: [
+    { id: "a", label: "Row est vertical, Column est horizontal" },
+    { id: "b", label: "Row est horizontal, Column est vertical" },
+    { id: "c", label: "Les deux sont horizontaux" },
+    { id: "d", label: "Les deux servent uniquement aux images" }
+  ], correct: "b", e: "Row aligne de gauche à droite, Column empile de haut en bas. mainAxisAlignment agit sur l'axe principal, crossAxisAlignment sur l'axe transversal." },
+  { id: "mq16", q: "Quel widget prend tout l'espace restant dans une Row ?", options: [
+    { id: "a", label: "SizedBox" },
+    { id: "b", label: "Padding" },
+    { id: "c", label: "Expanded" },
+    { id: "d", label: "Center" }
+  ], correct: "c", e: "Expanded impose à son enfant de remplir l'espace restant. Flexible est plus souple : il laisse l'enfant choisir sa taille dans la limite disponible." }
+];
+
+
+
 /* =========================================================================
    JEUX UNIVERSE FLUTTER
    ========================================================================= */
+
+/* --- A0 : Quiz du cours MaterialApp & Scaffold --- */
+GAME_FACTORIES["material-quiz"] = function (session) {
+  const TOTAL_Q = MATERIAL_QUIZ_QUESTIONS.length;
+  const challengeMs = 90000;
+  const questions = shuffle(MATERIAL_QUIZ_QUESTIONS).map(q => {
+    const opts = shuffle(q.options);
+    return { id: q.id, q: q.q, options: opts, correct: opts.findIndex(o => o.id === q.correct), e: q.e };
+  });
+  let mode = null, idx = 0, correct = 0, streak = 0, bestStreak = 0, answered = false, done = false;
+  let remaining = challengeMs, deadline = 0, ticker = null, advanceTimer = null, advancePending = false;
+  const wrap = el("div", { class: "stack" });
+  const progressBox = el("div");
+  const card = el("div", { class: "card" });
+  const choicesBox = el("div", { class: "choices answer-grid" });
+  const feedback = createFeedback();
+  const actionBox = el("div");
+  const footer = el("div");
+  wrap.appendChild(progressBox);
+  wrap.appendChild(card);
+  wrap.appendChild(choicesBox);
+  wrap.appendChild(feedback);
+  wrap.appendChild(actionBox);
+  wrap.appendChild(footer);
+  session.body.appendChild(wrap);
+  session.setScore(0);
+  session.setExtra(TOTAL_Q + " questions");
+  bindChoiceKeys(session, choicesBox);
+  bindEnterNext(session);
+
+  session.onCleanup(() => {
+    if (ticker) { clearInterval(ticker); ticker = null; }
+    if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null; }
+  });
+
+  function stopTicker() { if (ticker) { clearInterval(ticker); ticker = null; } }
+  function startTicker() {
+    stopTicker();
+    deadline = Date.now() + remaining;
+    ticker = setInterval(() => {
+      remaining = Math.max(0, deadline - Date.now());
+      session.setExtra("Défi · " + fmtTime(remaining));
+      if (remaining <= 0) { stopTicker(); finishNow(true); }
+    }, 250);
+  }
+
+  function startMode(m) {
+    if (mode) return;
+    mode = m;
+    session.startClock();
+    if (m === "challenge") {
+      remaining = challengeMs;
+      startTicker();
+    } else {
+      session.setExtra("Mode guidé");
+    }
+    load(0);
+  }
+
+  function finishNow(timeUp) {
+    if (done) return;
+    done = true;
+    stopTicker();
+    if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null; }
+    const timeBonus = mode === "challenge" && !timeUp ? Math.round(remaining / 1000) * 5 : 0;
+    const perfect = correct === TOTAL_Q ? 200 : 0;
+    const finalScore = correct * 100 + timeBonus + perfect;
+    session.setScore(finalScore);
+    const win = correct >= 11;
+    const extras = [
+      { label: "Bonnes réponses", value: correct + "/" + TOTAL_Q },
+      { label: "Mode", value: mode === "challenge" ? "Défi 90 s" : "Guidé" },
+      { label: "Meilleure série", value: String(bestStreak) }
+    ];
+    if (timeBonus || perfect) extras.push({ label: "Bonus", value: "+" + (timeBonus + perfect) + " pts" });
+    if (timeUp) extras.push({ label: "Temps", value: "Écoulé" });
+    session.finish({
+      score: finalScore,
+      win,
+      title: timeUp ? "Temps écoulé" : win ? "Cours validé" : "Continue la révision",
+      extras
+    });
+  }
+
+  function next() {
+    if (done) return;
+    if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null; }
+    advancePending = false;
+    if (idx + 1 >= TOTAL_Q) { finishNow(false); return; }
+    load(idx + 1);
+  }
+
+  function load(i) {
+    idx = i; answered = false;
+    clearNode(progressBox); clearNode(card); clearNode(choicesBox); clearNode(actionBox); clearNode(footer); feedback.clear();
+    progressBox.appendChild(stepProgress(i, TOTAL_Q, "flutter"));
+    const q = questions[i];
+    card.appendChild(el("div", { class: "row wrap", style: "margin-bottom:8px" }, [
+      el("span", { class: "chip flutter", text: "Question " + (i + 1) }),
+      el("span", { class: "grow" }),
+      el("span", { class: "meta", text: "Cours · MaterialApp & Scaffold" })
+    ]));
+    card.appendChild(el("p", { style: "font-size:15px;font-weight:650;line-height:1.5", text: q.q }));
+    const ui = buildChoices(choicesBox, q.options.map(o => ({ label: o.label })), (pick) => {
+      if (answered || done) return;
+      answered = true;
+      const ok = pick === q.correct;
+      const correctLabel = q.options[q.correct].label;
+      if (ok) {
+        correct++; streak++; bestStreak = Math.max(bestStreak, streak);
+        session.addAnswer(true);
+        session.setScore(correct * 100);
+        feedback.show("ok", streak >= 3 ? "Bonne réponse · série de " + streak + " !" : "Bonne réponse", "<p>" + q.e + "</p>");
+      } else {
+        streak = 0;
+        session.addAnswer(false);
+        feedback.show("ko", "Pas tout à fait", "<p>" + q.e + "</p><p style=\"margin-top:7px\"><strong>Bonne réponse :</strong> " + correctLabel + "</p>");
+      }
+      ui.markPick(pick, q.correct);
+      const isLast = idx + 1 >= TOTAL_Q;
+      if (mode === "challenge") {
+        advancePending = true;
+        advanceTimer = setTimeout(next, 1700);
+        footer.appendChild(el("p", { class: "meta", text: isLast ? "Calcul du résultat…" : "Question suivante dans un instant…" }));
+      } else {
+        actionBox.appendChild(nextButton(isLast ? "Voir le résultat" : "Question suivante", next));
+      }
+    });
+    footer.appendChild(el("div", { class: "key-hint" }, [
+      el("kbd", { text: "1" }), el("kbd", { text: "2" }), el("kbd", { text: "3" }), el("kbd", { text: "4" }),
+      el("span", { text: "pour répondre · Entrée pour continuer" })
+    ]));
+  }
+
+  /* Écran d'accueil du jeu : choix du mode */
+  progressBox.appendChild(el("div", { class: "gi-banner u-flutter" }, [
+    el("span", { class: "gi-ico", html: icon("book") }),
+    el("div", { class: "grow" }, [
+      el("div", { class: "gi-title", text: "16 questions du cours Flutter" }),
+      el("div", { class: "gi-sub", text: "MaterialApp, Scaffold, AppBar, thème, navigation, listes et propriétés" })
+    ])
+  ]));
+  card.appendChild(el("h2", { text: "Choisis ton rythme" }));
+  card.appendChild(el("p", { class: "card-sub", style: "margin:5px 0 12px", text: "Chaque réponse est expliquée. Le mode guidé laisse tout le temps de lire ; le défi ajoute un chrono de 90 secondes et un bonus de rapidité." }));
+  actionBox.appendChild(el("div", { class: "duo" }, [
+    el("button", { class: "btn btn-primary", onclick: () => startMode("guided") }, [
+      el("span", { class: "grow", style: "text-align:left" }, [
+        el("span", { style: "display:block;font-size:14px", text: "Mode guidé" }),
+        el("span", { style: "display:block;font-size:11px;opacity:.8", text: "Sans chrono" })
+      ]), iconEl("play")
+    ]),
+    el("button", { class: "btn btn-flutter", onclick: () => startMode("challenge") }, [
+      el("span", { class: "grow", style: "text-align:left" }, [
+        el("span", { style: "display:block;font-size:14px", text: "Défi 90 s" }),
+        el("span", { style: "display:block;font-size:11px;opacity:.8", text: "Chrono + bonus" })
+      ]), iconEl("clock")
+    ])
+  ]));
+  footer.appendChild(el("p", { class: "meta", style: "margin-top:10px", text: "Astuce : tu peux répondre avec les touches 1 à 4. Les fiches du cours sont accessibles dans l'onglet Cours." }));
+
+  return {
+    start() { },
+    pause() {
+      if (mode === "challenge" && !done) {
+        remaining = Math.max(0, deadline - Date.now());
+        stopTicker();
+      }
+      if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null; advancePending = true; }
+    },
+    resume() {
+      if (mode === "challenge" && !done) startTicker();
+      if (advancePending && !done) { advancePending = false; advanceTimer = setTimeout(next, 900); }
+    },
+    destroy() {
+      stopTicker();
+      if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null; }
+    }
+  };
+};
 
 /* --- A1 : Puzzle arbre de Widgets --- */
 GAME_FACTORIES["widget-tree"] = function (session) {
@@ -3438,6 +4418,7 @@ GAME_FACTORIES["widget-tree"] = function (session) {
   const feedback = createFeedback();
   session.body.appendChild(wrap);
   session.setScore(0);
+  bindEnterNext(session);
 
   function load(i) {
     idx = i; firstTry = true; answered = false;
@@ -3502,6 +4483,8 @@ GAME_FACTORIES["balance-stateless"] = function (session) {
   const feedback = createFeedback();
   session.body.appendChild(wrap);
   session.setScore(0);
+  bindChoiceKeys(session, choicesBox);
+  bindEnterNext(session);
 
   function load(i) {
     idx = i; answered = false;
@@ -3549,10 +4532,21 @@ GAME_FACTORIES["balance-stateless"] = function (session) {
 /* --- A3 : Tir sur cible UI --- */
 GAME_FACTORIES["target-ui"] = function (session) {
   const TOTAL_TIME = 75;
-  let remaining = TOTAL_TIME, cdId = null, promptTimer = null, level = 1, score = 0, correctCount = 0, idx = 0, answered = false, over = false, prompts = [];
+  let remaining = TOTAL_TIME, cdId = null, promptTimer = null, level = 1, score = 0, correctCount = 0, idx = 0, answered = false, over = false, prompts = [], currentTargets = [];
   const wrap = el("div", { class: "stack" });
   const feedback = createFeedback();
+  const hud = el("div", { class: "stack", style: "gap:5px;display:none" });
+  const timeFill = el("div", { class: "progress-fill flutter", style: "width:100%" });
+  const timeLabel = el("span", { class: "meta", text: "75 s" });
+  hud.appendChild(el("div", { class: "row" }, [el("span", { class: "meta grow", text: "Temps restant" }), timeLabel]));
+  hud.appendChild(el("div", { class: "progress", role: "progressbar", "aria-label": "Temps restant" }, timeFill));
+  session.body.appendChild(hud);
   session.body.appendChild(wrap);
+  session.onKey(e => {
+    if (!/^[1-4]$/.test(e.key) || answered || over) return;
+    const btn = currentTargets[Number(e.key) - 1];
+    if (btn) { e.preventDefault(); btn.click(); }
+  });
 
   function promptTime() { return level === 1 ? 9 : level === 2 ? 7 : level === 3 ? 5.5 : 4.5; }
   function stopTimers() { if (cdId) { clearInterval(cdId); cdId = null; } if (promptTimer) { clearTimeout(promptTimer); promptTimer = null; } }
@@ -3577,19 +4571,26 @@ GAME_FACTORIES["target-ui"] = function (session) {
     answered = false;
     clearNode(wrap);
     wrap.appendChild(el("div", { class: "row" }, [
-      el("span", { class: "chip flutter", html: icon("target") + "<span>Niveau " + level + "</span>" }),
+      el("span", { class: "chip flutter", html: icon("target") + "<span>Cible à trouver</span>" }),
       el("span", { class: "grow" }),
       el("span", { class: "chip", html: icon("clock") + "<span>" + promptTime().toFixed(1) + " s</span>" })
     ]));
     wrap.appendChild(el("div", { class: "card" }, el("p", { style: "font-size:15px;font-weight:650", text: p.q })));
     const grid = el("div", { class: "target-grid" });
+    currentTargets = [];
     shuffle(p.options.slice()).forEach(opt => {
-      grid.appendChild(el("button", {
+      const btn = el("button", {
         class: "target", text: opt,
-        onclick: (e) => { if (answered) return; answered = true; pick(p, opt, e.currentTarget); }
-      }));
+        onclick: () => { if (answered) return; answered = true; pick(p, opt, btn); }
+      });
+      currentTargets.push(btn);
+      grid.appendChild(btn);
     });
     wrap.appendChild(grid);
+    wrap.appendChild(el("div", { class: "key-hint" }, [
+      el("kbd", { text: "1" }), el("kbd", { text: "2" }), el("kbd", { text: "3" }), el("kbd", { text: "4" }),
+      el("span", { text: "pour toucher une cible" })
+    ]));
     feedback.clear();
     wrap.appendChild(feedback);
     promptTimer = setTimeout(() => {
@@ -3623,6 +4624,7 @@ GAME_FACTORIES["target-ui"] = function (session) {
     if (over) return;
     over = true;
     stopTimers();
+    currentTargets = [];
     session.finish({
       score, win: score >= 800,
       title: score >= 800 ? "Précision au rendez-vous" : "Fin du chrono",
@@ -3666,6 +4668,7 @@ GAME_FACTORIES["flutter-data-flow"] = function (session) {
   const actionBox = el("div");
   session.body.appendChild(wrap);
   session.setScore(0);
+  bindEnterNext(session);
 
   function clearAnim() { animTimers.forEach(t => clearTimeout(t)); animTimers = []; }
   session.onCleanup(clearAnim);
@@ -3752,6 +4755,8 @@ GAME_FACTORIES["flutter-decision"] = function (session) {
   const feedback = createFeedback();
   session.body.appendChild(wrap);
   session.setScore(0);
+  bindChoiceKeys(session, choicesBox);
+  bindEnterNext(session);
 
   function load(i) {
     idx = i; answered = false;
@@ -3769,22 +4774,13 @@ GAME_FACTORIES["flutter-decision"] = function (session) {
     wrap.appendChild(el("p", { class: "swipe-hint", html: icon("hand") + "<span>Balayage facultatif : les boutons restent toujours disponibles.</span>" }));
     const scCopy = sc;
     buildChoices(choicesBox, sc.options, (pickIndex, item) => decide(scCopy, pickIndex, item));
-    let sx = 0, sy = 0, tracking = false;
-    function onStart(e) { const t = e.changedTouches ? e.changedTouches[0] : e; sx = t.clientX; sy = t.clientY; tracking = true; }
-    function onEnd(e) {
-      if (!tracking || answered) return;
-      tracking = false;
-      const t = e.changedTouches ? e.changedTouches[0] : e;
-      const dx = t.clientX - sx, dy = t.clientY - sy;
-      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-        const btns = $$(".choice", choicesBox);
-        const target = dx < 0 ? btns[0] : btns[1];
-        if (target && !target.disabled) target.click();
-      }
-    }
-    card.addEventListener("touchstart", onStart, { passive: true });
-    card.addEventListener("touchend", onEnd, { passive: true });
-    session.onCleanup(() => { card.removeEventListener("touchstart", onStart); card.removeEventListener("touchend", onEnd); });
+    const detach = attachSwipe(card, dir => {
+      if (answered || (dir !== "left" && dir !== "right")) return;
+      const btns = $$(".choice", choicesBox);
+      const target = dir === "left" ? btns[0] : btns[1];
+      if (target && !target.disabled) target.click();
+    });
+    session.onCleanup(detach);
   }
   function decide(sc, pickIndex, item) {
     if (answered) return;
@@ -3823,7 +4819,7 @@ GAME_FACTORIES["flutter-decision"] = function (session) {
 GAME_FACTORIES["json-parsing"] = function (session) {
   const orderItems = JSON_ROUNDS.map(r => ({ type: "order", data: r }));
   const mapItems = shuffle(JSON_MAPPING).map(q => ({ type: "map", data: q }));
-  const items = [orderItems[0], mapItems[0], orderItems[1], mapItems[1], mapItems[2], orderItems[2], mapItems[3], mapItems[4], mapItems[5]];
+  const items = [orderItems[0], mapItems[0], orderItems[1], mapItems[1], mapItems[2], orderItems[2], mapItems[3], mapItems[4], mapItems[5], mapItems[6], orderItems[3], mapItems[7]];
   let idx = 0, correct = 0, answered = false, currentPuzzle = null;
   const wrap = el("div", { class: "stack" });
   const choicesBox = el("div", { class: "choices" });
@@ -3831,6 +4827,8 @@ GAME_FACTORIES["json-parsing"] = function (session) {
   const feedback = createFeedback();
   session.body.appendChild(wrap);
   session.setScore(0);
+  bindChoiceKeys(session, choicesBox);
+  bindEnterNext(session);
 
   function load(i) {
     idx = i; answered = false; currentPuzzle = null;
@@ -3912,6 +4910,7 @@ GAME_FACTORIES["flutter-arch-sort"] = function (session) {
   const actionBox = el("div");
   session.body.appendChild(wrap);
   session.setScore(0);
+  bindEnterNext(session);
 
   function load(i) {
     idx = i; selected = null; validated = false; firstTry = true; answered = false; lockedItems = {};
@@ -3961,6 +4960,10 @@ GAME_FACTORIES["flutter-arch-sort"] = function (session) {
   }
   function validate(rd, grid) {
     const items = $$(".class-item", grid);
+    if (items.length !== rd.items.length) {
+      feedback.show("info", "Classement incomplet", "<p>Place les " + rd.items.length + " éléments dans les couches avant de valider.</p>");
+      return;
+    }
     let allCorrect = true;
     if (!answered) {
       allCorrect = items.every(b => b.parentElement.dataset.zone === rd.items.find(x => x.id === b.dataset.id).zone);
@@ -3993,13 +4996,13 @@ GAME_FACTORIES["flutter-arch-sort"] = function (session) {
         } else load(idx + 1);
       }));
     } else {
+      validated = false;
       items.forEach(b => {
         if (b.classList.contains("bad")) { b.classList.remove("bad"); wrap._pool.appendChild(b); }
         else lockedItems[b.dataset.id] = true;
       });
-      feedback.show("ko", wrongCount + " élément(s) à corriger", "<p>Les éléments justes sont verrouillés. Replace les autres dans la bonne couche, puis revérifie.</p>");
-      clearNode(actionBox);
-      actionBox.appendChild(el("button", { class: "btn btn-flutter btn-block", onclick: () => { feedback.clear(); const vb = $(".btn", actionBox); if (vb) vb.disabled = false; } }, iconEl("rotate"), el("span", { text: "Corriger" })));
+      const vb = $(".btn", actionBox); if (vb) vb.disabled = true;
+      feedback.show("ko", wrongCount + " élément(s) à corriger", "<p>Les éléments justes sont verrouillés. Touche un élément de la liste puis la bonne couche, et revérifie.</p>");
     }
   }
   return { start: () => load(0), pause() { }, resume() { }, destroy() { } };
@@ -4037,19 +5040,28 @@ function buildDpad(onDir) {
   return dpad;
 }
 function attachSwipe(node, onDir) {
-  let sx = 0, sy = 0, tracking = false;
-  function start(e) { const t = e.changedTouches ? e.changedTouches[0] : e; sx = t.clientX; sy = t.clientY; tracking = true; }
+  let sx = 0, sy = 0, tracking = false, pid = null;
+  function start(e) {
+    if (e.pointerType === "mouse" && e.buttons !== 1) return;
+    sx = e.clientX; sy = e.clientY; tracking = true; pid = e.pointerId;
+    try { node.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+  }
   function end(e) {
-    if (!tracking) return;
-    tracking = false;
-    const t = e.changedTouches ? e.changedTouches[0] : e;
-    const dx = t.clientX - sx, dy = t.clientY - sy;
+    if (!tracking || (pid !== null && e.pointerId !== pid)) return;
+    tracking = false; pid = null;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
     if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
     onDir(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "right" : "left") : (dy > 0 ? "down" : "up"));
   }
-  node.addEventListener("touchstart", start, { passive: true });
-  node.addEventListener("touchend", end, { passive: true });
-  return () => { node.removeEventListener("touchstart", start); node.removeEventListener("touchend", end); };
+  function cancel() { tracking = false; pid = null; }
+  node.addEventListener("pointerdown", start);
+  node.addEventListener("pointerup", end);
+  node.addEventListener("pointercancel", cancel);
+  return () => {
+    node.removeEventListener("pointerdown", start);
+    node.removeEventListener("pointerup", end);
+    node.removeEventListener("pointercancel", cancel);
+  };
 }
 
 /* --- Serpent de code --- */
@@ -4066,9 +5078,9 @@ GAME_FACTORIES["snake"] = function (session) {
   session.body.appendChild(canvas);
   session.body.appendChild(actionBox);
 
-  let ctx = null, cell = 24, snake = [], dir = { x: 0, y: -1 }, dirQueue = [], food = null, eaten = 0, rafId = null, last = 0, acc = 0, paused = false, over = false, detachSwipe = null;
+  let ctx = null, cell = 24, snake = [], dir = { x: 0, y: -1 }, dirQueue = [], food = null, eaten = 0, rafId = null, last = 0, acc = 0, paused = false, over = false, detachSwipe = null, wrapMode = false, started = false;
   function cellSize() {
-    const w = Math.min(session.body.clientWidth - 28 || 320, 460);
+    const w = Math.min(session.body.clientWidth - 28 || 320, 540);
     cell = Math.max(14, Math.floor(w / COLS));
     ctx = setupHiDPI(canvas, cell * COLS, cell * ROWS);
   }
@@ -4077,7 +5089,7 @@ GAME_FACTORIES["snake"] = function (session) {
     dir = { x: 0, y: -1 }; dirQueue = []; eaten = 0; over = false; paused = false; acc = 0;
     placeFood();
     session.setScore(0);
-    session.setExtra("0/" + OBJECTIF);
+    session.setExtra((wrapMode ? "Sans murs · " : "") + "0/" + OBJECTIF);
     const n = $("#snake-n", hud); if (n) n.textContent = "0";
   }
   function placeFood() {
@@ -4098,15 +5110,17 @@ GAME_FACTORIES["snake"] = function (session) {
   function step() {
     if (dirQueue.length) dir = dirQueue.shift();
     const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
-    if (head.x < 0 || head.y < 0 || head.x >= COLS || head.y >= ROWS || snake.some((s, i) => i < snake.length - 1 && s.x === head.x && s.y === head.y)) {
-      endGame();
-      return;
+    if (head.x < 0 || head.y < 0 || head.x >= COLS || head.y >= ROWS) {
+      if (!wrapMode) { endGame(); return; }
+      head.x = (head.x + COLS) % COLS;
+      head.y = (head.y + ROWS) % ROWS;
     }
+    if (snake.some((s, i) => i < snake.length - 1 && s.x === head.x && s.y === head.y)) { endGame(); return; }
     snake.unshift(head);
     if (food && head.x === food.x && head.y === food.y) {
       eaten++;
       session.setScore(eaten * 50);
-      session.setExtra(eaten + "/" + OBJECTIF);
+      session.setExtra((wrapMode ? "Sans murs · " : "") + eaten + "/" + OBJECTIF);
       const n = $("#snake-n", hud); if (n) n.textContent = String(eaten);
       vibrate(10);
       if (eaten >= OBJECTIF) { placeFood(); endGame(); return; }
@@ -4121,17 +5135,38 @@ GAME_FACTORIES["snake"] = function (session) {
     for (let x = 1; x < COLS; x++) { ctx.beginPath(); ctx.moveTo(x * cell, 0); ctx.lineTo(x * cell, ROWS * cell); ctx.stroke(); }
     for (let y = 1; y < ROWS; y++) { ctx.beginPath(); ctx.moveTo(0, y * cell); ctx.lineTo(COLS * cell, y * cell); ctx.stroke(); }
     if (food) {
-      ctx.fillStyle = "#F59E0B";
+      ctx.save();
+      ctx.shadowColor = "#F59E0B";
+      ctx.shadowBlur = 16;
+      ctx.fillStyle = "#FBBF24";
       ctx.beginPath();
-      ctx.arc(food.x * cell + cell / 2, food.y * cell + cell / 2, cell * 0.32, 0, Math.PI * 2);
+      ctx.arc(food.x * cell + cell / 2, food.y * cell + cell / 2, cell * 0.3, 0, Math.PI * 2);
       ctx.fill();
+      ctx.restore();
+      ctx.fillStyle = "#78350F";
+      ctx.font = "700 " + Math.max(9, Math.round(cell * 0.38)) + "px ui-monospace,monospace";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("{}", food.x * cell + cell / 2, food.y * cell + cell / 2 + 1);
     }
     snake.forEach((s, i) => {
-      ctx.fillStyle = i === 0 ? "#67E8F9" : "#00D8FF";
-      ctx.globalAlpha = i === 0 ? 1 : Math.max(0.45, 1 - i / (snake.length + 4));
-      ctx.fillRect(s.x * cell + 1.5, s.y * cell + 1.5, cell - 3, cell - 3);
-      ctx.globalAlpha = 1;
+      const pad = i === 0 ? 1.5 : 2;
+      const r = Math.max(3, cell * 0.24);
+      ctx.fillStyle = i === 0 ? "#A5F3FC" : "rgba(34,211,238," + Math.max(0.38, 0.95 - i / (snake.length + 5)) + ")";
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(s.x * cell + pad, s.y * cell + pad, cell - pad * 2, cell - pad * 2, r);
+      else ctx.rect(s.x * cell + pad, s.y * cell + pad, cell - pad * 2, cell - pad * 2);
+      ctx.fill();
     });
+    if (snake.length && cell > 12) {
+      const h = snake[0], cx = h.x * cell + cell / 2, cy = h.y * cell + cell / 2;
+      const off = cell * 0.17;
+      ctx.fillStyle = "#0B111C";
+      ctx.beginPath();
+      ctx.arc(cx - (dir.y ? off : 0) + (dir.x ? dir.x * off : 0), cy - (dir.x ? off : 0) + (dir.y ? dir.y * off : 0), Math.max(1.5, cell * 0.075), 0, Math.PI * 2);
+      ctx.arc(cx + (dir.y ? off : 0) + (dir.x ? dir.x * off : 0), cy + (dir.x ? off : 0) + (dir.y ? dir.y * off : 0), Math.max(1.5, cell * 0.075), 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
   function loop(t) {
     if (paused || over) return;
@@ -4155,17 +5190,45 @@ GAME_FACTORIES["snake"] = function (session) {
   }
   detachSwipe = attachSwipe(canvas, setDir);
   session.onCleanup(() => { if (detachSwipe) detachSwipe(); });
+  session.onResize(() => { if (started) { cellSize(); draw(); } });
+  session.onKey(e => {
+    if (!started || over) return;
+    const map = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right", w: "up", s: "down", a: "left", d: "right", z: "up", q: "left" };
+    const d = map[e.key] || map[e.key.toLowerCase()];
+    if (d) { e.preventDefault(); setDir(d); }
+    else if (e.key === " ") { e.preventDefault(); Engine.togglePause(); }
+  });
+  function launch(wrap) {
+    wrapMode = !!wrap;
+    started = true;
+    hud.style.display = "";
+    canvas.style.display = "";
+    clearNode(actionBox);
+    cellSize();
+    reset();
+    actionBox.appendChild(buildDpad(setDir));
+    actionBox.appendChild(el("div", { class: "key-hint" }, [
+      el("kbd", { text: "←↑↓→" }), el("span", { text: "ou" }),
+      el("kbd", { text: "WASD" }), el("span", { text: "diriger ·" }),
+      el("kbd", { text: "Espace" }), el("span", { text: "pause" })
+    ]));
+    session.startClock();
+    rafId = requestAnimationFrame(loop);
+  }
   return {
     start() {
-      cellSize();
-      reset();
+      hud.style.display = "none";
+      canvas.style.display = "none";
       clearNode(actionBox);
-      actionBox.appendChild(buildDpad(setDir));
-      session.startClock();
-      rafId = requestAnimationFrame(loop);
+      actionBox.appendChild(gameIntro(GAMES["snake"]));
+      actionBox.appendChild(el("div", { class: "duo", style: "margin-top:10px" }, [
+        el("button", { class: "btn btn-arcade", onclick: () => launch(false) }, iconEl("shield"), el("span", { text: "Classique" })),
+        el("button", { class: "btn", onclick: () => launch(true) }, iconEl("rotate"), el("span", { text: "Sans murs" }))
+      ]));
+      actionBox.appendChild(el("p", { class: "meta", style: "margin-top:9px", text: "Classique : les murs sont mortels. Sans murs : traverse le plateau pour ressortir de l'autre côté." }));
     },
     pause() { paused = true; if (rafId) cancelAnimationFrame(rafId); rafId = null; },
-    resume() { if (over) return; paused = false; last = 0; rafId = requestAnimationFrame(loop); },
+    resume() { if (over || !started) return; paused = false; last = 0; rafId = requestAnimationFrame(loop); },
     destroy() { over = true; if (rafId) cancelAnimationFrame(rafId); }
   };
 };
@@ -4179,52 +5242,65 @@ GAME_FACTORIES["breakout"] = function (session) {
     el("span", { class: "chip", html: icon("shield") + "<span id='bo-lives'>3 vies</span>" }),
     el("span", { class: "grow" })
   ]);
+  const hint = el("div", { class: "key-hint" }, [
+    el("kbd", { text: "←" }), el("kbd", { text: "→" }), el("span", { text: "déplacer ·" }),
+    el("kbd", { text: "Espace" }), el("span", { text: "lancer · glisse au doigt ou à la souris" })
+  ]);
   session.body.appendChild(hud);
   session.body.appendChild(canvas);
+  session.body.appendChild(hint);
 
-  let ctx = null, paddle, ball, bricks, lives, level, score = 0, rafId = null, paused = false, over = false, detachSwipe = null;
+  let ctx = null, paddle, ball, bricks, lives, level, score = 0, rafId = null, paused = false, over = false, waiting = true;
+  const palette = ["#22D3EE", "#38BDF8", "#67E8F9", "#0EA5E9", "#F59E0B"];
   function buildLevel() {
     bricks = [];
-    const palette = ["#00D8FF", "#38BDF8", "#67E8F9", "#0EA5E9", "#F59E0B"];
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
-        if (level === 3 && (r + c) % 3 === 0) continue; /* motifs plus denses */
-        bricks.push({ x: c * (W / COLS) + 3, y: 40 + r * 22, w: W / COLS - 6, h: 16, alive: true, color: palette[r % palette.length] });
+        if (level === 3 && (r + c) % 3 === 0) continue;
+        bricks.push({ x: c * (W / COLS) + 3, y: 46 + r * 24, w: W / COLS - 6, h: 17, alive: true, color: palette[r % palette.length] });
       }
     }
   }
   function resetBall() {
-    paddle = { x: W / 2 - 38, w: 76, h: 10, y: H - 34 };
-    const speed = 2.6 + level * 0.6;
-    ball = { x: W / 2, y: H - 60, r: 6, vx: (Math.random() > 0.5 ? 1 : -1) * speed * 0.7, vy: -speed };
+    paddle = { x: W / 2 - 42, w: 84, h: 11, y: H - 34 };
+    ball = { x: paddle.x + paddle.w / 2, y: paddle.y - 9, r: 6, vx: 0, vy: 0 };
+    waiting = true;
   }
   function updateHud() {
     const l1 = $("#bo-level", hud), l2 = $("#bo-lives", hud);
     if (l1) l1.textContent = "Niveau " + level;
     if (l2) l2.textContent = lives + " vie" + (lives > 1 ? "s" : "");
-    session.setExtra("Niveau " + level);
+    session.setExtra("Niv. " + level + " · " + lives + " vie" + (lives > 1 ? "s" : ""));
   }
   function movePaddleTo(clientX) {
     const rect = canvas.getBoundingClientRect();
     const x = ((clientX - rect.left) / rect.width) * W;
     paddle.x = clamp(x - paddle.w / 2, 0, W - paddle.w);
   }
+  function launch() {
+    if (!waiting || over) return;
+    waiting = false;
+    const speed = 2.7 + level * 0.55;
+    const angle = (Math.random() - 0.5) * 0.55;
+    ball.vx = Math.sin(angle) * speed;
+    ball.vy = -Math.cos(angle) * speed;
+    if (!session.running) session.startClock();
+    if (!rafId) rafId = requestAnimationFrame(loop);
+  }
   function tick() {
-    /* déplacement par sous-pas : évite que la balle traverse les briques */
-    const sub = 4;
+    if (waiting) { ball.x = paddle.x + paddle.w / 2; ball.y = paddle.y - ball.r - 1; return; }
+    const sub = 5;
     for (let i = 0; i < sub; i++) {
       ball.x += ball.vx / sub;
       ball.y += ball.vy / sub;
       if (ball.x - ball.r < 0) { ball.x = ball.r; ball.vx = Math.abs(ball.vx); }
       if (ball.x + ball.r > W) { ball.x = W - ball.r; ball.vx = -Math.abs(ball.vx); }
       if (ball.y - ball.r < 0) { ball.y = ball.r; ball.vy = Math.abs(ball.vy); }
-      /* raquette */
-      if (ball.vy > 0 && ball.y + ball.r >= paddle.y && ball.y + ball.r <= paddle.y + paddle.h + 6 && ball.x >= paddle.x - 2 && ball.x <= paddle.x + paddle.w + 2) {
+      if (ball.vy > 0 && ball.y + ball.r >= paddle.y && ball.y + ball.r <= paddle.y + paddle.h + 8 && ball.x >= paddle.x - 2 && ball.x <= paddle.x + paddle.w + 2) {
         ball.vy = -Math.abs(ball.vy);
         const hit = (ball.x - (paddle.x + paddle.w / 2)) / (paddle.w / 2);
-        ball.vx = hit * 3.4;
+        ball.vx = hit * 3.6;
       }
-      /* briques */
       for (const b of bricks) {
         if (!b.alive) continue;
         if (ball.x + ball.r > b.x && ball.x - ball.r < b.x + b.w && ball.y + ball.r > b.y && ball.y - ball.r < b.y + b.h) {
@@ -4244,8 +5320,11 @@ GAME_FACTORIES["breakout"] = function (session) {
       updateHud();
       if (lives <= 0) { endGame(false); return; }
       resetBall();
+      return;
     }
     if (!bricks.some(b => b.alive)) {
+      score += 100;
+      session.setScore(score);
       if (level >= MAX_LEVEL) { endGame(true); return; }
       level++;
       buildLevel();
@@ -4255,21 +5334,46 @@ GAME_FACTORIES["breakout"] = function (session) {
   }
   function draw() {
     if (!ctx) return;
-    ctx.fillStyle = "#0B111C";
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, "#0B111C"); bg.addColorStop(1, "#0E1A2B");
+    ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
     bricks.forEach(b => {
       if (!b.alive) return;
       ctx.fillStyle = b.color;
-      ctx.fillRect(b.x, b.y, b.w, b.h);
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 4);
+      else ctx.rect(b.x, b.y, b.w, b.h);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,.22)";
+      ctx.fillRect(b.x + 3, b.y + 3, b.w - 6, 3);
     });
-    ctx.fillStyle = "#F1F5F9";
-    ctx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h);
-    ctx.fillStyle = "#F59E0B";
+    const pg = ctx.createLinearGradient(paddle.x, 0, paddle.x + paddle.w, 0);
+    pg.addColorStop(0, "#67E8F9"); pg.addColorStop(1, "#0EA5E9");
+    ctx.fillStyle = pg;
     ctx.beginPath();
-    ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+    if (ctx.roundRect) ctx.roundRect(paddle.x, paddle.y, paddle.w, paddle.h, 6);
+    else ctx.rect(paddle.x, paddle.y, paddle.w, paddle.h);
     ctx.fill();
+    ctx.save();
+    ctx.shadowColor = "#FBBF24"; ctx.shadowBlur = 15;
+    ctx.fillStyle = "#FDE68A";
+    ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+    if (waiting) {
+      ctx.fillStyle = "rgba(11,17,28,.72)";
+      ctx.fillRect(0, H / 2 - 50, W, 100);
+      ctx.fillStyle = "#E0F2FE";
+      ctx.textAlign = "center";
+      ctx.font = "700 16px system-ui,sans-serif";
+      ctx.fillText(level > 1 ? "Niveau " + level : "Prêt ?", W / 2, H / 2 - 10);
+      ctx.fillStyle = "#94A3B8";
+      ctx.font = "12px system-ui,sans-serif";
+      ctx.fillText("Touche, clique ou Espace pour lancer", W / 2, H / 2 + 16);
+    }
   }
   function loop() {
+    rafId = null;
     if (paused || over) return;
     tick();
     draw();
@@ -4278,18 +5382,32 @@ GAME_FACTORIES["breakout"] = function (session) {
   function endGame(win) {
     if (over) return;
     over = true;
+    if (rafId) cancelAnimationFrame(rafId);
+    draw();
     session.finish({
       score, win, title: win ? "Tous les murs sont tombés" : "Plus de vies",
-      extras: [{ label: "Niveau atteint", value: String(level) }]
+      extras: [{ label: "Niveau atteint", value: String(level) + "/" + MAX_LEVEL }, { label: "Briques", value: String(bricks.filter(b => !b.alive).length) }]
     });
   }
-  const onMove = e => { if (e.touches && e.touches[0]) movePaddleTo(e.touches[0].clientX); else movePaddleTo(e.clientX); };
-  canvas.addEventListener("mousemove", onMove);
-  canvas.addEventListener("touchmove", e => { e.preventDefault(); onMove(e); }, { passive: false });
-  canvas.addEventListener("touchstart", e => { if (e.touches[0]) movePaddleTo(e.touches[0].clientX); }, { passive: true });
+  function onPointerDown(e) {
+    movePaddleTo(e.clientX);
+    try { canvas.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+    launch();
+  }
+  function onPointerMove(e) {
+    if (e.pointerType === "mouse" || e.buttons || e.pressure > 0) movePaddleTo(e.clientX);
+  }
+  canvas.addEventListener("pointerdown", onPointerDown);
+  canvas.addEventListener("pointermove", onPointerMove);
   session.onCleanup(() => {
-    canvas.removeEventListener("mousemove", onMove);
-    canvas.removeEventListener("touchmove", onMove);
+    canvas.removeEventListener("pointerdown", onPointerDown);
+    canvas.removeEventListener("pointermove", onPointerMove);
+  });
+  session.onKey(e => {
+    if (over) return;
+    if (e.key === "ArrowLeft" || e.key === "a" || e.key === "q") { e.preventDefault(); paddle.x = clamp(paddle.x - 30, 0, W - paddle.w); }
+    else if (e.key === "ArrowRight" || e.key === "d") { e.preventDefault(); paddle.x = clamp(paddle.x + 30, 0, W - paddle.w); }
+    else if (e.key === " " || e.key === "Enter") { e.preventDefault(); launch(); }
   });
   return {
     start() {
@@ -4297,11 +5415,10 @@ GAME_FACTORIES["breakout"] = function (session) {
       level = 1; lives = 3; score = 0; over = false; paused = false;
       buildLevel(); resetBall(); updateHud();
       session.setScore(0);
-      session.startClock();
-      rafId = requestAnimationFrame(loop);
+      draw();
     },
     pause() { paused = true; if (rafId) cancelAnimationFrame(rafId); rafId = null; },
-    resume() { if (over) return; paused = false; rafId = requestAnimationFrame(loop); },
+    resume() { if (over) return; paused = false; if (!waiting && !rafId) rafId = requestAnimationFrame(loop); },
     destroy() { over = true; if (rafId) cancelAnimationFrame(rafId); }
   };
 };
@@ -4323,7 +5440,7 @@ GAME_FACTORIES["maze"] = function (session) {
   session.body.appendChild(canvas);
   session.body.appendChild(actionBox);
 
-  let ctx = null, grid = null, cols = 0, rows = 0, cell = 20, player = null, exit = null, moves = 0, mult = 1, over = false, detachSwipe = null;
+  let ctx = null, grid = null, cols = 0, rows = 0, cell = 20, player = null, exit = null, moves = 0, mult = 1, over = false, paused = false, detachSwipe = null, trail = new Set();
   function generate(c, r) {
     /* parcours en profondeur aléatoire : tous les labyrinthes sont résolubles */
     const g = new Array(r);
@@ -4346,7 +5463,7 @@ GAME_FACTORIES["maze"] = function (session) {
     return g;
   }
   function newMaze(config) {
-    cols = config.cols | 1 ? config.cols : config.cols + 1;
+    cols = config.cols;
     rows = config.rows;
     if (cols % 2 === 0) cols++;
     if (rows % 2 === 0) rows++;
@@ -4354,14 +5471,14 @@ GAME_FACTORIES["maze"] = function (session) {
     grid = generate(cols, rows);
     player = { x: 1, y: 1 };
     exit = { x: cols - 2, y: rows - 2 };
-    moves = 0;
+    moves = 0; over = false; paused = false; trail = new Set(["1,1"]);
     resizeCanvas();
     draw();
     const m = $("#mz-moves", hud); if (m) m.textContent = "0 pas";
     session.setScore(0);
   }
   function resizeCanvas() {
-    const w = Math.min(session.body.clientWidth - 28 || 320, 470);
+    const w = Math.min(session.body.clientWidth - 28 || 320, 560);
     cell = Math.max(8, Math.floor(w / cols));
     ctx = setupHiDPI(canvas, cell * cols, cell * rows);
   }
@@ -4374,21 +5491,35 @@ GAME_FACTORIES["maze"] = function (session) {
         if (grid[y][x] === 0) {
           ctx.fillStyle = "#182131";
           ctx.fillRect(x * cell, y * cell, cell, cell);
+        } else if (trail.has(x + "," + y)) {
+          ctx.fillStyle = "rgba(34,211,238,.14)";
+          ctx.fillRect(x * cell, y * cell, cell, cell);
         }
       }
     }
-    ctx.fillStyle = "#10B981";
-    ctx.fillRect(exit.x * cell + 2, exit.y * cell + 2, cell - 4, cell - 4);
-    ctx.fillStyle = "#F59E0B";
-    ctx.fillRect(player.x * cell + 2, player.y * cell + 2, cell - 4, cell - 4);
+    ctx.save();
+    ctx.shadowColor = "#10B981"; ctx.shadowBlur = 14;
+    ctx.fillStyle = "#34D399";
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(exit.x * cell + 2, exit.y * cell + 2, cell - 4, cell - 4, Math.max(2, cell * .18));
+    else ctx.rect(exit.x * cell + 2, exit.y * cell + 2, cell - 4, cell - 4);
+    ctx.fill();
+    ctx.restore();
+    ctx.fillStyle = "#FBBF24";
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(player.x * cell + 2, player.y * cell + 2, cell - 4, cell - 4, Math.max(2, cell * .22));
+    else ctx.rect(player.x * cell + 2, player.y * cell + 2, cell - 4, cell - 4);
+    ctx.fill();
   }
   function tryMove(d) {
-    if (over || !grid) return;
+    if (over || paused || !grid) return;
     const map = { up: { x: 0, y: -1 }, down: { x: 0, y: 1 }, left: { x: -1, y: 0 }, right: { x: 1, y: 0 } };
     const nd = map[d];
+    if (!nd) return;
     const nx = player.x + nd.x, ny = player.y + nd.y;
     if (ny < 0 || nx < 0 || ny >= rows || nx >= cols || grid[ny][nx] === 0) { vibrate(6); return; }
     player.x = nx; player.y = ny;
+    trail.add(nx + "," + ny);
     moves++;
     const m = $("#mz-moves", hud);
     if (m) m.textContent = moves + " pas";
@@ -4405,6 +5536,14 @@ GAME_FACTORIES["maze"] = function (session) {
   }
   detachSwipe = attachSwipe(canvas, tryMove);
   session.onCleanup(() => { if (detachSwipe) detachSwipe(); });
+  session.onKey(e => {
+    if (!grid || over) return;
+    const map = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right", w: "up", s: "down", a: "left", d: "right", z: "up", q: "left" };
+    const dir = map[e.key] || map[e.key.toLowerCase()];
+    if (dir) { e.preventDefault(); tryMove(dir); }
+    else if (e.key === " ") { e.preventDefault(); Engine.togglePause(); }
+  });
+  session.onResize(() => { if (grid && !over) { resizeCanvas(); draw(); } });
   return {
     start() {
       clearNode(actionBox);
@@ -4423,6 +5562,10 @@ GAME_FACTORIES["maze"] = function (session) {
             newMaze(cfg);
             clearNode(actionBox);
             actionBox.appendChild(buildDpad(tryMove));
+            actionBox.appendChild(el("div", { class: "key-hint" }, [
+              el("kbd", { text: "←↑↓→" }), el("span", { text: "ou" }),
+              el("kbd", { text: "WASD" }), el("span", { text: "pour te déplacer" })
+            ]));
             session.startClock();
           }
         }, [
@@ -4437,123 +5580,9 @@ GAME_FACTORIES["maze"] = function (session) {
       session.body.insertBefore(intro, canvas);
       session.onCleanup(() => intro.remove());
     },
-    pause() { },
-    resume() { if (grid && !over) resizeCanvas(), draw(); },
+    pause() { paused = true; },
+    resume() { paused = false; if (grid && !over) { resizeCanvas(); draw(); } },
     destroy() { over = true; }
-  };
-};
-
-/* --- Course Tap-Tap --- */
-GAME_FACTORIES["tap-race"] = function (session) {
-  const DIST = 100;
-  const RACERS = [
-    { id: "you", name: "Toi", you: true, base: 0 },
-    { id: "cpu1", name: "NullPointer", you: false, base: 0.62 },
-    { id: "cpu2", name: "ForEach", you: false, base: 0.6 },
-    { id: "cpu3", name: "AsyncAwait", you: false, base: 0.63 }
-  ];
-  const track = el("div", { class: "race-track", "aria-label": "Pistes de course" });
-  const zones = el("div", { class: "tap-zones" });
-  const intro = el("div", { class: "stack" });
-  const hud = el("div", { class: "row" }, [
-    el("span", { class: "chip", html: icon("clock") + "<span id='tr-time'>0.0 s</span>" }),
-    el("span", { class: "grow" }),
-    el("span", { class: "chip xp", html: icon("flag") + "<span>100 m</span>" })
-  ]);
-  session.body.appendChild(hud);
-  session.body.appendChild(track);
-  session.body.appendChild(zones);
-  session.body.appendChild(intro);
-
-  let racers = [], rafId = null, last = 0, running = false, over = false, elapsed = 0, lastZone = null, lastTapAt = 0;
-  const laneRefs = {};
-  function buildTrack() {
-    clearNode(track);
-    RACERS.forEach(r => {
-      const fill = el("div", { class: "race-fill", style: "width:0%" });
-      const ref = { fill };
-      laneRefs[r.id] = ref;
-      track.appendChild(el("div", { class: "race-lane" + (r.you ? " you" : "") }, [
-        el("span", { class: "name", text: r.name }),
-        el("span", { class: "race-bar" }, fill)
-      ]));
-    });
-  }
-  function startRace() {
-    clearNode(intro);
-    racers = RACERS.map(r => ({ ...r, pos: 0, speed: r.base }));
-    elapsed = 0; lastZone = null; over = false; running = true;
-    buildTrack();
-    clearNode(zones);
-    const zl = el("button", { class: "tap-zone", "aria-label": "Pousse gauche" }, iconEl("back"), el("span", { text: "Pousse gauche" }));
-    const zr = el("button", { class: "tap-zone", "aria-label": "Pousse droite" }, iconEl("chevron"), el("span", { text: "Pousse droite" }));
-    function tap(zone) {
-      if (!running || over) return;
-      const now = Date.now();
-      if (now - lastTapAt < 70) return; /* anti-spam */
-      lastTapAt = now;
-      const you = racers[0];
-      const alternating = lastZone !== zone;
-      lastZone = zone;
-      you.speed = Math.min(1.35, you.speed + (alternating ? 0.075 : 0.025));
-      vibrate(6);
-    }
-    zl.addEventListener("click", () => tap("l"));
-    zr.addEventListener("click", () => tap("r"));
-    zones.appendChild(zl);
-    zones.appendChild(zr);
-    session.setScore(0);
-    session.startClock();
-    last = 0;
-    rafId = requestAnimationFrame(loop);
-  }
-  function loop(t) {
-    if (!running || over) return;
-    if (!last) last = t;
-    const dt = Math.min(0.05, (t - last) / 1000);
-    last = t;
-    elapsed += dt;
-    const tEl = $("#tr-time", hud); if (tEl) tEl.textContent = elapsed.toFixed(1) + " s";
-    racers.forEach((r, i) => {
-      if (i === 0) {
-        r.speed = Math.max(r.base + 0.32, r.speed - dt * 0.16); /* décélération sans tap */
-        r.pos += r.speed * dt * 9;
-      } else {
-        const wobble = 1 + Math.sin(elapsed * (1.3 + i * 0.4)) * 0.06;
-        r.pos += r.base * wobble * dt * 9;
-      }
-      const pct = clamp((r.pos / DIST) * 100, 0, 100);
-      laneRefs[r.id].fill.style.width = pct + "%";
-    });
-    const finished = racers.filter(r => r.pos >= DIST);
-    if (finished.length && (finished.includes(racers[0]) || racers.every(r => r.pos >= DIST))) { endRace(); return; }
-    rafId = requestAnimationFrame(loop);
-  }
-  function endRace() {
-    if (over) return;
-    over = true;
-    running = false;
-    if (rafId) cancelAnimationFrame(rafId);
-    const ranked = racers.slice().sort((a, b) => b.pos - a.pos);
-    const rank = ranked.findIndex(r => r.you) + 1;
-    const score = (4 - rank) * 250 + Math.max(0, Math.round(300 - elapsed * 4));
-    session.finish({
-      score, win: rank === 1,
-      title: rank === 1 ? "Victoire au sprint" : rank + "ᵉ place",
-      extras: [{ label: "Place", value: rank + "/4" }, { label: "Temps", value: elapsed.toFixed(1) + " s" }]
-    });
-  }
-  return {
-    start() {
-      clearNode(zones); clearNode(track);
-      session.setExtra("100 m");
-      intro.appendChild(el("h2", { text: "Course Tap-Tap" }));
-      intro.appendChild(el("p", { class: "card-sub", text: "Frappe alternativement les deux zones pour accélérer. Sans tap, ton coureur ralentit : la course ne se gagne pas toute seule. Les concurrents accélèrent de façon équilibrée — la régularité fera la différence." }));
-      intro.appendChild(el("button", { class: "btn btn-primary btn-block", style: "margin-top:10px", onclick: startRace }, iconEl("play"), el("span", { text: "Démarrer la course" })));
-    },
-    pause() { running = false; if (rafId) cancelAnimationFrame(rafId); rafId = null; },
-    resume() { if (over || !racers.length) return; running = true; last = 0; rafId = requestAnimationFrame(loop); },
-    destroy() { over = true; running = false; if (rafId) cancelAnimationFrame(rafId); }
   };
 };
 
