@@ -14,7 +14,8 @@ const expose = `
   GAME_FACTORIES, checkOrder, importProgress, CHALLENGES, REWARDS, todayISO, normCode,
   JSX_PUZZLES, HOOKS_PAIRS, TF_QUESTIONS, PIPE_SCENARIOS, REACT_DECISIONS, MVC_ROUNDS, API_ROUNDS, API_MCQ,
   WIDGET_TREE_ROUNDS, BALANCE_SCENARIOS, TARGET_PROMPTS, FLOW_SCENARIOS_FLUTTER, FLUTTER_DECISIONS,
-  JSON_ROUNDS, JSON_MAPPING, FLUTTER_ARCH_ROUNDS, COURSE_SECTIONS, MATERIAL_QUIZ_QUESTIONS
+  JSON_ROUNDS, JSON_MAPPING, FLUTTER_ARCH_ROUNDS, COURSE_SECTIONS, MATERIAL_QUIZ_QUESTIONS,
+  COURSE_TRACKS, DJANGO_START_SECTIONS, DJANGO_MODEL_SECTIONS, DOCKER_SECTIONS, REACT_COURSE_SECTIONS
 };`;
 
 function stubNode() {
@@ -281,6 +282,37 @@ test("Cours Flutter : 11 fiches complètes issues du PDF", () => {
   });
   assert.ok(T.COURSE_SECTIONS.some(s => /WhatsApp/i.test(s.title)), "le TP WhatsApp est présent");
   assert.ok(T.COURSE_SECTIONS.some(s => s.code && /MaterialApp\(/.test(s.code)), "un exemple MaterialApp est fourni");
+});
+
+test("Bibliothèque de cours : 5 parcours complets issus des PDF", () => {
+  assert.strictEqual(T.COURSE_TRACKS.length, 5);
+  const trackIds = new Set();
+  const sectionIds = new Set();
+  let total = 0;
+  T.COURSE_TRACKS.forEach(track => {
+    assert.ok(!trackIds.has(track.id), "identifiant de parcours unique : " + track.id);
+    trackIds.add(track.id);
+    assert.ok(track.label && track.heroTitle && track.heroText.length > 30, track.id + " : présentation fournie");
+    assert.ok(track.icon && track.accent && track.sourceLabel, track.id + " : métadonnées fournies");
+    assert.ok(Array.isArray(track.sections) && track.sections.length >= 9, track.id + " : fiches présentes");
+    assert.ok(track.actions.some(a => /^pdf_cours\/.+\.pdf$/.test(a.href || "")), track.id + " : lien vers le PDF source");
+    track.sections.forEach(sec => {
+      assert.ok(!sectionIds.has(sec.id), "identifiant de fiche unique : " + sec.id);
+      sectionIds.add(sec.id);
+      assert.ok(sec.title && sec.summary && sec.summary.length > 30, sec.id + " : résumé fourni");
+      assert.ok(Array.isArray(sec.points) && sec.points.length >= 3, sec.id + " : points clés");
+      assert.ok(sec.icon, sec.id + " : icône");
+    });
+    total += track.sections.length;
+  });
+  assert.ok(total >= 45, "au moins 45 fiches au total : " + total);
+  ["flutter", "django-start", "django-models", "docker", "reactjs"].forEach(id => {
+    assert.ok(trackIds.has(id), "parcours attendu présent : " + id);
+  });
+  assert.ok(T.DJANGO_START_SECTIONS.some(s => s.id === "dj-start-migrations"), "les migrations Django sont couvertes");
+  assert.ok(T.DJANGO_MODEL_SECTIONS.some(s => s.id === "dj-model-ondelete"), "les règles on_delete sont couvertes");
+  assert.ok(T.DOCKER_SECTIONS.some(s => s.id === "docker-compose"), "Docker Compose est couvert");
+  assert.ok(T.REACT_COURSE_SECTIONS.some(s => s.id === "react-usestate"), "useState est couvert");
 });
 
 test("Quiz du cours : 16 questions à choix multiples cohérentes", () => {

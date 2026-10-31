@@ -157,6 +157,22 @@ check("Cours : première fiche ouverte", firstOpen === 1, String(firstOpen));
 const courseBtn = await page.$$eval(".course-hero .btn", els => els.filter(e => /Quiz/.test(e.textContent)).length);
 check("Cours : accès au quiz depuis l'en-tête", courseBtn === 1, String(courseBtn));
 
+/* ---------------- Bibliothèque de cours : onglets et PDF ---------------- */
+await page.goto(BASE + "#/cours/docker", { waitUntil: "networkidle0" });
+await sleep(200);
+const courseTabs = await page.$$eval(".course-tab", els => els.map(e => e.textContent.replace(/\s+/g, " ").trim()));
+check("Cours : 5 catégories disponibles", courseTabs.length === 5, JSON.stringify(courseTabs));
+const activeTab = await page.$eval(".course-tab.active", e => e.textContent);
+check("Cours : onglet Docker actif", /Docker/.test(activeTab), activeTab);
+const dockerLessons = await page.$$eval(".lesson", els => els.length);
+check("Cours Docker : 10 fiches affichées", dockerLessons === 10, String(dockerLessons));
+const pdfLink = await page.$eval(".course-hero a[href$='docker.pdf']", e => e.getAttribute("href")).catch(() => "");
+check("Cours Docker : lien vers le PDF source", pdfLink === "pdf_cours/docker.pdf", pdfLink);
+await page.goto(BASE + "#/cours/django-models", { waitUntil: "networkidle0" });
+await sleep(200);
+const djangoLessons = await page.$$eval(".lesson", els => els.length);
+check("Cours Django Modélisation : 9 fiches affichées", djangoLessons === 9, String(djangoLessons));
+
 /* ---------------- Progression : écran ---------------- */
 await page.goto(BASE + "#/progression", { waitUntil: "networkidle0" });
 await sleep(200);

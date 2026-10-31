@@ -1,7 +1,7 @@
 {
-  "name": "DevMaster — Apprends React & Flutter en jouant",
+  "name": "DevMaster — Apprends React, Flutter, Django & Docker",
   "short_name": "DevMaster",
-  "description": "Application d'apprentissage interactive : maîtrise React.js et Flutter grâce à des mini-jeux pédagogiques, avec un parcours complet MaterialApp, Scaffold et widgets. Fonctionne hors ligne, sur mobile et sur le web.",
+  "description": "Application d'apprentissage interactive : maîtrise React.js et Flutter grâce à des mini-jeux, et révise Django, Docker et ReactJS avec des fiches issues des supports PDF. Fonctionne hors ligne, sur mobile et sur le web.",
   "lang": "fr",
   "dir": "ltr",
   "start_url": "./index.html",
@@ -45,14 +45,19 @@
       "url": "./index.html#/u/flutter"
     },
     {
-      "name": "Cours Flutter",
+      "name": "Cours & fiches",
       "short_name": "Cours",
       "url": "./index.html#/cours"
     },
     {
-      "name": "Quiz MaterialApp",
-      "short_name": "Quiz",
-      "url": "./index.html#/g/material-quiz"
+      "name": "Cours Django",
+      "short_name": "Django",
+      "url": "./index.html#/cours/django-start"
+    },
+    {
+      "name": "Cours Docker",
+      "short_name": "Docker",
+      "url": "./index.html#/cours/docker"
     },
     {
       "name": "Pause Dev",

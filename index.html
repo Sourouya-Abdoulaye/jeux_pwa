@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-<title>DevMaster — Apprends React &amp; Flutter en jouant</title>
-<meta name="description" content="DevMaster : application d'apprentissage interactive pour maîtriser React.js et Flutter grâce à des mini-jeux pédagogiques, avec un parcours complet MaterialApp, Scaffold et widgets. Fonctionne hors ligne, sur mobile comme sur le web.">
+<title>DevMaster — Apprends React, Flutter, Django &amp; Docker</title>
+<meta name="description" content="DevMaster : application d'apprentissage interactive pour maîtriser React.js et Flutter grâce à des mini-jeux, avec une bibliothèque de cours Flutter, Django, Docker et ReactJS issue des supports PDF. Fonctionne hors ligne, sur mobile comme sur le web.">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -102,7 +102,7 @@ code,.mono{font-family:var(--mono);font-size:.86em}
   display:inline-flex;align-items:center;justify-content:center;gap:7px;
   min-height:44px;padding:0 16px;border-radius:var(--r-sm);cursor:pointer;
   border:1px solid var(--border-active);background:var(--surface2);color:var(--text);
-  font-weight:600;font-size:14px;transition:background .15s ease,border-color .15s ease,transform .1s ease;
+  font-weight:600;font-size:14px;text-decoration:none;transition:background .15s ease,border-color .15s ease,transform .1s ease;
 }
 .btn svg{width:17px;height:17px}
 .btn:hover{background:#E3EAF6}
@@ -343,10 +343,30 @@ canvas.game{width:100%;max-width:520px;margin:0 auto;display:block;border-radius
 .lesson-body pre.code{margin-top:10px;font-size:11.5px}
 .lesson-tip{margin-top:10px;border-left:3px solid var(--xp);background:rgba(245,158,11,.08);padding:8px 10px;border-radius:0 8px 8px 0;font-size:12px;color:var(--text2)}
 .course-hero{background:linear-gradient(135deg,#0C4A6E,#0284C7 55%,#38BDF8);color:#fff;border:0;box-shadow:0 18px 40px -22px rgba(2,132,199,.9)}
+.course-hero.t-django{background:linear-gradient(135deg,#052E22,#0C4B33 55%,#44B78B);box-shadow:0 18px 40px -22px rgba(12,75,51,.9)}
+.course-hero.t-docker{background:linear-gradient(135deg,#082F49,#1D63ED 55%,#2496ED);box-shadow:0 18px 40px -22px rgba(29,99,237,.9)}
+.course-hero.t-react{background:linear-gradient(135deg,#1E3A8A,#2563EB 55%,#60A5FA);box-shadow:0 18px 40px -22px rgba(37,99,235,.9)}
 .course-hero .card-sub{color:rgba(255,255,255,.86)}
 .course-hero .btn{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.35);color:#fff;box-shadow:none}
 .course-hero .btn-primary{background:#fff;border-color:#fff;color:#0369A1}
 .course-hero .btn-primary:hover{background:#F0F9FF;border-color:#F0F9FF}
+.course-hero.t-django .btn-primary{color:#0C4B33}
+.course-hero.t-docker .btn-primary{color:#0847A8}
+.course-hero.t-react .btn-primary{color:#1E3A8A}
+/* Onglets de la bibliothèque de cours */
+.course-tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin;scroll-snap-type:x proximity}
+.course-tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:8px 12px;font-size:12.5px;font-weight:600;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(11,18,32,.05);scroll-snap-align:start;transition:background .15s ease,border-color .15s ease,color .15s ease}
+.course-tab svg{width:15px;height:15px}
+.course-tab:hover{border-color:var(--border-active)}
+.course-tab .ct-count{font-size:10.5px;font-weight:700;color:var(--text3);background:var(--surface2);border:1px solid var(--border);border-radius:999px;padding:1px 6px}
+.course-tab.active{color:#0369A1;background:#F0F9FF;border-color:#BAE6FD}
+.course-tab.active .ct-count{color:#0369A1;background:#FFFFFF;border-color:#BAE6FD}
+.course-tab.t-django.active{color:#0C4B33;background:#ECFDF5;border-color:#A7F3D0}
+.course-tab.t-django.active .ct-count{color:#0C4B33;border-color:#A7F3D0}
+.course-tab.t-docker.active{color:#0847A8;background:#EFF6FF;border-color:#BFDBFE}
+.course-tab.t-docker.active .ct-count{color:#0847A8;border-color:#BFDBFE}
+.course-tab.t-react.active{color:#1E3A8A;background:#EFF6FF;border-color:#BFDBFE}
+.course-tab.t-react.active .ct-count{color:#1E3A8A;border-color:#BFDBFE}
 .pdf-card{border-color:#BAE6FD;background:linear-gradient(150deg,#FFFFFF 45%,#F0F9FF)}
 .pdf-card .card-title{color:#0369A1}
 /* quiz : options en grille sur grand écran */
@@ -730,7 +750,8 @@ button:focus-visible,a:focus-visible,summary:focus-visible,.input:focus-visible{
 <script>
 "use strict";
 /* =========================================================================
-   DevMaster PWA — application d'apprentissage React.js / Flutter.
+   DevMaster PWA — application d'apprentissage React.js / Flutter,
+   avec une bibliothèque de cours Django, Docker et ReactJS.
    HTML + CSS + JS natif. Aucune dépendance distante.
    ========================================================================= */
 
@@ -932,7 +953,7 @@ function progressFill(pct, variant) {
 }
 
 /* ---------------------------- Configuration ---------------------------- */
-const APP_VERSION = "1.2.0";
+const APP_VERSION = "1.3.0";
 const STORAGE_KEY = "devmaster.progress.v1";
 const SAVE_VERSION = 1;
 
@@ -1393,7 +1414,7 @@ Nav.render = function () {
   if (root === "g" && parts[1] && GAMES[parts[1]]) { Engine.open(parts[1]); return; }
   renderBottomNav(navRoot(hash));
   if (root === "explorer") Screens.explorer();
-  else if (root === "cours") Screens.cours();
+  else if (root === "cours") Screens.cours(parts[1]);
   else if (root === "u" && UNIVERSES[parts[1]]) Screens.universe(parts[1]);
   else if (root === "d" && DOMAINS[parts[1]]) Screens.domain(parts[1]);
   else if (root === "progression") Screens.progression();
@@ -1423,14 +1444,14 @@ Screens.home = function () {
       el("span", { class: "course-strip-ico", html: icon("book") }),
       el("div", { class: "grow" }, [
         el("div", { class: "row wrap", style: "margin-bottom:3px" }, [
-          el("span", { class: "card-title", style: "margin:0", text: "Parcours Flutter : du cours au jeu" }),
-          el("span", { class: "chip flutter", text: "PDF · cours" })
+          el("span", { class: "card-title", style: "margin:0", text: "Bibliothèque de cours : 5 parcours" }),
+          el("span", { class: "chip flutter", text: "PDF · fiches" })
         ]),
-        el("p", { class: "card-sub", text: "MaterialApp, Scaffold, AppBar, listes, Drawer et TP WhatsApp : 11 fiches + un quiz de 16 questions." })
+        el("p", { class: "card-sub", text: "Flutter, Django (mise en route et modélisation), Docker et ReactJS : des fiches de révision synthétiques, à lire puis à tester." })
       ]),
       el("div", { class: "row wrap course-strip-actions" }, [
-        el("button", { class: "btn", onclick: () => Nav.go("#/cours") }, iconEl("book"), el("span", { text: "Fiches" })),
-        el("button", { class: "btn btn-flutter", onclick: () => Nav.go("#/g/material-quiz") }, iconEl("play"), el("span", { text: "Quiz du cours" }))
+        el("button", { class: "btn", onclick: () => Nav.go("#/cours") }, iconEl("book"), el("span", { text: "Tous les cours" })),
+        el("button", { class: "btn btn-flutter", onclick: () => Nav.go("#/g/material-quiz") }, iconEl("play"), el("span", { text: "Quiz Flutter" }))
       ])
     ])
   ]);
@@ -1723,29 +1744,62 @@ Screens.domain = function (domainId) {
 };
 
 /* -------------------------------- Cours --------------------------------- */
-Screens.cours = function () {
+Screens.cours = function (trackId) {
   renderTopbar({});
   const view = $("#view");
-  const head = el("div", { class: "stack", style: "gap:4px" }, [
-    el("h1", { text: "Cours Flutter" }),
-    el("p", { class: "card-sub", text: "Fiches de révision issues du support PDF : MaterialApp, Scaffold, widgets, listes et TP WhatsApp." })
-  ]);
-  const hero = el("div", { class: "card course-hero" }, [
-    el("span", { class: "course-hico", html: icon("book") }),
-    el("div", { class: "grow" }, [
-      el("div", { class: "row wrap", style: "margin-bottom:4px" }, [
-        el("span", { class: "card-title", style: "margin:0;color:#fff;font-size:16px", text: "Du cours au jeu" }),
-        el("span", { class: "chip", style: "background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3);color:#fff", text: "11 fiches" })
-      ]),
-      el("p", { class: "card-sub", style: "color:rgba(255,255,255,.88)", text: "Lis une fiche, puis vérifie avec le quiz de 16 questions. Chaque notion est aussi réinvestie dans les jeux Flutter." })
-    ]),
-    el("div", { class: "row wrap" }, [
-      el("button", { class: "btn btn-primary", onclick: () => Nav.go("#/g/material-quiz") }, iconEl("play"), el("span", { text: "Quiz du cours" })),
-      el("button", { class: "btn", onclick: () => Nav.go("#/d/flutter-a") }, iconEl("layers"), el("span", { text: "Jeux Flutter" }))
+  const track = COURSE_TRACKS.find(t => t.id === trackId) || COURSE_TRACKS[0];
+
+  const head = el("div", { class: "stack", style: "gap:8px" }, [
+    el("div", { class: "stack", style: "gap:4px" }, [
+      el("h1", { text: "Cours & fiches" }),
+      el("p", { class: "card-sub", text: "Des fiches de révision issues des supports PDF : Flutter, Django, Docker et ReactJS." })
     ])
   ]);
+  const tabs = el("div", { class: "course-tabs", role: "tablist", "aria-label": "Catégories de cours" });
+  COURSE_TRACKS.forEach(t => {
+    tabs.appendChild(el("button", {
+      class: "course-tab t-" + t.accent + (t.id === track.id ? " active" : ""),
+      role: "tab", "aria-selected": t.id === track.id ? "true" : "false",
+      title: t.heroTitle,
+      onclick: () => Nav.go("#/cours/" + t.id)
+    }, [
+      el("span", { html: icon(t.icon) }),
+      el("span", { text: t.label }),
+      el("span", { class: "ct-count", text: String(t.sections.length) })
+    ]));
+  });
+  head.appendChild(tabs);
+
+  const actions = el("div", { class: "row wrap" });
+  track.actions.forEach(a => {
+    if (a.href) {
+      actions.appendChild(el("a", {
+        class: "btn" + (a.variant ? " " + a.variant : ""), href: a.href,
+        target: "_blank", rel: "noopener"
+      }, iconEl(a.icon), el("span", { text: a.label })));
+    } else {
+      actions.appendChild(el("button", {
+        class: "btn" + (a.variant ? " " + a.variant : ""),
+        onclick: () => Nav.go(a.route)
+      }, iconEl(a.icon), el("span", { text: a.label })));
+    }
+  });
+
+  const hero = el("div", { class: "card course-hero t-" + track.accent }, [
+    el("span", { class: "course-hico", html: icon(track.icon) }),
+    el("div", { class: "grow" }, [
+      el("div", { class: "row wrap", style: "margin-bottom:4px" }, [
+        el("span", { class: "card-title", style: "margin:0;color:#fff;font-size:16px", text: track.heroTitle }),
+        el("span", { class: "chip", style: "background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3);color:#fff", text: track.sections.length + " fiches" }),
+        el("span", { class: "chip", style: "background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3);color:#fff", text: track.sourceLabel })
+      ]),
+      el("p", { class: "card-sub", style: "color:rgba(255,255,255,.88)", text: track.heroText })
+    ]),
+    actions
+  ]);
+
   const grid = el("div", { class: "course-grid" });
-  COURSE_SECTIONS.forEach((sec, i) => {
+  track.sections.forEach((sec, i) => {
     const details = el("details", { class: "lesson", open: i === 0 });
     details.appendChild(el("summary", {}, [
       el("span", { class: "ico-box", html: icon(sec.icon) }),
@@ -4257,6 +4311,856 @@ const COURSE_SECTIONS = [
       "Bonus : sépare les données fictives dans une liste de modèles et construis les lignes avec ListView.builder."
     ],
     code: "ListTile(\n  leading: const CircleAvatar(\n    backgroundColor: Color(0xFF25D366),\n    child: Text('A', style: TextStyle(color: Colors.white)),\n  ),\n  title: const Text('Aïcha', style: TextStyle(fontWeight: FontWeight.bold)),\n  subtitle: const Text('Salut, ça va ?'),\n  trailing: const Text('12:30'),\n  onTap: () => Navigator.push(\n    context,\n    MaterialPageRoute(builder: (_) => const ChatPage(nom: 'Aïcha')),\n  ),\n)"
+  }
+];
+
+/* --- Cours Django : mise en route (PDF 0010) --- */
+const DJANGO_START_SECTIONS = [
+  {
+    id: "dj-start-pourquoi", title: "Pourquoi Django ?", icon: "database",
+    summary: "Un framework web Python qui fournit l'ORM, l'admin, l'authentification, les migrations, les templates et le routage : vous écrivez le métier.",
+    points: [
+      "Django fournit déjà l'ORM et les migrations, l'interface d'administration, l'authentification, les permissions, la sécurité web, les templates et le routage.",
+      "L'ORM traduit des classes Python en tables SQL ; les migrations font évoluer la base sans la modifier à la main.",
+      "L'administration est générée à partir des modèles : quelques lignes suffisent pour saisir et chercher des données.",
+      "Correspondances Laravel → Django : `php artisan` → `manage.py`, Eloquent → ORM, Blade → templates, `routes/web.php` → `urls.py`, Composer → `uv`.",
+      "Le contrat du cours : Django écrit l'infrastructure (admin, ORM, migrations, comptes), vous écrivez le métier.",
+      "Le serveur de développement intégré suffit pour apprendre ; il n'est pas destiné à la production."
+    ],
+    tip: "Django n'est pas un simple routeur : c'est un framework complet, « batteries included »."
+  },
+  {
+    id: "dj-start-uv", title: "L'outillage : uv", icon: "settings",
+    summary: "Un seul outil, uv, installe Python, épingle la version du projet, gère les dépendances et exécute les commandes Django.",
+    points: [
+      "`uv` n'est ni dans les dépôts Ubuntu ni installable avec `pip` : on passe par l'installateur officiel, une fois par machine.",
+      "`uv init --no-package suivi_stages` crée un projet Python sans packaging.",
+      "`uv python pin 3.14` fixe la version de Python : toutes les machines de la salle auront les mêmes messages d'erreur.",
+      "`uv add django==5.2.*` ajoute la dépendance et l'installe dans l'environnement du projet.",
+      "`uv sync` reconstruit l'environnement à l'identique après un clone ; `uv run` exécute dans cet environnement.",
+      "Toutes les commandes Django passent par `uv run manage.py ...`."
+    ],
+    code: `curl -LsSf https://astral.sh/uv/install.sh | sh
+uv init --no-package suivi_stages
+cd suivi_stages
+uv python pin 3.14
+uv add django==5.2.*
+uv run manage.py runserver`,
+    tip: "Le duo à retenir : `uv sync` pour installer, `uv run` pour exécuter."
+  },
+  {
+    id: "dj-start-projet", title: "Projet et application", icon: "layers",
+    summary: "`startproject` crée la configuration globale ; `startapp` crée un morceau fonctionnel avec ses modèles, vues, admin et migrations.",
+    points: [
+      "`uv run django-admin startproject suivi_stages .` : le point final évite le dossier imbriqué `suivi_stages/suivi_stages/`.",
+      "Le projet contient `settings.py`, `urls.py` et `wsgi.py` : un seul projet Django peut contenir plusieurs applications.",
+      "L'application `stages` contient `models.py`, `views.py`, `admin.py` et `migrations/` ; il peut y en avoir plusieurs.",
+      "`uv run manage.py startapp stages` crée l'application ; il faut ensuite l'inscrire dans `INSTALLED_APPS`.",
+      "`uv run manage.py runserver` démarre le serveur de développement sur `http://127.0.0.1:8000/`.",
+      "Un projet = la configuration ; une application = une fonctionnalité. Un projet peut contenir plusieurs applications."
+    ],
+    code: `uv run django-admin startproject suivi_stages .
+uv run manage.py startapp stages
+uv run manage.py runserver`,
+    tip: "Le point final de `startproject ... .` n'est pas décoratif : sans lui, Django crée un dossier supplémentaire."
+  },
+  {
+    id: "dj-start-requete", title: "Le trajet d'une requête", icon: "route",
+    summary: "Une requête traverse les URLs, une vue, l'ORM et un template : la vue est le seul chef d'orchestre.",
+    points: [
+      "Navigateur → `urls.py` → vue : la route associe une URL à une fonction.",
+      "La vue reçoit toujours `request` en premier argument : utilisateur, paramètres et méthode HTTP y sont disponibles.",
+      "La vue interroge les modèles via l'ORM ; le template, lui, ne parle jamais à la base.",
+      "`render(request, template, contexte)` transmet un dictionnaire de contexte au template.",
+      "Les clés du contexte deviennent des variables dans le template.",
+      "Séparer route, vue et template rend chaque pièce testable et remplaçable."
+    ],
+    code: `def liste_entreprises(request):
+    return render(
+        request,
+        "stages/liste_entreprises.html",
+        {"entreprises": Entreprise.objects.all()},
+    )`,
+    tip: "Le template ne parle jamais à la base : la vue est le seul chef d'orchestre."
+  },
+  {
+    id: "dj-start-settings", title: "settings.py : les lignes qui comptent", icon: "settings",
+    summary: "`INSTALLED_APPS` déclare les applications connues, les contrib fournissent admin, comptes et sessions, `DEBUG` contrôle les pages d'erreur.",
+    points: [
+      "Django ne connaît que les applications listées dans `INSTALLED_APPS`.",
+      "Une application créée par `startapp` n'y est pas automatiquement : c'est à vous de l'ajouter.",
+      "`django.contrib.admin`, `auth`, `contenttypes`, `sessions`, `messages` et `staticfiles` sont fournis et fonctionnent déjà.",
+      "`DEBUG = True` affiche des pages d'erreur détaillées en développement ; à passer à `False` en production.",
+      "`settings.py` contient aussi la base de données, les langues, les fichiers statiques et les clés de sécurité.",
+      "Un `settings.py` lisible et versionné évite les surprises au déploiement."
+    ],
+    code: `INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "stages",
+]
+
+DEBUG = True`,
+    tip: "Ajouter une application dans `INSTALLED_APPS` fait partie de sa création, pas d'une étape facultative."
+  },
+  {
+    id: "dj-start-modele", title: "Un modèle = une table", icon: "database",
+    summary: "Un modèle Django est une classe Python qui hérite de `models.Model` : chaque champ devient une colonne de la table.",
+    points: [
+      "`models.CharField(max_length=...)` : texte court avec une longueur maximale obligatoire.",
+      "`unique=True` interdit les doublons ; `EmailField` valide le format d'une adresse.",
+      "`class Meta` règle le tri par défaut, le nom de la table et les contraintes.",
+      "`__str__` définit l'affichage lisible dans l'admin, le shell et les listes déroulantes.",
+      "Le modèle est la source de vérité : la base de données suit, pas l'inverse.",
+      "Un modèle = une responsabilité ; on le place dans `models.py` ou dans un package `models/`."
+    ],
+    code: `from django.db import models
+
+class Entreprise(models.Model):
+    nom = models.CharField(max_length=120, unique=True)
+    ville = models.CharField(max_length=80)
+    secteur = models.CharField(max_length=80)
+    contact = models.EmailField()
+
+    class Meta:
+        ordering = ["nom"]
+
+    def __str__(self):
+        return f"{self.nom} ({self.ville})"`,
+    tip: "Décrivez d'abord le métier en Python ; Django s'occupe du SQL."
+  },
+  {
+    id: "dj-start-migrations", title: "Modèles et migrations", icon: "rotate",
+    summary: "`makemigrations` compare les modèles à l'état précédent, `sqlmigrate` montre le SQL, `migrate` applique les changements.",
+    points: [
+      "`makemigrations` écrit un fichier de migration dans `migrations/` : il ne touche pas encore la base.",
+      "`sqlmigrate stages 0001` affiche le SQL que la migration exécutera, sans rien appliquer.",
+      "`migrate` applique à la base tout ce qui n'est pas encore appliqué.",
+      "Une migration est versionnée avec le code : toute l'équipe la rejoue avec `migrate`.",
+      "Ne modifiez pas une table à la main : le modèle reste la source de vérité.",
+      "Après un changement de modèle, refaites le cycle `makemigrations` → `migrate`."
+    ],
+    code: `uv run manage.py makemigrations stages
+uv run manage.py sqlmigrate stages 0001
+uv run manage.py migrate`,
+    tip: "Le modèle est la source de vérité. La base suit."
+  },
+  {
+    id: "dj-start-admin", title: "L'admin en trois lignes", icon: "shield",
+    summary: "Trois lignes dans `admin.py` suffisent pour obtenir une interface de saisie complète, protégée par un compte.",
+    points: [
+      "`@admin.register(Entreprise)` déclare le modèle dans l'admin ; sans cela, il n'apparaît pas.",
+      "`list_display` choisit les colonnes de la page de liste.",
+      "`search_fields` ajoute une barre de recherche sur les champs indiqués.",
+      "`uv run manage.py createsuperuser` crée le premier compte administrateur.",
+      "L'admin est accessible sur `/admin/` et permet de saisir les données de test en quelques minutes.",
+      "L'admin est un outil de gestion, pas l'interface publique de l'application."
+    ],
+    code: `from django.contrib import admin
+from .models import Entreprise
+
+@admin.register(Entreprise)
+class EntrepriseAdmin(admin.ModelAdmin):
+    list_display = ["nom", "ville", "secteur"]
+    search_fields = ["nom", "ville"]`,
+    tip: "Django n'affiche dans l'admin que ce qu'on lui déclare."
+  },
+  {
+    id: "dj-start-page", title: "Route, vue, template", icon: "route",
+    summary: "Une page se construit avec trois pièces : une route nommée, une vue qui interroge les modèles, un template qui affiche le contexte.",
+    points: [
+      "`app_name = \"stages\"` crée un espace de noms : on écrit `{% url 'stages:liste_entreprises' %}`.",
+      "`path(\"entreprises/\", views.liste_entreprises, name=\"liste_entreprises\")` associe URL, vue et nom.",
+      "Le `urls.py` du projet inclut les URLs de l'application avec `include(\"stages.urls\")`.",
+      "La vue utilise `render(request, template, contexte)` et délègue l'affichage au template.",
+      "Le template vit dans `stages/templates/stages/` : le sous-dossier au nom de l'application évite les collisions.",
+      "On ne réécrit jamais une URL en dur : on utilise son nom."
+    ],
+    code: `# stages/urls.py
+app_name = "stages"
+urlpatterns = [
+    path("entreprises/", views.liste_entreprises, name="liste_entreprises"),
+]
+
+# suivi_stages/urls.py
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include("stages.urls")),
+]`,
+    tip: "Trois pièces, jamais deux : la route, la vue et le template."
+  },
+  {
+    id: "dj-start-templates", title: "La syntaxe des templates", icon: "type",
+    summary: "Deux syntaxes suffisent : `{{ ... }}` affiche une variable, `{% ... %}` pilote boucles, conditions et héritage.",
+    points: [
+      "`{{ entreprise.nom }}` suit l'objet, sans parenthèses, même pour un appel de méthode.",
+      "`{% for entreprise in entreprises %} ... {% empty %} ... {% endfor %}` gère la liste et le cas vide.",
+      "`{% if %}`, `{% elif %}`, `{% else %}` et `{% endif %}` ajoutent des conditions.",
+      "`{% extends \"base.html\" %}` et `{% block contenu %}` réutilisent un squelette commun.",
+      "Le template affiche ; il ne calcule pas et n'accède pas à la base.",
+      "`empty` évite d'écrire un `if` autour de la boucle."
+    ],
+    code: `<h1>Entreprises partenaires</h1>
+<ul>
+  {% for entreprise in entreprises %}
+    <li>{{ entreprise.nom }} — {{ entreprise.ville }}</li>
+  {% empty %}
+    <li>Aucune entreprise enregistrée pour le moment.</li>
+  {% endfor %}
+</ul>`,
+    tip: "Les accolades doubles affichent ; les accolades à pourcent pilotent."
+  },
+  {
+    id: "dj-start-fil-rouge", title: "Fil rouge : le suivi des stages", icon: "flag",
+    summary: "Le projet du semestre suit les stages de l'IFNTI : entreprises, offres, étudiants, candidatures, stages, conventions et évaluations.",
+    points: [
+      "Chaque séance a un tag de départ et de correction (`tp2-depart`, `tp2-corrige`) : une séance manquée ne bloque personne.",
+      "Le TP de mise en route : installer `uv`, créer le projet, épingler Python 3.14.",
+      "Créer l'application `stages`, la déclarer, diagnostiquer deux pannes volontaires.",
+      "Écrire le modèle `Entreprise`, saisir cinq entreprises dans l'admin, afficher la liste sur `/entreprises/`.",
+      "Committer, pousser et déposer l'adresse du dépôt sur Moodle.",
+      "La séance suivante modélise tout le domaine : relations, `on_delete` et contraintes."
+    ],
+    tip: "C'est en forgeant qu'on devient forgeron : le cours s'oublie, ce que vous codez reste."
+  }
+];
+
+/* --- Cours Django : modéliser le domaine (PDF 0020) --- */
+const DJANGO_MODEL_SECTIONS = [
+  {
+    id: "dj-model-domaine", title: "Du domaine au schéma", icon: "network",
+    summary: "Chaque entité, relation et contrainte est une décision qui a un coût aujourd'hui ou dans trois mois.",
+    points: [
+      "Partir des entités du métier : `Auteur`, `Livre`, `Exemplaire`, `Emprunt`, `Lecteur`, `CarteLecteur`.",
+      "Nommer les relations : « a écrit », « existe en », « fait l'objet de », « possède ».",
+      "Chaque trait est une décision : cardinalité, obligation, suppression, unicité.",
+      "Une décision mal prise se paie aujourd'hui ou dans trois mois.",
+      "Le schéma se dessine avant le code ; le code traduit ensuite les décisions en modèles.",
+      "Pour le TP, le domaine est le suivi des stages, pas la bibliothèque d'exemple."
+    ],
+    tip: "Chaque trait du schéma est une décision. Chaque décision a un coût."
+  },
+  {
+    id: "dj-model-package", title: "Un modèle par fichier", icon: "layers",
+    summary: "`models.py` peut devenir un package `models/` : un fichier par modèle, un `__init__.py` qui réexporte tout.",
+    points: [
+      "`models.py` peut devenir un package `models/` : un fichier par modèle.",
+      "Deux personnes travaillent sur deux fichiers : moins de conflits Git.",
+      "`__init__.py` réexporte les classes : le reste du code garde `from .models import Livre`.",
+      "`__all__` documente et limite ce que le package expose.",
+      "Les migrations restent dans `migrations/` ; Django découvre toujours les modèles de l'application.",
+      "On éclate quand le fichier devient pénible à lire, pas par dogme."
+    ],
+    code: `# bibliotheque/models/__init__.py
+from .auteur import Auteur
+from .carte_lecteur import CarteLecteur
+from .emprunt import Emprunt
+from .exemplaire import Exemplaire
+from .lecteur import Lecteur
+from .livre import Livre
+
+__all__ = ["Auteur", "CarteLecteur", "Emprunt", "Exemplaire", "Lecteur", "Livre"]`,
+    tip: "Le reste du code continue d'écrire `from .models import Livre` : le package est un détail d'organisation."
+  },
+  {
+    id: "dj-model-heritage", title: "Héritage abstrait ou concret", icon: "scale",
+    summary: "`abstract = True` factorise des champs sans créer de table ; l'héritage multi-table crée une table par classe.",
+    points: [
+      "`abstract = True` : aucune table pour le parent ; ses champs sont recopiés dans chaque enfant.",
+      "Héritage multi-table : une table pour le parent et une par enfant, avec une jointure à chaque lecture.",
+      "L'abstrait simplifie les lectures et évite les jointures ; le concret permet d'interroger tous les documents d'un coup.",
+      "Si un enfant redéfinit `Meta`, il doit hériter de `Meta` du parent (`class Meta(Document.Meta)`).",
+      "L'abstrait sert à factoriser des champs communs, pas à créer une hiérarchie profonde.",
+      "Choisir, c'est assumer le coût : simplicité de lecture ou requête transversale."
+    ],
+    code: `class Document(models.Model):
+    titre = models.CharField(max_length=200)
+    annee = models.PositiveSmallIntegerField()
+
+    class Meta:
+        abstract = True
+        ordering = ["titre"]
+
+class Livre(Document):
+    isbn = models.CharField(max_length=13, unique=True)
+
+    class Meta(Document.Meta):
+        verbose_name = "livre"`,
+    tip: "Abstrait : les champs sont recopiés, il n'y a pas de table parente."
+  },
+  {
+    id: "dj-model-relations", title: "ForeignKey, ManyToMany, OneToOne", icon: "network",
+    summary: "Trois champs pour trois cardinalités : plusieurs-vers-un, plusieurs-vers-plusieurs, un-vers-un.",
+    points: [
+      "`ForeignKey` : plusieurs exemplaires vers un livre ; la clé est du côté « plusieurs ».",
+      "`ManyToManyField` : un livre vers plusieurs auteurs et réciproquement ; Django crée la table de jonction.",
+      "`OneToOneField` : un lecteur vers une seule carte, une clé étrangère unique.",
+      "`related_name` nomme le chemin inverse : `livre.exemplaires.all()`.",
+      "Un `ManyToManyField` se déclare une seule fois, pas des deux côtés.",
+      "La cardinalité se lit dans la phrase métier, pas dans l'habitude."
+    ],
+    code: `class Exemplaire(models.Model):
+    livre = models.ForeignKey(
+        Livre, on_delete=models.PROTECT,
+        related_name="exemplaires")
+
+class Livre(Document):
+    auteurs = models.ManyToManyField(
+        Auteur, related_name="livres")
+
+class CarteLecteur(models.Model):
+    lecteur = models.OneToOneField(
+        Lecteur, on_delete=models.CASCADE,
+        related_name="carte")`,
+    tip: "ForeignKey = plusieurs vers un ; ManyToMany = plusieurs vers plusieurs ; OneToOne = un vers un."
+  },
+  {
+    id: "dj-model-ondelete", title: "on_delete : une règle métier", icon: "shield",
+    summary: "`CASCADE`, `PROTECT`, `SET_NULL`, `SET_DEFAULT`, `RESTRICT` : que devient l'enfant quand le parent disparaît ?",
+    points: [
+      "`CASCADE` : les enfants sont supprimés avec le parent.",
+      "`PROTECT` : la suppression est refusée tant qu'il existe des enfants.",
+      "`SET_NULL` : les enfants perdent le lien ; le champ doit accepter `null=True`.",
+      "`SET_DEFAULT` : les enfants pointent vers une valeur par défaut.",
+      "`RESTRICT` : comme `PROTECT`, sauf si le parent part lui-même en cascade.",
+      "`on_delete` est une règle métier, pas un réglage technique."
+    ],
+    tip: "`on_delete` n'est pas un réglage technique. C'est une règle métier."
+  },
+  {
+    id: "dj-model-contraintes", title: "Choix, unicité, tri et __str__", icon: "grid",
+    summary: "`TextChoices` ferme les valeurs, `UniqueConstraint` protège la base, `Meta` ordonne, `__str__` rend l'objet lisible.",
+    points: [
+      "`TextChoices` ferme une liste de valeurs et fournit les libellés à l'admin.",
+      "`UniqueConstraint(fields=[...], name=...)` interdit un doublon et nomme la contrainte.",
+      "`Meta.ordering` définit le tri par défaut de toutes les requêtes.",
+      "`__str__` rend l'objet lisible dans l'admin, le shell et les listes.",
+      "`unique_together` est l'ancienne écriture, encore acceptée mais à éviter.",
+      "La base vérifie la contrainte : ce n'est pas seulement une validation de formulaire."
+    ],
+    code: `class Exemplaire(models.Model):
+    class Etat(models.TextChoices):
+        BON = "bon", "Bon état"
+        ABIME = "abime", "Abîmé"
+
+    numero = models.PositiveSmallIntegerField()
+    etat = models.CharField(max_length=10, choices=Etat)
+
+    class Meta:
+        ordering = ["livre", "numero"]
+        constraints = [models.UniqueConstraint(
+            fields=["livre", "numero"],
+            name="numero_par_livre")]
+
+    def __str__(self):
+        return f"{self.livre} (ex. {self.numero})"`,
+    tip: "`unique_together` est l'ancienne écriture : préférez `UniqueConstraint`, qui sait nommer et conditionner la contrainte."
+  },
+  {
+    id: "dj-model-sql", title: "Lire le SQL d'une migration", icon: "code",
+    summary: "`sqlmigrate` montre ce que Django crée vraiment, notamment les tables de jonction ManyToMany.",
+    points: [
+      "`uv run manage.py sqlmigrate bibliotheque 0001` affiche le SQL d'une migration.",
+      "Une table de jonction ManyToMany contient deux clés étrangères et une clé primaire.",
+      "`REFERENCES` matérialise les relations entre tables.",
+      "Lire le SQL permet de vérifier qu'une décision de modèle a bien produit l'effet attendu.",
+      "Django nomme les tables `application_modele` ; la clé primaire `id` est ajoutée automatiquement.",
+      "On ne corrige pas le SQL à la main : on corrige le modèle puis on génère une nouvelle migration."
+    ],
+    code: `CREATE TABLE "bibliotheque_livre_auteurs" (
+    "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "livre_id" bigint NOT NULL REFERENCES "bibliotheque_livre" ("id"),
+    "auteur_id" bigint NOT NULL REFERENCES "bibliotheque_auteur" ("id")
+);`,
+    tip: "Lisez le SQL comme la traduction de vos décisions, pas comme un fichier magique."
+  },
+  {
+    id: "dj-model-shell", title: "Le shell et l'ORM en six gestes", icon: "code",
+    summary: "Peupler et interroger la base sans SQL : create, get, filter, traverser les relations, set, count.",
+    points: [
+      "`uv run manage.py shell` ouvre un shell Python connecté à la base.",
+      "Depuis Django 5.2, les modèles sont importés automatiquement dans le shell.",
+      "`Livre.objects.create(...)` crée et enregistre en une fois.",
+      "`get()` renvoie un objet ou lève une erreur ; `filter()` renvoie une liste filtrée.",
+      "`annee__lt=1900`, `__gte`, `__contains` : les doubles underscores expriment les lookups.",
+      "`livre__auteurs__nom=\"Hugo\"` traverse les relations ; `count()` compte en SQL."
+    ],
+    code: `$ uv run manage.py shell
+$ hugo = Auteur.objects.create(nom="Hugo", prenom="Victor")
+$ livre = Livre.objects.create(titre="Les Misérables", annee=1862, isbn="9782070409228")
+$ livre.auteurs.add(hugo)
+$ hugo.livres.all()
+<QuerySet [<Livre: Les Misérables>]>
+$ Exemplaire.objects.filter(livre__auteurs__nom="Hugo").count()`,
+    tip: "L'ORM en six gestes : create, get, filter, traverser, set, count."
+  },
+  {
+    id: "dj-model-atelier", title: "Atelier : modéliser les stages", icon: "target",
+    summary: "Éclater `models.py`, modéliser toutes les entités du suivi des stages, justifier relations, `on_delete` et contraintes.",
+    points: [
+      "Éclater `models.py` en package et vérifier que Django continue de fonctionner.",
+      "Modéliser tout le suivi des stages à partir de la parole de la responsable.",
+      "Trancher chaque relation, chaque `on_delete`, chaque contrainte et le justifier.",
+      "Lire le SQL de la migration et y retrouver ses décisions.",
+      "Peupler la base par le shell, puis l'interroger avec l'ORM.",
+      "Pas de modèle à recopier : il n'y en a pas au tableau. Bloqué plus de dix minutes ? Appelez."
+    ],
+    tip: "La séance suivante passe aux vues, URLs et templates : le modèle doit être solide avant."
+  }
+];
+
+/* --- Cours Docker (PDF docker.pdf) --- */
+const DOCKER_SECTIONS = [
+  {
+    id: "docker-concepts", title: "Conteneur ou machine virtuelle ?", icon: "cpu",
+    summary: "Le conteneur est une virtualisation légère : il partage le noyau de l'hôte, démarre vite et ne réserve que le nécessaire.",
+    points: [
+      "Machine virtuelle : isolation totale, ressources réservées, démarrage lent.",
+      "Conteneur : virtualisation légère, démarrage rapide, seules les ressources nécessaires.",
+      "Un conteneur partage le noyau de l'hôte : l'isolation n'est pas totale.",
+      "Les conteneurs existaient avant Docker (LXC, OpenVZ) ; Docker est un logiciel de conteneurisation.",
+      "Pourquoi : réduire les coûts, augmenter la densité, scaler l'infrastructure.",
+      "Un conteneur n'est pas une machine virtuelle : on ne virtualise pas le matériel."
+    ],
+    tip: "Docker facilite surtout le déploiement : même environnement, du poste de développement au serveur."
+  },
+  {
+    id: "docker-terminologie", title: "Images, conteneurs et registry", icon: "layers",
+    summary: "L'image est le programme, le conteneur son instance, le Dockerfile la recette, le registry le dépôt.",
+    points: [
+      "Image : programme immuable qui sert à créer un conteneur.",
+      "Conteneur : instance en exécution d'une image.",
+      "Dockerfile : recette de construction d'une image.",
+      "Docker Compose : fichier qui décrit et orchestre plusieurs conteneurs.",
+      "Registry : dépôt d'images ; Docker Hub est le registry public officiel.",
+      "Stack : ensemble de conteneurs qui forment une application."
+    ],
+    tip: "Image = recette ; conteneur = plat servi. Une image peut lancer plusieurs conteneurs."
+  },
+  {
+    id: "docker-conteneurs", title: "Le cycle de vie d'un conteneur", icon: "play",
+    summary: "`pull`, `run`, `ps`, `stop`, `start`, `exec`, `rm` : les commandes qui couvrent la vie d'un conteneur.",
+    points: [
+      "`docker image ls` liste les images locales ; `docker pull hello-world` en télécharge une.",
+      "`docker run hello-world` crée un conteneur, l'exécute et l'arrête.",
+      "`-d` détache le conteneur ; sans lui, le terminal reste attaché.",
+      "`-p 8080:80` publie le port 80 du conteneur sur le port 8080 de l'hôte.",
+      "`docker ps` ou `docker container ls` liste les conteneurs ; `-a` inclut les arrêtés.",
+      "`docker exec -it ID bash` ouvre un shell dans un conteneur en cours d'exécution.",
+      "`stop`, `start`, `rm -f`, `inspect` et `system prune` complètent le cycle de vie."
+    ],
+    code: `docker pull nginx
+docker run -d --name serveur_web -p 8080:80 nginx
+docker ps
+docker inspect serveur_web
+docker exec -it serveur_web bash
+docker stop serveur_web
+docker rm -f serveur_web`,
+    tip: "`-p 8080:80` se lit « port de l'hôte : port du conteneur »."
+  },
+  {
+    id: "docker-volumes", title: "Volumes et persistance", icon: "save",
+    summary: "Un conteneur jetable perd ses données : le volume rend le conteneur stateful et survit à sa suppression.",
+    points: [
+      "Les données écrites dans un conteneur disparaissent avec lui : la couche d'écriture est éphémère.",
+      "Un volume rend le conteneur stateful et survit à sa suppression.",
+      "Bind mount : `-v $(pwd)/html:/usr/share/nginx/html` monte un dossier de l'hôte.",
+      "Volume nommé : `-v mon_volume:/usr/share/nginx/html`.",
+      "`--mount source=mon_volume,target=/usr/share/nginx/html` est la forme explicite.",
+      "`docker volume ls`, `create` et `inspect` gèrent les volumes nommés."
+    ],
+    code: `docker run -d --name serveur_web \\
+  -v $(pwd)/html:/usr/share/nginx/html nginx
+
+docker volume create mon_volume
+docker run -d --name serveur_web \\
+  --mount source=mon_volume,target=/usr/share/nginx/html nginx`,
+    tip: "Un conteneur doit rester remplaçable : les données importantes vivent dans un volume."
+  },
+  {
+    id: "docker-dockerfile", title: "Le Dockerfile", icon: "code",
+    summary: "Un fichier de configuration dont chaque instruction crée une couche ; `FROM`, `RUN`, `COPY`, `EXPOSE` et `CMD` en sont les briques.",
+    points: [
+      "Un Dockerfile est un fichier de configuration ; chaque instruction crée une couche.",
+      "`FROM image:version` choisit l'image de base.",
+      "`RUN commande` exécute une commande pendant la construction.",
+      "`COPY src dest` copie des fichiers de l'hôte vers l'image ; `WORKDIR` fixe le dossier courant.",
+      "`EXPOSE` documente le port ; `ENV` définit une variable ; `VOLUME` déclare un volume.",
+      "`CMD` ou `ENTRYPOINT` définit le processus principal du conteneur."
+    ],
+    code: `FROM nginx:latest
+WORKDIR /usr/share/nginx/html
+COPY gestion_ticket/* .
+EXPOSE 80
+ENTRYPOINT ["nginx", "-g", "daemon off;"]`,
+    tip: "Chaque ligne du Dockerfile crée une couche : regrouper les commandes proches réduit le poids de l'image."
+  },
+  {
+    id: "docker-images", title: "Construire et publier une image", icon: "download",
+    summary: "`docker build -t nom:tag .` construit l'image depuis le Dockerfile ; `tag`, `pull` et `push` la partagent via un registry.",
+    points: [
+      "`docker build -t image_gestion_ticket .` construit une image depuis le Dockerfile du dossier courant.",
+      "`-f autre.Dockerfile` choisit un Dockerfile différent ; `.` est le contexte de construction.",
+      "`docker image ls` vérifie l'image créée ; `docker run` en démarre un conteneur.",
+      "`docker tag source:tag cible:tag` ajoute un nom ou une version.",
+      "`docker pull` récupère une image ; `docker push` la publie dans un registry.",
+      "Un nom d'image sans tag vaut `latest` : versionnez vos images en production."
+    ],
+    code: `docker build -t image_gestion_ticket:1.0 .
+docker image ls
+docker run -d --name mon_site -p 8080:80 image_gestion_ticket:1.0
+docker tag image_gestion_ticket:1.0 moncompte/image_gestion_ticket:1.0
+docker push moncompte/image_gestion_ticket:1.0`,
+    tip: "Le point final de `docker build ... .` désigne le contexte envoyé au démon Docker, pas un détail décoratif."
+  },
+  {
+    id: "docker-layers", title: "Couches et Copy-on-Write", icon: "layers",
+    summary: "Les couches sont en lecture seule et partagées ; le conteneur ajoute une couche d'écriture par-dessus.",
+    points: [
+      "Une image est une pile de couches en lecture seule, partagées entre images.",
+      "Le conteneur ajoute une couche de lecture-écriture au-dessus des couches de l'image.",
+      "Copy-on-Write : un fichier modifié est copié dans la couche d'écriture, l'original reste intact.",
+      "Chaque couche est indépendante ; une image légère partage les couches communes.",
+      "`docker history image` montre les couches ; `docker diff conteneur` montre les changements.",
+      "`docker commit` fige l'état d'un conteneur en image, mais le Dockerfile reste reproductible."
+    ],
+    code: `docker history ubuntu_custom:latest
+docker diff mon_conteneur
+docker commit -m "nouvelle image" mon_conteneur nouvelle_image:1.0`,
+    tip: "Les couches d'image sont en lecture seule : tout ce qui est écrit à l'exécution va dans la couche du conteneur."
+  },
+  {
+    id: "docker-cache", title: "Le cache de build", icon: "zap",
+    summary: "Docker réutilise une couche si l'instruction et son contexte n'ont pas changé ; l'ordre des instructions décide de l'efficacité.",
+    points: [
+      "Docker réutilise une couche si l'instruction et son contexte n'ont pas changé.",
+      "Un second build identique est presque instantané ; même un autre tag réutilise les couches.",
+      "`docker build --no-cache` force la reconstruction complète.",
+      "Placez les instructions stables en haut (`FROM`, installation système) et les changements fréquents en bas (`COPY .`).",
+      "Une modification d'`ENV` invalide les couches suivantes ; l'ordre compte.",
+      "Regrouper `apt-get update && apt-get install` réduit le nombre de couches et les fichiers temporaires."
+    ],
+    code: `# Stable en haut
+FROM ubuntu:latest
+RUN apt-get update \\
+  && apt-get install -y --no-install-recommends vim git
+# Change souvent : en bas
+COPY . /app
+
+# Forcer un build sans cache
+docker build --no-cache -t mon_image .`,
+    tip: "Les instructions qui changent souvent vont en bas du Dockerfile pour maximiser l'usage du cache."
+  },
+  {
+    id: "docker-reseaux", title: "Réseaux et communication", icon: "network",
+    summary: "Les conteneurs communiquent par des réseaux Docker ; sur un réseau utilisateur, les noms de conteneurs servent de DNS.",
+    points: [
+      "Par défaut, les conteneurs utilisent le réseau `bridge` de Docker.",
+      "`docker network ls` liste les réseaux ; `docker network create mon_reseau` en crée un.",
+      "`docker run --network mon_reseau ...` attache un conteneur au réseau.",
+      "Sur un réseau utilisateur, les conteneurs se joignent par leur nom : Docker fournit le DNS.",
+      "`-p 8080:80` publie un port vers l'hôte ; les conteneurs d'un même réseau n'en ont pas besoin entre eux.",
+      "`localhost` dans un conteneur désigne le conteneur lui-même, pas l'hôte ni un voisin."
+    ],
+    code: `docker network create app_reseau
+docker run -d --name api --network app_reseau mon_api
+docker run -d --name web --network app_reseau -p 8080:80 mon_web
+# Depuis web, l'API est joignable sur http://api:3000`,
+    tip: "Un conteneur ne joint pas un autre conteneur par `localhost` : utilisez son nom sur le réseau partagé."
+  },
+  {
+    id: "docker-compose", title: "Docker Compose", icon: "grid",
+    summary: "Un fichier YAML décrit plusieurs services, volumes et réseaux, puis `docker compose up` démarre la stack entière.",
+    points: [
+      "Un fichier `compose.yaml` (ou `docker-compose.yml`) décrit plusieurs services.",
+      "`services:` déclare les conteneurs ; `image:` ou `build:` indique leur origine.",
+      "`ports:`, `volumes:`, `environment:`, `depends_on:` et `networks:` configurent la stack.",
+      "`docker compose up -d` construit et démarre l'ensemble en arrière-plan.",
+      "`docker compose ps`, `logs` et `down` pilotent la stack.",
+      "Compose est fait pour le développement et les petites stacks ; Kubernetes prend le relais à grande échelle."
+    ],
+    code: `services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+  api:
+    image: mon_api:1.0
+    environment:
+      DATABASE_URL: postgres://db:5432/app
+  db:
+    image: postgres:16
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:`,
+    tip: "Compose décrit la stack ; `docker compose up -d` la lance, `docker compose down` l'arrête."
+  }
+];
+
+/* --- Cours ReactJS (PDF reactjs.pdf) --- */
+const REACT_COURSE_SECTIONS = [
+  {
+    id: "react-intro", title: "React, bibliothèque ou framework ?", icon: "code",
+    summary: "React est une bibliothèque JavaScript à composants pour construire des SPA ; son écosystème le fait ressembler à un framework.",
+    points: [
+      "React.js est une bibliothèque JavaScript à composants pour construire des Single Page Applications.",
+      "Un framework impose une architecture complète (Angular) ; une bibliothèque s'intègre à votre code (React).",
+      "L'écosystème de React (routing, état, outils) le fait ressembler à un framework.",
+      "Atouts : communauté massive, maturité, marché de l'emploi, documentation abondante.",
+      "React décrit l'interface avec des composants ; le DOM est mis à jour efficacement.",
+      "Le cours part de zéro : CDN, puis Vite, puis composants et hooks."
+    ],
+    tip: "Techniquement React est une bibliothèque ; en pratique, son écosystème se comporte comme un framework."
+  },
+  {
+    id: "react-cdn", title: "Première app avec un CDN", icon: "download",
+    summary: "Un fichier HTML, une `div#root`, deux scripts CDN : React s'affiche sans bundler ni installation.",
+    points: [
+      "Un CDN charge React et ReactDOM avec des balises `<script>`, sans installation ni bundler.",
+      "`index.html` doit contenir un élément avec `id=\"root\"`.",
+      "`ReactDOM.createRoot(document.getElementById('root'))` crée la racine virtuelle.",
+      "`root.render(React.createElement('button', null, 'Salut'))` affiche un premier élément.",
+      "`createElement(type, props, ...children)` est l'équivalent JavaScript de JSX.",
+      "Exercice : construire un menu `ul > li` uniquement avec `createElement`."
+    ],
+    code: `const rootTag = ReactDOM.createRoot(
+  document.getElementById("root")
+);
+rootTag.render(
+  React.createElement("button", null, "Salut")
+);`,
+    tip: "`createRoot` prépare la racine ; `render` y monte un élément React."
+  },
+  {
+    id: "react-jsx", title: "JSX et ses règles", icon: "type",
+    summary: "JSX est une syntaxe proche du HTML compilée en appels `createElement` ; le navigateur ne la comprend pas nativement.",
+    points: [
+      "JSX (JavaScript XML) est une syntaxe proche du HTML utilisée dans React pour décrire l'interface.",
+      "Le navigateur ne comprend pas JSX : Babel ou Vite le transforme en appels `createElement`.",
+      "Toutes les balises doivent être fermées ; les attributs s'écrivent en camelCase.",
+      "`class` devient `className`, `for` devient `htmlFor`, `style` reçoit un objet JavaScript.",
+      "Les accolades insèrent variables et expressions ; un seul nœud racine est autorisé.",
+      "Un Fragment `<>...</>` regroupe plusieurs nœuds ; les listes `map()` exigent une `key` unique."
+    ],
+    code: `const texte = "Bonjour IFNTI L3";
+const id = "monid";
+const myJsx = <h1 id={id}>{texte}</h1>;
+
+const liste = (
+  <ul>
+    {["Accueil", "Services", "Contact"].map((item, index) => (
+      <li key={index}>{item}</li>
+    ))}
+  </ul>
+);`,
+    tip: "JSX n'est pas du HTML : c'est du JavaScript transformé avant d'arriver au navigateur."
+  },
+  {
+    id: "react-composants", title: "Composants et props", icon: "grid",
+    summary: "Un composant est une fonction qui retourne un nœud JSX, peut être réutilisé et reçoit des props en lecture seule.",
+    points: [
+      "Un composant React est une fonction JavaScript qui représente une partie indépendante de l'interface.",
+      "Il retourne un élément JSX, peut être réutilisé et reçoit des données par `props`.",
+      "Le nom d'un composant commence par une majuscule ; il retourne un seul nœud racine.",
+      "Les props sont en lecture seule : un enfant ne les modifie jamais.",
+      "Les événements s'écrivent en camelCase et reçoivent une fonction : `onClick={handleClick}`.",
+      "Préférer les composants fonctionnels ; découper dès qu'une responsabilité apparaît."
+    ],
+    code: `function Welcome(props) {
+  return <h1>Bonjour {props.name} !</h1>;
+}
+
+rootTag.render(<Welcome name="Alice" />);
+
+export function Show() {
+  const handleClick = () => alert("IFNTI");
+  return <button onClick={handleClick}>show IFNTI</button>;
+}`,
+    tip: "Un composant = une responsabilité ; son nom commence toujours par une majuscule."
+  },
+  {
+    id: "react-vite", title: "Créer un projet avec Vite", icon: "bolt",
+    summary: "`npm create vite@latest app -- --template react` génère un projet moderne ; `src/` contient `App.jsx` et `main.jsx`.",
+    points: [
+      "Trois installations : framework (Next.js), from scratch avec Vite, ou ajout à un projet existant.",
+      "`npm create vite@latest app -- --template react` génère un projet React moderne.",
+      "`npm install` installe les dépendances ; `npm run dev` lance le serveur de développement.",
+      "`index.html` est le point d'entrée ; `src/` contient `App.jsx` et `main.jsx`.",
+      "`main.jsx` monte l'application ; `App.jsx` est le composant racine.",
+      "`vite.config.js` configure le bundler ; `package.json` liste scripts et dépendances."
+    ],
+    code: `npm create vite@latest app -- --template react
+cd app
+npm install
+npm run dev`,
+    tip: "Vite remplace le vieux couple Webpack/Babel pour le développement et le build."
+  },
+  {
+    id: "react-main", title: "main.jsx et App.jsx", icon: "layers",
+    summary: "`main.jsx` monte `App` dans `#root` sous `StrictMode` ; `App.jsx` est le premier composant racine.",
+    points: [
+      "`main.jsx` importe `StrictMode`, `createRoot` et le composant `App`.",
+      "`createRoot(document.getElementById('root')).render(...)` monte l'application.",
+      "`<StrictMode>` active des avertissements supplémentaires en développement.",
+      "`App.jsx` exporte par défaut une fonction qui retourne du JSX.",
+      "`index.html` fournit la `div#root` ; le CSS et les assets d'exemple peuvent être supprimés.",
+      "Un composant doit retourner un seul nœud racine, souvent une `div` ou un Fragment."
+    ],
+    code: `// main.jsx
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+
+// App.jsx
+export default function App() {
+  return (
+    <div>
+      <h1>Hello React avec Vite</h1>
+    </div>
+  );
+}`,
+    tip: "`main.jsx` branche React sur le HTML ; `App.jsx` commence l'arbre des composants."
+  },
+  {
+    id: "react-usestate", title: "useState : le premier Hook", icon: "zap",
+    summary: "`useState` stocke une valeur et déclenche un nouveau rendu quand elle change ; il s'utilise dans un composant fonctionnel.",
+    points: [
+      "`const [valeur, setValeur] = useState(valeurInitiale)` déclare un état local.",
+      "`valeur` est l'état courant ; `setValeur` déclenche un nouveau rendu.",
+      "`useState` ne s'utilise que dans un composant fonctionnel.",
+      "Les hooks s'appellent au début du composant, jamais dans une condition, une boucle ou une fonction imbriquée.",
+      "`setCount(count + 1)` suffit quand la nouvelle valeur ne dépend pas de l'ancienne.",
+      "`setCount(prev => prev + 1)` garantit la mise à jour quand plusieurs changements s'enchaînent."
+    ],
+    code: `import { useState } from "react";
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount(prev => prev + 1);
+  };
+
+  return (
+    <div>
+      <button onClick={increment}>compteur : {count}</button>
+    </div>
+  );
+}`,
+    tip: "Le nombre d'appels aux hooks doit rester identique entre deux rendus."
+  },
+  {
+    id: "react-etat-immuable", title: "État immuable : objets et listes", icon: "rotate",
+    summary: "React ne voit pas les mutations : copie l'état avec le spread operator et ne modifie jamais l'ancien.",
+    points: [
+      "React ne détecte pas les mutations : modifier un objet ou un tableau ne déclenche aucun rendu.",
+      "Interdit : `state.user.age = 22`, `todos.push(...)`, `splice`, `pop`.",
+      "Objet : `setUser(prev => ({ ...prev, age: prev.age + 1 }))`.",
+      "Liste : `setItems(prev => [...prev, nouvelItem])`.",
+      "Suppression : `setItems(prev => prev.filter(item => item.id !== id))`.",
+      "Toujours retourner une nouvelle version de l'état, jamais modifier l'ancienne."
+    ],
+    code: `setUser(prev => ({ ...prev, age: prev.age + 1 }));
+setItems(prev => [...prev, "new item"]);
+setItems(prev => prev.filter(item => item.id !== id));`,
+    tip: "La règle d'or : toujours retourner une nouvelle version de l'état, jamais modifier l'ancienne."
+  },
+  {
+    id: "react-flux", title: "Flux de données et inputs contrôlés", icon: "route",
+    summary: "Les props descendent du parent vers l'enfant ; les callbacks remontent les événements ; l'état rend l'input contrôlé.",
+    points: [
+      "Flux normal : le parent transmet des données à l'enfant via les props.",
+      "Les props sont en lecture seule : l'enfant ne peut pas les modifier.",
+      "Flux inverse : le parent passe un callback, l'enfant l'appelle pour remonter une valeur.",
+      "Input contrôlé : `value={texte}` et `onChange={e => setTexte(e.target.value)}`.",
+      "L'état React devient la source unique de vérité du champ.",
+      "Formulaire : `onSubmit`, puis `e.preventDefault()` pour éviter le rechargement."
+    ],
+    code: `function Parent() {
+  const [valeur, setValeur] = useState("");
+  return (
+    <>
+      <p>{valeur}</p>
+      <Enfant customaction={setValeur} />
+    </>
+  );
+}
+
+function Enfant({ customaction }) {
+  return <input onChange={(e) => customaction(e.target.value)} />;
+}`,
+    tip: "Les données descendent par les props ; les événements remontent par les callbacks."
+  }
+];
+
+/* --- Bibliothèque de cours : un parcours par support PDF --- */
+const COURSE_TRACKS = [
+  {
+    id: "flutter", label: "Flutter", accent: "flutter", icon: "phone",
+    heroTitle: "Du cours au jeu",
+    heroText: "Lis une fiche, puis vérifie avec le quiz de 16 questions. Chaque notion est aussi réinvestie dans les jeux Flutter.",
+    sourceLabel: "PDF · 108 p.",
+    sections: COURSE_SECTIONS,
+    actions: [
+      { label: "Quiz du cours", icon: "play", route: "#/g/material-quiz", variant: "btn-primary" },
+      { label: "Jeux Flutter", icon: "layers", route: "#/d/flutter-a" },
+      { label: "PDF source", icon: "download", href: "pdf_cours/1-mATERIALaPP.pdf" }
+    ]
+  },
+  {
+    id: "django-start", label: "Django · Mise en route", accent: "django", icon: "database",
+    heroTitle: "D'un terminal vide à une application qui tourne",
+    heroText: "De l'installation d'uv à la première page : projet, application, modèles, migrations, admin et templates.",
+    sourceLabel: "PDF · 33 p.",
+    sections: DJANGO_START_SECTIONS,
+    actions: [
+      { label: "PDF source", icon: "download", href: "pdf_cours/0010_mise_en_route_cours.pdf", variant: "btn-primary" }
+    ]
+  },
+  {
+    id: "django-models", label: "Django · Modélisation", accent: "django", icon: "network",
+    heroTitle: "Modéliser le domaine",
+    heroText: "Entités, relations, héritage, contraintes et ORM : transformer le domaine du suivi des stages en modèles solides.",
+    sourceLabel: "PDF · 27 p.",
+    sections: DJANGO_MODEL_SECTIONS,
+    actions: [
+      { label: "PDF source", icon: "download", href: "pdf_cours/0020_modeles_cours.pdf", variant: "btn-primary" }
+    ]
+  },
+  {
+    id: "docker", label: "Docker", accent: "docker", icon: "layers",
+    heroTitle: "Optimiser le déploiement",
+    heroText: "Conteneurs, volumes, images, couches, cache, réseaux et Compose : comprendre et déployer sans surprise.",
+    sourceLabel: "PDF · 62 p.",
+    sections: DOCKER_SECTIONS,
+    actions: [
+      { label: "PDF source", icon: "download", href: "pdf_cours/docker.pdf", variant: "btn-primary" }
+    ]
+  },
+  {
+    id: "reactjs", label: "ReactJS", accent: "react", icon: "code",
+    heroTitle: "Des fondamentaux aux Hooks",
+    heroText: "CDN, JSX, composants, Vite, useState, immuabilité et flux de données : les fondamentaux du support ReactJS.",
+    sourceLabel: "PDF · 61 p.",
+    sections: REACT_COURSE_SECTIONS,
+    actions: [
+      { label: "Jeux React", icon: "gamepad", route: "#/u/react" },
+      { label: "PDF source", icon: "download", href: "pdf_cours/reactjs.pdf", variant: "btn-primary" }
+    ]
   }
 ];
 

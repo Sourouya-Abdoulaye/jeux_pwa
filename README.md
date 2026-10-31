@@ -1,8 +1,8 @@
 # DevMaster PWA
 
-Application d'apprentissage interactive pour maîtriser **React.js** et **Flutter** en jouant — plus une section arcade « Pause Dev ». Interface en français, sans compte, sans backend, sans aucune dépendance distante.
+Application d'apprentissage interactive pour maîtriser **React.js** et **Flutter** en jouant — plus une section arcade « Pause Dev » et une bibliothèque de cours **Django**, **Docker** et **ReactJS** issue des supports PDF. Interface en français, sans compte, sans backend, sans aucune dépendance distante.
 
-Technologies : **HTML5 + CSS3 + JavaScript natif uniquement** (React et Flutter sont enseignés, pas utilisés pour construire l'app).
+Technologies : **HTML5 + CSS3 + JavaScript natif uniquement** (React, Flutter, Django, Docker et ReactJS sont enseignés, pas utilisés pour construire l'app).
 
 ## Fichiers livrés
 
@@ -11,6 +11,7 @@ Technologies : **HTML5 + CSS3 + JavaScript natif uniquement** (React et Flutter 
 | `index.html` | Application complète : interface, styles CSS et JavaScript principal (fichier unique autonome) |
 | `manifest.webmanifest` | Manifeste PWA (standalone, responsive portrait/paysage, raccourcis) |
 | `sw.js` | Service Worker : précache + nettoyage des anciens caches |
+| `pdf_cours/` | Supports PDF sources : Flutter MaterialApp/listes, Django mise en route et modélisation, Docker, ReactJS |
 | `icons/` | Icônes PNG 180/192/512 + icône maskable (générées par `tests/make_icons.py`) |
 | `tests/smoke.mjs` | Tests du noyau (progression, sauvegarde, import, catalogue) — Node, sans navigateur |
 | `tests/e2e/` | Tests navigateur réels (Chrome headless) : navigation, parties, hors ligne |
@@ -50,14 +51,14 @@ Depuis l'app : **Profil → Application → Installer l'application** (le bouton
 ## Tests
 
 ```bash
-node tests/smoke.mjs        # noyau : niveaux, XP, records, défis, cours, import/export (23 tests)
+node tests/smoke.mjs        # noyau : niveaux, XP, records, défis, cours, import/export (24 tests)
 
 # tests navigateur (nécessite Chrome + npm i puppeteer-core dans un dossier adjacent)
 python3 -m http.server 8765 &
 cd tests/e2e && node test.mjs && node offline.mjs && node order-games.mjs
 ```
 
-Dernier passage : **23/23** noyau, **56/56** E2E, **20/20** hors ligne + interactions, **3/3** ordre des blocs, **0 erreur JS** en navigateur.
+Dernier passage : **24/24** noyau, **61/61** E2E, **20/20** hors ligne + interactions, **3/3** ordre des blocs, **0 erreur JS** en navigateur.
 
 ## Fonctionnalités réellement terminées
 
@@ -65,7 +66,12 @@ Dernier passage : **23/23** noyau, **56/56** E2E, **20/20** hors ligne + interac
 - Navigation à 5 entrées (Accueil, Explorer, Cours, Progression, Profil) : barre inférieure sur mobile, barre latérale sur desktop.
 - Mise en page responsive : accueil en deux colonnes dès 900 px, grilles de jeux et fiches, en-tête de jeu compact sur mobile.
 - 3 univers : React.js (3 domaines), Flutter (3 domaines), Pause Dev (arcade).
-- Cours Flutter : 11 fiches de révision issues du support PDF (MaterialApp, Scaffold, AppBar, Container, Row/Column, Padding, Text, ListView/ListTile, Drawer/BottomNavigationBar, navigation/thème, TP WhatsApp).
+- Bibliothèque de cours à 5 parcours et 50 fiches de révision issues des supports PDF, avec onglets et liens vers les PDF sources :
+  - Flutter (11 fiches) : MaterialApp, Scaffold, AppBar, Container, Row/Column, Padding, Text, ListView/ListTile, Drawer/BottomNavigationBar, navigation/thème, TP WhatsApp.
+  - Django — Mise en route (11 fiches) : pourquoi Django, uv, projet/application, trajet d'une requête, settings, modèles, migrations, admin, route/vue/template, templates, fil rouge du suivi des stages.
+  - Django — Modélisation (9 fiches) : domaine et schéma, package `models/`, héritage, relations, `on_delete`, contraintes, SQL, shell/ORM, atelier.
+  - Docker (10 fiches) : conteneurs vs VM, terminologie, cycle de vie, volumes, Dockerfile, images, couches, cache, réseaux, Compose.
+  - ReactJS (9 fiches) : bibliothèque vs framework, CDN, JSX, composants/props, Vite, `main.jsx`, `useState`, état immuable, flux de données et inputs contrôlés.
 
 **18 jeux jouables**
 - React : Puzzle JSX (6 exercices), Cartes mémoire Hooks (5 paires, retournement 3D, meilleurs temps/essais), Vrai/Faux éclair (15 affirmations, 2 modes, raccourcis V/F), Circuit/Pipe Flow (6 scénarios animés), Swipe Decision (10 scénarios, balayage ou boutons), Tri & rangement (3 séries × 6 briques), Circuit API (3 ordres + 5 scénarios GET/POST/PATCH/erreurs).
@@ -78,12 +84,12 @@ Dernier passage : **23/23** noyau, **56/56** E2E, **20/20** hors ligne + interac
 - Sauvegarde localStorage centralisée et validée (version, sanitisation, migration), export JSON téléchargeable, import avec vérification + confirmation, réinitialisation avec confirmation explicite.
 
 **PWA**
-- Manifeste valide (standalone, orientation libre, raccourcis Cours/Quiz/univers), icônes 180/192/512/maskable, Service Worker versionné avec nettoyage, indicateur en ligne/hors ligne, vibration facultative, `prefers-reduced-motion` respecté.
+- Manifeste valide (standalone, orientation libre, raccourcis Cours/Django/Docker/univers), icônes 180/192/512/maskable, Service Worker versionné avec nettoyage, indicateur en ligne/hors ligne, vibration facultative, `prefers-reduced-motion` respecté.
 
 ## Limites connues (honnêteté)
 
 - Service Worker et installation ne fonctionnent pas en `file://` (contrainte des navigateurs) : servir en localhost/HTTPS.
 - La date de journée active vient de l'horloge locale : elle n'est pas vérifiée côté serveur (l'app est 100 % locale, par conception).
 - Les exercices sont évalués par solutions attendues comparées (jamais d'`eval`) : les variantes acceptées sont explicites, mais un reformulé inhabituel sera refusé.
-- Le cours est une synthèse de révision du PDF, pas un substitut à la lecture intégrale du support.
+- Les fiches sont des synthèses de révision des PDF, pas un substitut à la lecture intégrale des supports. Les PDF sources restent accessibles depuis chaque parcours.
 - La vibration dépend du support navigateur (fonctionne sur Chrome Android).

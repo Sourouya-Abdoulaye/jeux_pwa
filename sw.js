@@ -3,7 +3,7 @@
    rafraîchissement en arrière-plan. La progression utilisateur n'est JAMAIS
    stockée ici : elle appartient au localStorage de l'application. */
 
-const CACHE_VERSION = "devmaster-v3";
+const CACHE_VERSION = "devmaster-v5";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -36,12 +36,33 @@ self.addEventListener("fetch", event => {
   const url = new URL(req.url);
   if (url.origin !== location.origin) return; /* rien d'externe n'est indispensable */
 
-  if (req.mode === "navigate") {
+  /* Une navigation vers un fichier (PDF, image…) ne doit jamais écraser
+     la coquille index.html : on la cache sous sa propre URL. */
+  const isShell = req.mode === "navigate" && (url.pathname.endsWith("/") || url.pathname.endsWith("/index.html"));
+  if (req.mode === "navigate" && !isShell) {
+    event.respondWith(
+      caches.match(req).then(cached => {
+        if (cached) return cached;
+        return fetch(req).then(res => {
+          if (res && res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE_VERSION).then(cache => cache.put(req, copy));
+          }
+          return res;
+        });
+      })
+    );
+    return;
+  }
+
+  if (isShell) {
     event.respondWith(
       fetch(req)
         .then(res => {
-          const copy = res.clone();
-          caches.open(CACHE_VERSION).then(cache => cache.put("./index.html", copy));
+          if (res && res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE_VERSION).then(cache => cache.put("./index.html", copy));
+          }
           return res;
         })
         .catch(() => caches.match("./index.html").then(r => r || caches.match("./")))
