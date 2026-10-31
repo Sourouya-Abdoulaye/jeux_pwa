@@ -353,22 +353,36 @@ canvas.game{width:100%;max-width:520px;margin:0 auto;display:block;border-radius
 .course-hero.t-django .btn-primary{color:#0C4B33}
 .course-hero.t-docker .btn-primary{color:#0847A8}
 .course-hero.t-react .btn-primary{color:#1E3A8A}
-/* Onglets de la bibliothèque de cours */
-.course-tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin;scroll-snap-type:x proximity}
-.course-tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:8px 12px;font-size:12.5px;font-weight:600;color:var(--text2);cursor:pointer;box-shadow:0 1px 2px rgba(11,18,32,.05);scroll-snap-align:start;transition:background .15s ease,border-color .15s ease,color .15s ease}
-.course-tab svg{width:15px;height:15px}
-.course-tab:hover{border-color:var(--border-active)}
-.course-tab .ct-count{font-size:10.5px;font-weight:700;color:var(--text3);background:var(--surface2);border:1px solid var(--border);border-radius:999px;padding:1px 6px}
-.course-tab.active{color:#0369A1;background:#F0F9FF;border-color:#BAE6FD}
-.course-tab.active .ct-count{color:#0369A1;background:#FFFFFF;border-color:#BAE6FD}
-.course-tab.t-django.active{color:#0C4B33;background:#ECFDF5;border-color:#A7F3D0}
-.course-tab.t-django.active .ct-count{color:#0C4B33;border-color:#A7F3D0}
-.course-tab.t-docker.active{color:#0847A8;background:#EFF6FF;border-color:#BFDBFE}
-.course-tab.t-docker.active .ct-count{color:#0847A8;border-color:#BFDBFE}
-.course-tab.t-react.active{color:#1E3A8A;background:#EFF6FF;border-color:#BFDBFE}
-.course-tab.t-react.active .ct-count{color:#1E3A8A;border-color:#BFDBFE}
-.pdf-card{border-color:#BAE6FD;background:linear-gradient(150deg,#FFFFFF 45%,#F0F9FF)}
-.pdf-card .card-title{color:#0369A1}
+/* Bibliothèque de cours : catalogue par catégorie, puis fiches et jeux. */
+.course-catalog{display:flex;flex-direction:column;gap:11px}
+.course-cat-card{
+  display:flex;align-items:flex-start;gap:13px;width:100%;padding:16px;text-align:left;
+  cursor:pointer;color:inherit;background:linear-gradient(150deg,#FFFFFF 45%,var(--utint));
+  border-color:var(--uborder);font:inherit;
+}
+.course-cat-card:hover{border-color:var(--ua);box-shadow:0 14px 30px -22px var(--ua)}
+.course-cat-card .ico-box{width:48px;height:48px;border-radius:14px;flex:none;border:1px solid var(--uborder);display:grid;place-items:center;background:var(--utint);color:var(--ua)}
+.course-cat-card .ico-box svg{width:24px;height:24px}
+.course-cat-card .cat-name{display:block;font-size:17px;font-weight:750;color:var(--text)}
+.course-cat-card .cat-desc{display:block;font-size:12.5px;line-height:1.5;color:var(--text2);margin-top:2px}
+.course-cat-card .cat-stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.cat-stat{font-size:10.5px;font-weight:700;color:var(--ua);background:var(--utint);border:1px solid var(--uborder);border-radius:999px;padding:2px 8px}
+.course-cat-card>svg{color:var(--ua);flex:none;margin-top:15px}
+.course-section{display:flex;flex-direction:column;gap:9px}
+.course-section>.section-title{margin-top:4px}
+a.lrow{text-decoration:none}
+.course-source{border-color:var(--uborder);background:linear-gradient(150deg,#FFFFFF 55%,var(--utint))}
+.course-source .lrow-title{color:var(--ua)}
+.course-fiche-sub{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.45}
+.course-fiche .ico-box,.course-game .ico-box{color:var(--ua);background:var(--utint);border-color:var(--uborder)}
+.course-fiche:hover,.course-game:hover,.course-source:hover{border-color:var(--ua)}
+.course-empty{display:flex;align-items:flex-start;gap:10px;padding:14px}
+.course-empty svg{width:18px;height:18px;flex:none;color:var(--text3);margin-top:2px}
+.fiche-points{margin:0;padding-left:20px;font-size:13.5px;color:var(--text2);line-height:1.65}
+.fiche-points li{margin-bottom:6px}
+.course-pager{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.course-hero h1{color:#fff}
+@media(min-width:640px){.course-catalog{display:grid;grid-template-columns:1fr 1fr;gap:12px}}
 /* quiz : options en grille sur grand écran */
 .answer-grid{display:grid;grid-template-columns:1fr;gap:9px}
 @media(min-width:760px){.answer-grid{grid-template-columns:1fr 1fr}.answer-grid .choice{min-height:64px}}
@@ -407,9 +421,11 @@ body.reduced *,body.reduced *::before,body.reduced *::after{animation-duration:.
 /* univers : palette propre par univers */
 .u-react{--ua:#2563EB;--ub:#60A5FA;--utint:#EFF6FF;--uborder:#BFDBFE}
 .u-flutter{--ua:#0284C7;--ub:#38BDF8;--utint:#F0F9FF;--uborder:#BAE6FD}
+.u-django{--ua:#0C4B33;--ub:#44B78B;--utint:#ECFDF5;--uborder:#A7F3D0}
+.u-docker{--ua:#0847A8;--ub:#2496ED;--utint:#EFF6FF;--uborder:#BFDBFE}
 .u-arcade{--ua:#D97706;--ub:#FBBF24;--utint:#FFFBEB;--uborder:#FDE68A}
-.u-react .ico-box,.u-flutter .ico-box,.u-arcade .ico-box{width:40px;height:40px;flex:none;border-radius:12px;border:1px solid var(--uborder);display:grid;place-items:center;color:var(--ua);background:var(--utint)}
-.u-react .ico-box svg,.u-flutter .ico-box svg,.u-arcade .ico-box svg{width:20px;height:20px}
+.u-react .ico-box,.u-flutter .ico-box,.u-django .ico-box,.u-docker .ico-box,.u-arcade .ico-box{width:40px;height:40px;flex:none;border-radius:12px;border:1px solid var(--uborder);display:grid;place-items:center;color:var(--ua);background:var(--utint)}
+.u-react .ico-box svg,.u-flutter .ico-box svg,.u-django .ico-box svg,.u-docker .ico-box svg,.u-arcade .ico-box svg{width:20px;height:20px}
 .uni-card{position:relative;overflow:hidden;text-align:left}
 .uni-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;border-radius:18px 18px 0 0;background:linear-gradient(90deg,var(--ua),var(--ub))}
 .uni-card .card-title{margin-top:4px}
@@ -1414,7 +1430,7 @@ Nav.render = function () {
   if (root === "g" && parts[1] && GAMES[parts[1]]) { Engine.open(parts[1]); return; }
   renderBottomNav(navRoot(hash));
   if (root === "explorer") Screens.explorer();
-  else if (root === "cours") Screens.cours(parts[1]);
+  else if (root === "cours") Screens.cours(parts[1], parts[2]);
   else if (root === "u" && UNIVERSES[parts[1]]) Screens.universe(parts[1]);
   else if (root === "d" && DOMAINS[parts[1]]) Screens.domain(parts[1]);
   else if (root === "progression") Screens.progression();
@@ -1444,10 +1460,10 @@ Screens.home = function () {
       el("span", { class: "course-strip-ico", html: icon("book") }),
       el("div", { class: "grow" }, [
         el("div", { class: "row wrap", style: "margin-bottom:3px" }, [
-          el("span", { class: "card-title", style: "margin:0", text: "Bibliothèque de cours : 5 parcours" }),
-          el("span", { class: "chip flutter", text: "PDF · fiches" })
+          el("span", { class: "card-title", style: "margin:0", text: "Bibliothèque de cours : 4 catégories" }),
+          el("span", { class: "chip flutter", text: "PDF · fiches · jeux" })
         ]),
-        el("p", { class: "card-sub", text: "Flutter, Django (mise en route et modélisation), Docker et ReactJS : des fiches de révision synthétiques, à lire puis à tester." })
+        el("p", { class: "card-sub", text: "Flutter, Django, Docker et ReactJS : ouvre une catégorie pour retrouver les PDF, les fiches de révision et les jeux associés." })
       ]),
       el("div", { class: "row wrap course-strip-actions" }, [
         el("button", { class: "btn", onclick: () => Nav.go("#/cours") }, iconEl("book"), el("span", { text: "Tous les cours" })),
@@ -1569,7 +1585,7 @@ Screens.home = function () {
         el("span", { class: "grow card-title", style: "margin:0;font-size:14px", text: pick.title })
       ]),
       el("p", { class: "card-sub", text: pick.summary }),
-      el("button", { class: "btn btn-block", style: "margin-top:10px", onclick: () => Nav.go("#/cours") }, iconEl("book"), el("span", { text: "Ouvrir la fiche" }))
+      el("button", { class: "btn btn-block", style: "margin-top:10px", onclick: () => Nav.go("#/cours/flutter/" + pick.id) }, iconEl("book"), el("span", { text: "Ouvrir la fiche" }))
     ]));
   })();
 
@@ -1610,12 +1626,15 @@ Screens.explorer = function () {
         progressFill(p.pct, u.accent === "flutter" ? "flutter" : u.accent === "xp" ? "xp" : "")
       ])
     ]);
-    if (uid === "flutter") {
-      section.appendChild(el("button", { class: "lrow u-flutter", style: "border-color:#BAE6FD", onclick: () => Nav.go("#/cours") }, [
+    if (uid === "flutter" || uid === "react") {
+      const cat = uid === "flutter" ? "flutter" : "reactjs";
+      const catLabel = uid === "flutter" ? "Flutter" : "ReactJS";
+      const catSub = uid === "flutter" ? "11 fiches · MaterialApp, Scaffold, listes, Drawer, TP WhatsApp" : "9 fiches · CDN, JSX, composants, Vite, useState et flux de données";
+      section.appendChild(el("button", { class: "lrow u-" + uid, style: "border-color:var(--uborder)", onclick: () => Nav.go("#/cours/" + cat) }, [
         el("span", { class: "ico-box", html: icon("book") }),
         el("span", { class: "grow" }, [
-          el("span", { class: "lrow-title", style: "display:block", text: "Fiches du cours Flutter" }),
-          el("span", { class: "lrow-sub", style: "display:block", text: "11 fiches · MaterialApp, Scaffold, listes, Drawer, TP WhatsApp" })
+          el("span", { class: "lrow-title", style: "display:block", text: "Fiches du cours " + catLabel }),
+          el("span", { class: "lrow-sub", style: "display:block", text: catSub })
         ]),
         iconEl("chevron")
       ]));
@@ -1692,6 +1711,25 @@ function gameRow(gid) {
 }
 
 /* ------------------------------- Domaine -------------------------------- */
+function domainCourseLink(domainId) {
+  const isReact = domainId.startsWith("react-");
+  const isFlutter = domainId.startsWith("flutter-");
+  if (!isReact && !isFlutter) return null;
+  const cat = isReact ? "reactjs" : "flutter";
+  const cls = isReact ? "u-react" : "u-flutter";
+  const title = isReact ? "Fiches du cours ReactJS" : "Fiches du cours Flutter";
+  const sub = isReact
+    ? "9 fiches · CDN, JSX, composants, Vite, useState et flux de données"
+    : "11 fiches · MaterialApp, Scaffold, listes, Drawer, TP WhatsApp";
+  return el("button", { class: "lrow " + cls, style: "border-color:var(--uborder)", onclick: () => Nav.go("#/cours/" + cat) }, [
+    el("span", { class: "ico-box", html: icon("book") }),
+    el("span", { class: "grow" }, [
+      el("span", { class: "lrow-title", style: "display:block", text: title }),
+      el("span", { class: "lrow-sub", style: "display:block", text: sub })
+    ]),
+    iconEl("chevron")
+  ]);
+}
 Screens.domain = function (domainId) {
   const d = DOMAINS[domainId];
   renderTopbar({ back: true, title: d.title });
@@ -1709,14 +1747,7 @@ Screens.domain = function (domainId) {
       ]),
       progressFill(dp.pct, d.universe === "flutter" ? "flutter" : d.universe === "amusement" ? "xp" : "")
     ]),
-    domainId === "flutter-a" ? el("button", { class: "lrow u-flutter", style: "border-color:#BAE6FD", onclick: () => Nav.go("#/cours") }, [
-      el("span", { class: "ico-box", html: icon("book") }),
-      el("span", { class: "grow" }, [
-        el("span", { class: "lrow-title", style: "display:block", text: "Fiches du cours : MaterialApp, Scaffold & Widgets" }),
-        el("span", { class: "lrow-sub", style: "display:block", text: "11 fiches de révision issues du support PDF" })
-      ]),
-      iconEl("chevron")
-    ]) : null,
+    domainCourseLink(domainId),
     el("div", { class: "games-grid" }, gamesOfDomain(domainId).map(gid => {
       const g = GAMES[gid];
       const rec = App.state.records[gid];
@@ -1744,81 +1775,194 @@ Screens.domain = function (domainId) {
 };
 
 /* -------------------------------- Cours --------------------------------- */
-Screens.cours = function (trackId) {
+function courseCategoryById(id) {
+  if (!id) return null;
+  const aliases = { "django-start": "django", "django-models": "django" };
+  const key = aliases[id] || id;
+  return COURSE_CATEGORIES.find(c => c.id === key) || null;
+}
+function courseGameRow(gid) {
+  const g = GAMES[gid];
+  if (!g) return null;
+  const rec = App.state.records[gid];
+  const level = ["Facile", "Intermédiaire", "Avancé"][g.difficulty - 1];
+  return el("button", {
+    class: "lrow course-game u-" + (g.universe === "amusement" ? "arcade" : g.universe),
+    onclick: () => Nav.go("#/g/" + gid)
+  }, [
+    el("span", { class: "ico-box", html: icon(iconForKind(g.kind)) }),
+    el("span", { class: "grow" }, [
+      el("span", { class: "lrow-title", style: "display:block", text: g.title }),
+      el("span", { class: "lrow-sub", style: "display:block", text: level + " · " + g.rules + (rec ? " · Record " + rec.score : "") })
+    ]),
+    el("span", { class: "chip", text: "Jouer" }),
+    iconEl("chevron")
+  ]);
+}
+function courseFicheRow(cat, sec) {
+  return el("button", {
+    class: "lrow course-fiche u-" + cat.accent,
+    onclick: () => Nav.go("#/cours/" + cat.id + "/" + sec.id)
+  }, [
+    el("span", { class: "ico-box", html: icon(sec.icon) }),
+    el("span", { class: "grow" }, [
+      el("span", { class: "lrow-title", style: "display:block", text: sec.title }),
+      el("span", { class: "lrow-sub course-fiche-sub", text: sec.summary })
+    ]),
+    iconEl("chevron")
+  ]);
+}
+
+Screens.cours = function (catId, sectionId) {
+  const cat = courseCategoryById(catId);
+  if (cat && sectionId) return Screens.courseFiche(cat, sectionId);
+  if (cat) return Screens.courseCategory(cat);
+  return Screens.courseCatalog();
+};
+
+Screens.courseCatalog = function () {
   renderTopbar({});
   const view = $("#view");
-  const track = COURSE_TRACKS.find(t => t.id === trackId) || COURSE_TRACKS[0];
+  const totalFiches = COURSE_CATEGORIES.reduce((n, c) => n + c.sections.length, 0);
+  view.appendChild(el("div", { class: "stack", style: "gap:4px;margin-bottom:14px" }, [
+    el("h1", { text: "Cours & fiches" }),
+    el("p", { class: "card-sub", text: "Choisis une catégorie : tu y trouveras les PDF du cours, les fiches de révision et les jeux associés." }),
+    el("p", { class: "meta", text: COURSE_CATEGORIES.length + " catégories · " + totalFiches + " fiches · 5 supports PDF" })
+  ]));
+  const grid = el("div", { class: "course-catalog" });
+  COURSE_CATEGORIES.forEach(cat => {
+    const stats = [cat.pdfs.length + " PDF", cat.sections.length + " fiches"];
+    if (cat.games.length) stats.push(cat.games.length + " jeux");
+    grid.appendChild(el("button", {
+      class: "card course-cat-card u-" + cat.accent,
+      type: "button",
+      "aria-label": "Ouvrir la catégorie " + cat.label,
+      onclick: () => Nav.go("#/cours/" + cat.id)
+    }, [
+      el("span", { class: "ico-box", html: icon(cat.icon) }),
+      el("span", { class: "grow" }, [
+        el("span", { class: "cat-name", text: cat.label }),
+        el("span", { class: "cat-desc", text: cat.desc }),
+        el("span", { class: "cat-stats" }, stats.map(s => el("span", { class: "cat-stat", text: s })))
+      ]),
+      iconEl("chevron")
+    ]));
+  });
+  view.appendChild(grid);
+};
 
-  const head = el("div", { class: "stack", style: "gap:8px" }, [
-    el("div", { class: "stack", style: "gap:4px" }, [
-      el("h1", { text: "Cours & fiches" }),
-      el("p", { class: "card-sub", text: "Des fiches de révision issues des supports PDF : Flutter, Django, Docker et ReactJS." })
+Screens.courseCategory = function (cat) {
+  renderTopbar({ back: true, title: "Cours" });
+  const view = $("#view");
+  const heroChip = text => el("span", {
+    class: "chip",
+    style: "background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3);color:#fff",
+    text
+  });
+  const hero = el("div", { class: "card course-hero t-" + cat.accent }, [
+    el("span", { class: "course-hico", html: icon(cat.icon) }),
+    el("div", { class: "grow" }, [
+      el("h1", { style: "margin:0 0 4px;font-size:22px", text: cat.label }),
+      el("p", { class: "card-sub", style: "margin:0", text: cat.desc }),
+      el("div", { class: "row wrap", style: "margin-top:9px" }, [
+        heroChip(cat.pdfs.length + " PDF"),
+        heroChip(cat.sections.length + " fiches"),
+        heroChip(cat.games.length ? cat.games.length + " jeux" : "Jeux à venir")
+      ])
+    ]),
+    el("div", { class: "row wrap" }, [
+      el("button", { class: "btn", onclick: () => Nav.go("#/cours") }, iconEl("back"), el("span", { text: "Toutes les catégories" }))
     ])
   ]);
-  const tabs = el("div", { class: "course-tabs", role: "tablist", "aria-label": "Catégories de cours" });
-  COURSE_TRACKS.forEach(t => {
-    tabs.appendChild(el("button", {
-      class: "course-tab t-" + t.accent + (t.id === track.id ? " active" : ""),
-      role: "tab", "aria-selected": t.id === track.id ? "true" : "false",
-      title: t.heroTitle,
-      onclick: () => Nav.go("#/cours/" + t.id)
+
+  const pdfSection = el("div", { class: "course-section" }, [
+    el("div", { class: "section-title", text: "Supports de cours (PDF)" }),
+    cat.pdfs.map(pdf => el("a", {
+      class: "lrow course-source",
+      href: pdf.href,
+      target: "_blank",
+      rel: "noopener"
     }, [
-      el("span", { html: icon(t.icon) }),
-      el("span", { text: t.label }),
-      el("span", { class: "ct-count", text: String(t.sections.length) })
-    ]));
-  });
-  head.appendChild(tabs);
-
-  const actions = el("div", { class: "row wrap" });
-  track.actions.forEach(a => {
-    if (a.href) {
-      actions.appendChild(el("a", {
-        class: "btn" + (a.variant ? " " + a.variant : ""), href: a.href,
-        target: "_blank", rel: "noopener"
-      }, iconEl(a.icon), el("span", { text: a.label })));
-    } else {
-      actions.appendChild(el("button", {
-        class: "btn" + (a.variant ? " " + a.variant : ""),
-        onclick: () => Nav.go(a.route)
-      }, iconEl(a.icon), el("span", { text: a.label })));
-    }
-  });
-
-  const hero = el("div", { class: "card course-hero t-" + track.accent }, [
-    el("span", { class: "course-hico", html: icon(track.icon) }),
-    el("div", { class: "grow" }, [
-      el("div", { class: "row wrap", style: "margin-bottom:4px" }, [
-        el("span", { class: "card-title", style: "margin:0;color:#fff;font-size:16px", text: track.heroTitle }),
-        el("span", { class: "chip", style: "background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3);color:#fff", text: track.sections.length + " fiches" }),
-        el("span", { class: "chip", style: "background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3);color:#fff", text: track.sourceLabel })
+      el("span", { class: "ico-box", html: icon("book") }),
+      el("span", { class: "grow" }, [
+        el("span", { class: "lrow-title", style: "display:block", text: pdf.title }),
+        el("span", { class: "lrow-sub", style: "display:block", text: "PDF · " + pdf.pages + " · " + pdf.desc })
       ]),
-      el("p", { class: "card-sub", style: "color:rgba(255,255,255,.88)", text: track.heroText })
-    ]),
-    actions
+      el("span", { class: "chip", text: "Ouvrir" }),
+      iconEl("chevron")
+    ]))
   ]);
 
-  const grid = el("div", { class: "course-grid" });
-  track.sections.forEach((sec, i) => {
-    const details = el("details", { class: "lesson", open: i === 0 });
-    details.appendChild(el("summary", {}, [
-      el("span", { class: "ico-box", html: icon(sec.icon) }),
-      el("span", { class: "grow", text: sec.title }),
-      el("span", { class: "chev", html: icon("chevron") })
-    ]));
-    const body = el("div", { class: "lesson-body" });
-    body.appendChild(el("p", { text: sec.summary }));
-    const ul = el("ul", {});
-    sec.points.forEach(pt => ul.appendChild(el("li", { html: courseText(pt) })));
-    body.appendChild(ul);
-    if (sec.code) body.appendChild(el("pre", { class: "code" }, el("code", { text: sec.code })));
-    if (sec.tip) body.appendChild(el("div", { class: "lesson-tip" }, el("span", { html: "<strong>À retenir :</strong> " + courseText(sec.tip) })));
-    details.appendChild(body);
-    grid.appendChild(details);
+  const ficheSection = el("div", { class: "course-section" }, [
+    el("div", { class: "section-title", text: "Fiches de révision (" + cat.sections.length + ")" })
+  ]);
+  const groups = [];
+  cat.sections.forEach(sec => {
+    const key = sec.module || "";
+    if (!groups.length || groups[groups.length - 1].key !== key) groups.push({ key, items: [] });
+    groups[groups.length - 1].items.push(sec);
   });
-  view.appendChild(head);
+  groups.forEach(group => {
+    if (group.key) ficheSection.appendChild(el("div", { class: "section-title", style: "margin-top:8px", text: group.key }));
+    group.items.forEach(sec => ficheSection.appendChild(courseFicheRow(cat, sec)));
+  });
+
+  const gameSection = el("div", { class: "course-section" }, [
+    el("div", { class: "section-title", text: "Jeux du cours" })
+  ]);
+  if (cat.games.length) {
+    cat.games.forEach(gid => gameSection.appendChild(courseGameRow(gid)));
+  } else {
+    gameSection.appendChild(el("div", { class: "card course-empty" }, [
+      iconEl("info"),
+      el("span", { class: "grow" }, [
+        el("span", { class: "lrow-title", style: "display:block", text: "Pas encore de jeu dédié" }),
+        el("span", { class: "lrow-sub", style: "display:block", text: "Les PDF et les fiches permettent déjà de réviser ce cours." })
+      ]),
+      el("button", { class: "btn btn-sm", onclick: () => Nav.go("#/explorer") }, el("span", { text: "Explorer" }))
+    ]));
+  }
+
   view.appendChild(hero);
-  view.appendChild(grid);
+  view.appendChild(pdfSection);
+  view.appendChild(ficheSection);
+  view.appendChild(gameSection);
+};
+
+Screens.courseFiche = function (cat, sectionId) {
+  const idx = cat.sections.findIndex(s => s.id === sectionId);
+  if (idx < 0) return Screens.courseCategory(cat);
+  const sec = cat.sections[idx];
+  renderTopbar({ back: true, title: cat.label });
+  const view = $("#view");
+  const card = el("div", { class: "card", style: "padding:16px;display:flex;flex-direction:column;gap:11px" });
+  card.appendChild(el("p", { style: "margin:0;color:var(--text2);line-height:1.65", text: sec.summary }));
+  const ul = el("ul", { class: "fiche-points" });
+  sec.points.forEach(pt => ul.appendChild(el("li", { html: courseText(pt) })));
+  card.appendChild(ul);
+  if (sec.code) card.appendChild(el("pre", { class: "code" }, el("code", { text: sec.code })));
+  if (sec.tip) card.appendChild(el("div", { class: "lesson-tip" }, el("span", { html: "<strong>À retenir :</strong> " + courseText(sec.tip) })));
+
+  const prev = cat.sections[idx - 1];
+  const next = cat.sections[idx + 1];
+  const pager = el("div", { class: "course-pager" }, [
+    prev ? el("button", { class: "btn btn-sm", style: "flex:1 1 130px", onclick: () => Nav.go("#/cours/" + cat.id + "/" + prev.id) }, iconEl("back"), el("span", { text: "Précédente" })) : null,
+    el("button", { class: "btn btn-sm", style: "flex:1 1 150px", onclick: () => Nav.go("#/cours/" + cat.id) }, iconEl("list"), el("span", { text: "Toutes les fiches" })),
+    next ? el("button", { class: "btn btn-sm btn-primary", style: "flex:1 1 130px", onclick: () => Nav.go("#/cours/" + cat.id + "/" + next.id) }, el("span", { text: "Suivante" }), iconEl("chevron")) : null
+  ]);
+
+  view.appendChild(el("div", { class: "stack", style: "gap:12px" }, [
+    el("div", { class: "stack", style: "gap:5px" }, [
+      el("div", { class: "row wrap" }, [
+        el("span", { class: "chip", text: cat.label }),
+        sec.module ? el("span", { class: "chip", text: sec.module }) : null,
+        el("span", { class: "meta", text: "Fiche " + (idx + 1) + " / " + cat.sections.length })
+      ]),
+      el("h1", { style: "margin:0", text: sec.title })
+    ]),
+    card,
+    pager
+  ]));
 };
 
 /* ------------------------------ Progression ----------------------------- */
@@ -4716,42 +4860,56 @@ $ Exemplaire.objects.filter(livre__auteurs__nom="Hugo").count()`,
 /* --- Cours Docker (PDF docker.pdf) --- */
 const DOCKER_SECTIONS = [
   {
-    id: "docker-concepts", title: "Conteneur ou machine virtuelle ?", icon: "cpu",
-    summary: "Le conteneur est une virtualisation légère : il partage le noyau de l'hôte, démarre vite et ne réserve que le nécessaire.",
+    id: "docker-concepts", title: "Machine virtuelle ou conteneur ?", icon: "cpu",
+    summary: "La machine virtuelle est une virtualisation lourde ; le conteneur est une virtualisation légère, plus rapide mais sans isolation totale.",
     points: [
-      "Machine virtuelle : isolation totale, ressources réservées, démarrage lent.",
-      "Conteneur : virtualisation légère, démarrage rapide, seules les ressources nécessaires.",
-      "Un conteneur partage le noyau de l'hôte : l'isolation n'est pas totale.",
-      "Les conteneurs existaient avant Docker (LXC, OpenVZ) ; Docker est un logiciel de conteneurisation.",
-      "Pourquoi : réduire les coûts, augmenter la densité, scaler l'infrastructure.",
-      "Un conteneur n'est pas une machine virtuelle : on ne virtualise pas le matériel."
+      "Machine virtuelle : isolation totale, réservation des ressources et support de plusieurs OS.",
+      "Ses inconvénients : démarrage lent et ressources réservées.",
+      "Conteneur : réservation uniquement des ressources nécessaires, démarrage plus rapide et plus d'autonomie pour les développeurs.",
+      "Son inconvénient : pas d'isolation totale.",
+      "Les conteneurs existaient avant Docker : OpenVZ et LXC sont des solutions de virtualisation d'OS.",
+      "Docker est un logiciel de conteneurisation ; LXC et OpenVZ sont des solutions de virtualisation d'OS."
     ],
-    tip: "Docker facilite surtout le déploiement : même environnement, du poste de développement au serveur."
+    tip: "Le conteneur n'est pas une petite machine virtuelle : il partage plus de choses avec l'hôte et démarre donc plus vite."
   },
   {
-    id: "docker-terminologie", title: "Images, conteneurs et registry", icon: "layers",
-    summary: "L'image est le programme, le conteneur son instance, le Dockerfile la recette, le registry le dépôt.",
+    id: "docker-objectif", title: "Docker : objectif et versions", icon: "info",
+    summary: "Docker est une plateforme de conteneurisation créée en 2013 par dotCloud pour faciliter le déploiement des applications web.",
     points: [
-      "Image : programme immuable qui sert à créer un conteneur.",
-      "Conteneur : instance en exécution d'une image.",
-      "Dockerfile : recette de construction d'une image.",
-      "Docker Compose : fichier qui décrit et orchestre plusieurs conteneurs.",
-      "Registry : dépôt d'images ; Docker Hub est le registry public officiel.",
-      "Stack : ensemble de conteneurs qui forment une application."
+      "Docker est une plateforme de conteneurisation créée en 2013 par la société dotCloud.",
+      "Objectif principal : faciliter le déploiement des applications web.",
+      "Raisons : éviter les difficultés liées au déploiement et avoir un environnement unifié et fonctionnel.",
+      "Trois versions : Docker Community Edition (Linux), Docker Desktop (Mac ou Windows) et Docker Enterprise (Linux, propriétaire).",
+      "Sous Windows, il est obligatoire de créer un compte Docker Hub.",
+      "Docker ne change pas le code : il uniformise l'environnement dans lequel il s'exécute."
     ],
-    tip: "Image = recette ; conteneur = plat servi. Une image peut lancer plusieurs conteneurs."
+    tip: "Retiens la différence : Community pour Linux, Desktop pour Mac/Windows, Enterprise pour l'offre propriétaire."
   },
   {
-    id: "docker-conteneurs", title: "Le cycle de vie d'un conteneur", icon: "play",
-    summary: "`pull`, `run`, `ps`, `stop`, `start`, `exec`, `rm` : les commandes qui couvrent la vie d'un conteneur.",
+    id: "docker-terminologie", title: "La terminologie Docker", icon: "layers",
+    summary: "Image, conteneur, Dockerfile, Docker Compose, registry et stack : six termes définis dans le support.",
     points: [
-      "`docker image ls` liste les images locales ; `docker pull hello-world` en télécharge une.",
-      "`docker run hello-world` crée un conteneur, l'exécute et l'arrête.",
-      "`-d` détache le conteneur ; sans lui, le terminal reste attaché.",
-      "`-p 8080:80` publie le port 80 du conteneur sur le port 8080 de l'hôte.",
-      "`docker ps` ou `docker container ls` liste les conteneurs ; `-a` inclut les arrêtés.",
-      "`docker exec -it ID bash` ouvre un shell dans un conteneur en cours d'exécution.",
-      "`stop`, `start`, `rm -f`, `inspect` et `system prune` complètent le cycle de vie."
+      "Image : programme permettant de créer un conteneur.",
+      "Conteneur : instance d'une image.",
+      "Dockerfile : fichier de configuration permettant de créer une image.",
+      "Docker Compose : fichier de configuration permettant de créer et de gérer plusieurs conteneurs.",
+      "Registry : dépôt d'images ; la registry officielle de Docker s'appelle Docker Hub.",
+      "Stack : ensemble de conteneurs."
+    ],
+    tip: "Image = programme qui sert à créer un conteneur ; conteneur = instance de cette image."
+  },
+  {
+    id: "docker-conteneurs", title: "Créer et manipuler un conteneur", icon: "play",
+    summary: "`docker run` crée et démarre un conteneur ; `-d` le détache, `-p` publie un port et `exec` permet d'entrer dedans.",
+    points: [
+      "`docker image ls` liste les images ; `docker pull hello-world` télécharge l'image hello-world.",
+      "`docker run hello-world` crée un conteneur à partir de l'image, l'exécute puis l'arrête.",
+      "`docker run nginx` reste attaché au terminal ; `docker run -d nginx` démarre le conteneur en arrière-plan.",
+      "Types de conteneurs : persistant ou avec service, et éphémère ou jetable.",
+      "`docker container ls` (ou `docker ps`) liste les conteneurs ; `-a` affiche aussi les conteneurs arrêtés.",
+      "`docker inspect ID` donne les informations du conteneur, notamment celles nécessaires pour y accéder.",
+      "`docker run -d -p 8080:80 nginx` publie le port 80 du conteneur sur le port 8080 de l'hôte.",
+      "`docker exec -it ID bash` ouvre un shell dans le conteneur ; `stop`, `start`, `rm -f` et `system prune` complètent le cycle de vie."
     ],
     code: `docker pull nginx
 docker run -d --name serveur_web -p 8080:80 nginx
@@ -4763,15 +4921,16 @@ docker rm -f serveur_web`,
     tip: "`-p 8080:80` se lit « port de l'hôte : port du conteneur »."
   },
   {
-    id: "docker-volumes", title: "Volumes et persistance", icon: "save",
-    summary: "Un conteneur jetable perd ses données : le volume rend le conteneur stateful et survit à sa suppression.",
+    id: "docker-volumes", title: "Rendre un conteneur stateful", icon: "save",
+    summary: "Un conteneur est éphémère ; un volume persistant ou un Docker Volume permet de conserver les données après sa suppression.",
     points: [
-      "Les données écrites dans un conteneur disparaissent avec lui : la couche d'écriture est éphémère.",
-      "Un volume rend le conteneur stateful et survit à sa suppression.",
-      "Bind mount : `-v $(pwd)/html:/usr/share/nginx/html` monte un dossier de l'hôte.",
-      "Volume nommé : `-v mon_volume:/usr/share/nginx/html`.",
-      "`--mount source=mon_volume,target=/usr/share/nginx/html` est la forme explicite.",
-      "`docker volume ls`, `create` et `inspect` gèrent les volumes nommés."
+      "Utilité d'un volume : rendre un conteneur stateful, c'est-à-dire conserver ses données.",
+      "Deux types : les volumes persistants (dossier de l'hôte monté avec `-v`) et les Docker Volumes (volumes gérés par Docker).",
+      "Volume persistant : `-v $(pwd)/html:/usr/share/nginx/html` monte le dossier `html` de l'hôte dans nginx.",
+      "Docker Volume : `docker volume create mon_volume` crée un volume nommé.",
+      "`docker volume ls` liste les volumes ; `docker volume inspect mon_volume` affiche son emplacement.",
+      "`--mount source=mon_volume,target=/usr/share/nginx/html` est la forme explicite du montage.",
+      "Après suppression puis recréation du conteneur, les données du volume sont toujours là."
     ],
     code: `docker run -d --name serveur_web \\
   -v $(pwd)/html:/usr/share/nginx/html nginx
@@ -4779,129 +4938,81 @@ docker rm -f serveur_web`,
 docker volume create mon_volume
 docker run -d --name serveur_web \\
   --mount source=mon_volume,target=/usr/share/nginx/html nginx`,
-    tip: "Un conteneur doit rester remplaçable : les données importantes vivent dans un volume."
+    tip: "Le conteneur reste jetable : les données importantes vivent dans un volume."
   },
   {
     id: "docker-dockerfile", title: "Le Dockerfile", icon: "code",
-    summary: "Un fichier de configuration dont chaque instruction crée une couche ; `FROM`, `RUN`, `COPY`, `EXPOSE` et `CMD` en sont les briques.",
+    summary: "Un Dockerfile est un fichier de configuration dont chaque ligne crée une couche ; il décrit l'image de base et les instructions de construction.",
     points: [
-      "Un Dockerfile est un fichier de configuration ; chaque instruction crée une couche.",
-      "`FROM image:version` choisit l'image de base.",
-      "`RUN commande` exécute une commande pendant la construction.",
-      "`COPY src dest` copie des fichiers de l'hôte vers l'image ; `WORKDIR` fixe le dossier courant.",
-      "`EXPOSE` documente le port ; `ENV` définit une variable ; `VOLUME` déclare un volume.",
-      "`CMD` ou `ENTRYPOINT` définit le processus principal du conteneur."
+      "Un Dockerfile est un fichier de configuration ; chaque ligne du Dockerfile crée une couche (layer).",
+      "`FROM image:version` définit l'image de base.",
+      "`RUN commande` exécute une commande système.",
+      "`ENV var=valeur` définit une variable d'environnement.",
+      "`EXPOSE port` expose un port d'écoute.",
+      "`VOLUME nom_volume` définit un volume.",
+      "`COPY src dest` copie des données de l'hôte vers le conteneur.",
+      "`CMD [\"commande\", ...]` définit le processus maître.",
+      "Dans le TP, `WORKDIR` fixe le dossier de travail et `ENTRYPOINT` lance nginx au démarrage."
     ],
-    code: `FROM nginx:latest
-WORKDIR /usr/share/nginx/html
+    code: `FROM nginx
+WORKDIR /usr/share/nginx/html/
 COPY gestion_ticket/* .
-EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]`,
-    tip: "Chaque ligne du Dockerfile crée une couche : regrouper les commandes proches réduit le poids de l'image."
+    tip: "Chaque ligne crée une couche : regrouper les commandes proches réduit le nombre de couches."
   },
   {
-    id: "docker-images", title: "Construire et publier une image", icon: "download",
-    summary: "`docker build -t nom:tag .` construit l'image depuis le Dockerfile ; `tag`, `pull` et `push` la partagent via un registry.",
+    id: "docker-images", title: "Construire et manipuler une image", icon: "download",
+    summary: "`docker build -t image:tag .` construit l'image ; `tag`, `pull` et `push` servent à la nommer et à la partager via un registry.",
     points: [
-      "`docker build -t image_gestion_ticket .` construit une image depuis le Dockerfile du dossier courant.",
-      "`-f autre.Dockerfile` choisit un Dockerfile différent ; `.` est le contexte de construction.",
-      "`docker image ls` vérifie l'image créée ; `docker run` en démarre un conteneur.",
-      "`docker tag source:tag cible:tag` ajoute un nom ou une version.",
-      "`docker pull` récupère une image ; `docker push` la publie dans un registry.",
-      "Un nom d'image sans tag vaut `latest` : versionnez vos images en production."
+      "`docker build -t image_gestion_ticket .` construit l'image à partir du Dockerfile du dossier courant.",
+      "`docker build -t nom:tag -f nom.Dockerfile .` choisit un Dockerfile et un tag.",
+      "`docker tag image:tag image:nouveau_tag` ajoute un nom ou une version.",
+      "`docker pull image:tag` récupère une image depuis un registry.",
+      "`docker push image:tag` publie l'image vers un registry.",
+      "`docker image ls` liste les images locales ; `docker run` crée un conteneur à partir d'une image."
     ],
-    code: `docker build -t image_gestion_ticket:1.0 .
+    code: `docker build -t image_gestion_ticket .
 docker image ls
-docker run -d --name mon_site -p 8080:80 image_gestion_ticket:1.0
-docker tag image_gestion_ticket:1.0 moncompte/image_gestion_ticket:1.0
+docker run -d --name mon_site -p 8080:80 image_gestion_ticket
+docker tag image_gestion_ticket moncompte/image_gestion_ticket:1.0
 docker push moncompte/image_gestion_ticket:1.0`,
-    tip: "Le point final de `docker build ... .` désigne le contexte envoyé au démon Docker, pas un détail décoratif."
+    tip: "Le point final de `docker build ... .` désigne le contexte de construction, pas un détail décoratif."
   },
   {
-    id: "docker-layers", title: "Couches et Copy-on-Write", icon: "layers",
-    summary: "Les couches sont en lecture seule et partagées ; le conteneur ajoute une couche d'écriture par-dessus.",
+    id: "docker-layers", title: "Les couches et le Copy & Write", icon: "layers",
+    summary: "Une image est un empilement de couches en lecture seule ; le conteneur ajoute une couche de lecture-écriture. Le Copy & Write copie un fichier modifié dans cette couche.",
     points: [
-      "Une image est une pile de couches en lecture seule, partagées entre images.",
+      "Deux types de couches : lecture, et lecture & écriture.",
+      "Propriété : les couches peuvent être partagées ; chaque couche est indépendante.",
       "Le conteneur ajoute une couche de lecture-écriture au-dessus des couches de l'image.",
-      "Copy-on-Write : un fichier modifié est copié dans la couche d'écriture, l'original reste intact.",
-      "Chaque couche est indépendante ; une image légère partage les couches communes.",
-      "`docker history image` montre les couches ; `docker diff conteneur` montre les changements.",
-      "`docker commit` fige l'état d'un conteneur en image, mais le Dockerfile reste reproductible."
+      "Principe du Copy & Write (Copy-on-Write) : un fichier modifié est copié dans la couche d'écriture ; l'original reste intact.",
+      "`docker history image` montre les couches ; `docker diff ID` montre les changements d'un conteneur.",
+      "`docker commit -m \"...\" ID new_image:version` transforme l'état modifié du conteneur en nouvelle image."
     ],
     code: `docker history ubuntu_custom:latest
 docker diff mon_conteneur
 docker commit -m "nouvelle image" mon_conteneur nouvelle_image:1.0`,
-    tip: "Les couches d'image sont en lecture seule : tout ce qui est écrit à l'exécution va dans la couche du conteneur."
+    tip: "Les couches d'image sont en lecture seule : les modifications faites dans un conteneur vont dans sa couche d'écriture."
   },
   {
-    id: "docker-cache", title: "Le cache de build", icon: "zap",
-    summary: "Docker réutilise une couche si l'instruction et son contexte n'ont pas changé ; l'ordre des instructions décide de l'efficacité.",
+    id: "docker-cache", title: "Le cache Docker", icon: "zap",
+    summary: "Le cache évite de reconstruire les couches déjà présentes ; `--no-cache` le désactive et l'ordre des instructions décide de son efficacité.",
     points: [
-      "Docker réutilise une couche si l'instruction et son contexte n'ont pas changé.",
-      "Un second build identique est presque instantané ; même un autre tag réutilise les couches.",
-      "`docker build --no-cache` force la reconstruction complète.",
-      "Placez les instructions stables en haut (`FROM`, installation système) et les changements fréquents en bas (`COPY .`).",
-      "Une modification d'`ENV` invalide les couches suivantes ; l'ordre compte.",
-      "Regrouper `apt-get update && apt-get install` réduit le nombre de couches et les fichiers temporaires."
+      "Objectifs du cache : construire plus vite les images, démarrer plus vite les conteneurs, stocker des images légères et partager les couches.",
+      "Une couche n'est téléchargée que si elle n'existe pas déjà.",
+      "Construire deux fois la même image réutilise le cache ; même avec un nom différent, les couches existantes sont réutilisées.",
+      "`docker build --no-cache -t test_vim2 .` n'applique aucun cache.",
+      "Sans `--no-cache`, le cache est utilisé pour toutes les couches sauf celle qui change.",
+      "L'ordre des instructions compte : les instructions stables en haut, les instructions souvent modifiées en bas."
     ],
-    code: `# Stable en haut
-FROM ubuntu:latest
-RUN apt-get update \\
-  && apt-get install -y --no-install-recommends vim git
-# Change souvent : en bas
-COPY . /app
+    code: `FROM alpine:latest
+LABEL maintainer="amk"
+ENV myvariable toto
+RUN apk add vim
 
-# Forcer un build sans cache
-docker build --no-cache -t mon_image .`,
-    tip: "Les instructions qui changent souvent vont en bas du Dockerfile pour maximiser l'usage du cache."
-  },
-  {
-    id: "docker-reseaux", title: "Réseaux et communication", icon: "network",
-    summary: "Les conteneurs communiquent par des réseaux Docker ; sur un réseau utilisateur, les noms de conteneurs servent de DNS.",
-    points: [
-      "Par défaut, les conteneurs utilisent le réseau `bridge` de Docker.",
-      "`docker network ls` liste les réseaux ; `docker network create mon_reseau` en crée un.",
-      "`docker run --network mon_reseau ...` attache un conteneur au réseau.",
-      "Sur un réseau utilisateur, les conteneurs se joignent par leur nom : Docker fournit le DNS.",
-      "`-p 8080:80` publie un port vers l'hôte ; les conteneurs d'un même réseau n'en ont pas besoin entre eux.",
-      "`localhost` dans un conteneur désigne le conteneur lui-même, pas l'hôte ni un voisin."
-    ],
-    code: `docker network create app_reseau
-docker run -d --name api --network app_reseau mon_api
-docker run -d --name web --network app_reseau -p 8080:80 mon_web
-# Depuis web, l'API est joignable sur http://api:3000`,
-    tip: "Un conteneur ne joint pas un autre conteneur par `localhost` : utilisez son nom sur le réseau partagé."
-  },
-  {
-    id: "docker-compose", title: "Docker Compose", icon: "grid",
-    summary: "Un fichier YAML décrit plusieurs services, volumes et réseaux, puis `docker compose up` démarre la stack entière.",
-    points: [
-      "Un fichier `compose.yaml` (ou `docker-compose.yml`) décrit plusieurs services.",
-      "`services:` déclare les conteneurs ; `image:` ou `build:` indique leur origine.",
-      "`ports:`, `volumes:`, `environment:`, `depends_on:` et `networks:` configurent la stack.",
-      "`docker compose up -d` construit et démarre l'ensemble en arrière-plan.",
-      "`docker compose ps`, `logs` et `down` pilotent la stack.",
-      "Compose est fait pour le développement et les petites stacks ; Kubernetes prend le relais à grande échelle."
-    ],
-    code: `services:
-  web:
-    build: .
-    ports:
-      - "8080:80"
-    depends_on:
-      - api
-  api:
-    image: mon_api:1.0
-    environment:
-      DATABASE_URL: postgres://db:5432/app
-  db:
-    image: postgres:16
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:`,
-    tip: "Compose décrit la stack ; `docker compose up -d` la lance, `docker compose down` l'arrête."
+docker build -t test_vim .
+docker build --no-cache -t test_vim2 .`,
+    tip: "Une instruction modifiée invalide les couches suivantes : placez les changements fréquents en bas du Dockerfile."
   }
 ];
 
@@ -5107,60 +5218,45 @@ function Enfant({ customaction }) {
   }
 ];
 
-/* --- Bibliothèque de cours : un parcours par support PDF --- */
-const COURSE_TRACKS = [
+/* --- Bibliothèque de cours : une catégorie par matière --- */
+const COURSE_CATEGORIES = [
   {
     id: "flutter", label: "Flutter", accent: "flutter", icon: "phone",
-    heroTitle: "Du cours au jeu",
-    heroText: "Lis une fiche, puis vérifie avec le quiz de 16 questions. Chaque notion est aussi réinvestie dans les jeux Flutter.",
-    sourceLabel: "PDF · 108 p.",
+    desc: "MaterialApp, Scaffold, AppBar, layouts, listes, Drawer et navigation : du cours au jeu.",
+    pdfs: [
+      { title: "MaterialApp & les listes", href: "pdf_cours/1-mATERIALaPP.pdf", pages: "108 pages", desc: "Widget racine, Scaffold, layouts, listes, navigation et TP WhatsApp." }
+    ],
     sections: COURSE_SECTIONS,
-    actions: [
-      { label: "Quiz du cours", icon: "play", route: "#/g/material-quiz", variant: "btn-primary" },
-      { label: "Jeux Flutter", icon: "layers", route: "#/d/flutter-a" },
-      { label: "PDF source", icon: "download", href: "pdf_cours/1-mATERIALaPP.pdf" }
-    ]
+    games: gamesOfUniverse("flutter")
   },
   {
-    id: "django-start", label: "Django · Mise en route", accent: "django", icon: "database",
-    heroTitle: "D'un terminal vide à une application qui tourne",
-    heroText: "De l'installation d'uv à la première page : projet, application, modèles, migrations, admin et templates.",
-    sourceLabel: "PDF · 33 p.",
-    sections: DJANGO_START_SECTIONS,
-    actions: [
-      { label: "PDF source", icon: "download", href: "pdf_cours/0010_mise_en_route_cours.pdf", variant: "btn-primary" }
-    ]
-  },
-  {
-    id: "django-models", label: "Django · Modélisation", accent: "django", icon: "network",
-    heroTitle: "Modéliser le domaine",
-    heroText: "Entités, relations, héritage, contraintes et ORM : transformer le domaine du suivi des stages en modèles solides.",
-    sourceLabel: "PDF · 27 p.",
-    sections: DJANGO_MODEL_SECTIONS,
-    actions: [
-      { label: "PDF source", icon: "download", href: "pdf_cours/0020_modeles_cours.pdf", variant: "btn-primary" }
-    ]
+    id: "django", label: "Django", accent: "django", icon: "database",
+    desc: "Mise en route et modélisation : de l'installation d'uv à un domaine bien structuré.",
+    pdfs: [
+      { title: "Django — Mise en route", href: "pdf_cours/0010_mise_en_route_cours.pdf", pages: "33 pages", desc: "Installation, projet, application, requêtes, modèles, migrations, admin et templates." },
+      { title: "Django — Modéliser le domaine", href: "pdf_cours/0020_modeles_cours.pdf", pages: "27 pages", desc: "Entités, relations, héritage, contraintes, SQL et ORM." }
+    ],
+    sections: DJANGO_START_SECTIONS.map(s => Object.assign({}, s, { module: "Mise en route" }))
+      .concat(DJANGO_MODEL_SECTIONS.map(s => Object.assign({}, s, { module: "Modélisation" }))),
+    games: []
   },
   {
     id: "docker", label: "Docker", accent: "docker", icon: "layers",
-    heroTitle: "Optimiser le déploiement",
-    heroText: "Conteneurs, volumes, images, couches, cache, réseaux et Compose : comprendre et déployer sans surprise.",
-    sourceLabel: "PDF · 62 p.",
+    desc: "Conteneurs, volumes, images, couches et cache : les définitions du support Docker.",
+    pdfs: [
+      { title: "Docker — Optimiser le déploiement", href: "pdf_cours/docker.pdf", pages: "62 pages", desc: "Concepts, conteneurs, volumes, images, couches et cache Docker." }
+    ],
     sections: DOCKER_SECTIONS,
-    actions: [
-      { label: "PDF source", icon: "download", href: "pdf_cours/docker.pdf", variant: "btn-primary" }
-    ]
+    games: []
   },
   {
     id: "reactjs", label: "ReactJS", accent: "react", icon: "code",
-    heroTitle: "Des fondamentaux aux Hooks",
-    heroText: "CDN, JSX, composants, Vite, useState, immuabilité et flux de données : les fondamentaux du support ReactJS.",
-    sourceLabel: "PDF · 61 p.",
+    desc: "CDN, JSX, composants, Vite, useState, immuabilité et flux de données.",
+    pdfs: [
+      { title: "ReactJS — Des fondamentaux aux Hooks", href: "pdf_cours/reactjs.pdf", pages: "61 pages", desc: "CDN, JSX, composants, props, Vite, useState, état immuable et flux de données." }
+    ],
     sections: REACT_COURSE_SECTIONS,
-    actions: [
-      { label: "Jeux React", icon: "gamepad", route: "#/u/react" },
-      { label: "PDF source", icon: "download", href: "pdf_cours/reactjs.pdf", variant: "btn-primary" }
-    ]
+    games: gamesOfUniverse("react")
   }
 ];
 

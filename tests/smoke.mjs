@@ -15,7 +15,7 @@ const expose = `
   JSX_PUZZLES, HOOKS_PAIRS, TF_QUESTIONS, PIPE_SCENARIOS, REACT_DECISIONS, MVC_ROUNDS, API_ROUNDS, API_MCQ,
   WIDGET_TREE_ROUNDS, BALANCE_SCENARIOS, TARGET_PROMPTS, FLOW_SCENARIOS_FLUTTER, FLUTTER_DECISIONS,
   JSON_ROUNDS, JSON_MAPPING, FLUTTER_ARCH_ROUNDS, COURSE_SECTIONS, MATERIAL_QUIZ_QUESTIONS,
-  COURSE_TRACKS, DJANGO_START_SECTIONS, DJANGO_MODEL_SECTIONS, DOCKER_SECTIONS, REACT_COURSE_SECTIONS
+  COURSE_CATEGORIES, DJANGO_START_SECTIONS, DJANGO_MODEL_SECTIONS, DOCKER_SECTIONS, REACT_COURSE_SECTIONS
 };`;
 
 function stubNode() {
@@ -284,34 +284,42 @@ test("Cours Flutter : 11 fiches complètes issues du PDF", () => {
   assert.ok(T.COURSE_SECTIONS.some(s => s.code && /MaterialApp\(/.test(s.code)), "un exemple MaterialApp est fourni");
 });
 
-test("Bibliothèque de cours : 5 parcours complets issus des PDF", () => {
-  assert.strictEqual(T.COURSE_TRACKS.length, 5);
-  const trackIds = new Set();
+test("Bibliothèque de cours : 4 catégories et 49 fiches issues des PDF", () => {
+  assert.strictEqual(T.COURSE_CATEGORIES.length, 4);
+  const categoryIds = new Set();
   const sectionIds = new Set();
   let total = 0;
-  T.COURSE_TRACKS.forEach(track => {
-    assert.ok(!trackIds.has(track.id), "identifiant de parcours unique : " + track.id);
-    trackIds.add(track.id);
-    assert.ok(track.label && track.heroTitle && track.heroText.length > 30, track.id + " : présentation fournie");
-    assert.ok(track.icon && track.accent && track.sourceLabel, track.id + " : métadonnées fournies");
-    assert.ok(Array.isArray(track.sections) && track.sections.length >= 9, track.id + " : fiches présentes");
-    assert.ok(track.actions.some(a => /^pdf_cours\/.+\.pdf$/.test(a.href || "")), track.id + " : lien vers le PDF source");
-    track.sections.forEach(sec => {
+  T.COURSE_CATEGORIES.forEach(cat => {
+    assert.ok(!categoryIds.has(cat.id), "identifiant de catégorie unique : " + cat.id);
+    categoryIds.add(cat.id);
+    assert.ok(cat.label && cat.desc.length > 30, cat.id + " : présentation fournie");
+    assert.ok(cat.icon && cat.accent, cat.id + " : métadonnées fournies");
+    assert.ok(Array.isArray(cat.pdfs) && cat.pdfs.length >= 1, cat.id + " : PDF source présent");
+    cat.pdfs.forEach(pdf => {
+      assert.ok(/^pdf_cours\/.+\.pdf$/.test(pdf.href), cat.id + " : lien PDF valide");
+      assert.ok(fs.existsSync(new URL("../" + pdf.href, import.meta.url)), cat.id + " : fichier PDF trouvé (" + pdf.href + ")");
+    });
+    assert.ok(Array.isArray(cat.sections) && cat.sections.length >= 9, cat.id + " : fiches présentes");
+    cat.sections.forEach(sec => {
       assert.ok(!sectionIds.has(sec.id), "identifiant de fiche unique : " + sec.id);
       sectionIds.add(sec.id);
       assert.ok(sec.title && sec.summary && sec.summary.length > 30, sec.id + " : résumé fourni");
       assert.ok(Array.isArray(sec.points) && sec.points.length >= 3, sec.id + " : points clés");
       assert.ok(sec.icon, sec.id + " : icône");
     });
-    total += track.sections.length;
+    total += cat.sections.length;
   });
-  assert.ok(total >= 45, "au moins 45 fiches au total : " + total);
-  ["flutter", "django-start", "django-models", "docker", "reactjs"].forEach(id => {
-    assert.ok(trackIds.has(id), "parcours attendu présent : " + id);
+  assert.strictEqual(total, 49);
+  ["flutter", "django", "docker", "reactjs"].forEach(id => {
+    assert.ok(categoryIds.has(id), "catégorie attendue présente : " + id);
   });
+  assert.strictEqual(T.COURSE_CATEGORIES.find(c => c.id === "django").sections.length, 20);
   assert.ok(T.DJANGO_START_SECTIONS.some(s => s.id === "dj-start-migrations"), "les migrations Django sont couvertes");
   assert.ok(T.DJANGO_MODEL_SECTIONS.some(s => s.id === "dj-model-ondelete"), "les règles on_delete sont couvertes");
-  assert.ok(T.DOCKER_SECTIONS.some(s => s.id === "docker-compose"), "Docker Compose est couvert");
+  assert.strictEqual(T.DOCKER_SECTIONS.length, 9);
+  assert.ok(T.DOCKER_SECTIONS.some(s => s.id === "docker-objectif"), "l'objectif de Docker est couvert");
+  assert.ok(T.DOCKER_SECTIONS.some(s => s.points.some(p => /Image : programme permettant de créer un conteneur/.test(p))), "la définition d'image vient du PDF");
+  assert.ok(!T.DOCKER_SECTIONS.some(s => s.id === "docker-compose"), "aucune fiche Docker Compose inventée hors PDF");
   assert.ok(T.REACT_COURSE_SECTIONS.some(s => s.id === "react-usestate"), "useState est couvert");
 });
 
